@@ -136,4 +136,25 @@ Eigen::MatrixXd removeColumns(Eigen::MatrixXd Q, Eigen::VectorXd d, double e1){
   return(Q0);
 }
 
+//Repeated Vector
+Eigen::VectorXd repetVector(Eigen::VectorXd d,double e1, int nrows){
+  //Find the number of columns
+  int ncols = (d.array()>e1).count();
+  //Initialize the new matrix
+  Eigen::MatrixXd vecMat(nrows,ncols);
+  //Intialize the vector column
+  Eigen::VectorXd vec(nrows);
+  //Initialize the counter
+  int cont=0;
+  for(int i=0;i<d.size();i++){
+    if(d(i)>e1){
+      double dbl = d(i);
+      vec.fill(dbl);
+      vecMat.col(cont) = vec;
+      cont=cont+1;
+    }
+  }
+  return(vecMat);
+}
+
 
