@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "#Page 160 - Small\nlibrary(mlRFinance)\nA<-matrix(c(1,2,5,6),nrow=4,ncol=1)\nd<-c(-1,-1,+1,-1)\n\nsvm2<- CSVRL1(d, A, 50,0.5, \"Polynomial\", c(2,1))\nsvm2\n\nApred<-matrix(c(1.8,3,6,5),nrow=4,ncol=1)\nPredictedCSVRL1(svm2, A, A, \"Polynomial\", c(2,1))\n\n\nminimumCSVRL1(d, A, 0.5,\"Polynomial\", c(2,1))\n\n\n###################################################################\n\n#Habilita o pacote quantmod\nlibrary(quantmod)\n\n#Cria um novo ambiente para armazenar os dados\nstockData <- new.env()\n\n#Especifica as datas de interesse\nstartDate = as.Date(\"2011-01-01\")\nendDate = as.Date(\"2011-12-31\")\n\n#Obtêm os dados do ativo PETR4 e PETR3\ngetSymbols(\"^BVSP\", src=\"yahoo\",from=startDate,to=endDate)\n\n#Calcula o log-retorno\nretorno<-na.omit(diff(log(Cl(BVSP))))\n\ntrain <- as.numeric(retorno[1:180])\nvalid <- as.numeric(retorno[181:216])\n\n#Cria os objetos\ny<-train[2:length(train)]\nX<-matrix(train[1:(length(train)-1)],ncol=1)\n\n#Faz analise de sensibilidade\nQ<-minimumCSVRL1(y, X, 0.5, \"Gaussian\", 1)\nQ2<-Matrix::nearPD(Q)\nteste<-eigen(Q)\n\nsum(Q2$mat-Q)\n\n\nsolve(Q2$mat)\n\n\n\n\n\n\n\n\n\nsvm2<- CSVRL1(y, X, 1, 1, \"Gaussian\", 1)\nsvm2\n\n\nsvmFn<-function(parms){\n  C<-parms[1]\n  eps<-parms[2]\n  gamma<-parms[3]\n  svm2<- CSVRL1(y, X, C, eps, \"Gaussian\", gamma)\n  res<-sum(svm2$SupportVectors)\n  if(is.nan(res)){\n    return(1e+10);\n  }\n  else{\n    return(exp(res))\n  }\n}\n\nlibrary(RcppDE)\nde<-RcppDE::DEoptim(fn=svmFn, lower=c(0.0001,0.0001,0.0001),\n                upper=c(100,100,100),\n                control = DEoptim.control(NP = 50, trace = FALSE,\n                                          itermax = 1000, F = 1.2, CR = 0.7))\n\n\nC<-seq(0.001,2,length.out = 1000)\nfor(i in 1:length(C)){\n  svm2<- CSVRL1(y, X, 1, 1, \"Gaussian\", C[i])\n  if(!any(is.na(svm2$SupportVectors)==T)){\n    print(svm2$Parameters)\n  }\n}\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+    "created" : 1477066025771.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "863528405",
+    "id" : "80583E8F",
+    "lastKnownWriteTime" : 1477074554,
+    "last_content_update" : 1477074554506,
+    "path" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/tests/CSVRL1.R",
+    "project_path" : "tests/CSVRL1.R",
+    "properties" : {
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

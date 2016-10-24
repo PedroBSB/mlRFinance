@@ -1,0 +1,199 @@
+#include <RcppArmadillo.h>
+#include <RcppEigen.h>
+#include "eiquadprog.h"
+#include "KernelMatrix.h"
+#include "Utils.h"
+// [[Rcpp::depends(RcppArmadillo)]]
+// [[Rcpp::depends(RcppEigen)]]
+#include <cmath>
+using namespace Rcpp;
+
+/***********************************************************************************************/
+/*********************************    HEADER FUNCTIONS  ****************************************/
+/***********************************************************************************************/
+
+//Define the KernelMatrix function
+Eigen::MatrixXd KernelMatrixComputation(Eigen::MatrixXd datMat,
+                                        std::string stringValue,
+                                        arma::vec parms);
+Eigen::MatrixXd KernelMatrixComputationPred(Eigen::MatrixXd datMat,
+                                        Eigen::RowVectorXd predMat,
+                                        std::string stringValue,
+                                        arma::vec parms);
+//Define the Solver for Quadratic Programming
+Eigen::VectorXd rcppeigen_quadratic_solve(Eigen::MatrixXd & G,
+                                          Eigen::VectorXd & g0,
+                                          const Eigen::MatrixXd & CE,
+                                          const Eigen::VectorXd & ce0,
+                                          const Eigen::MatrixXd & CI,
+                                          const Eigen::VectorXd & ci0);
+//Test if the matrix is Positive Definite
+bool IsPositiveDefinite(Eigen::MatrixXd mat);
+//nearest positive semidefinite matrix in terms of Frobenius norm
+void nearPositiveDefinite(Eigen::MatrixXd &mat,double noise);
+//Add some noise to the matrix diagonal
+void addNoise(Eigen::MatrixXd &mat,double noise);
+//Print Object at Console
+void PrintObject(Eigen::MatrixXd mat);
+void PrintObject(Eigen::VectorXd vec);
+
+
+/***********************************************************************************************/
+/*********************************     SVR FUNCTIONS    ****************************************/
+/***********************************************************************************************/
+
+//' @name CSVRL1
+//' @title C-SVR L1 - Support Vector Regression with C cost and L1 regularization.
+//' @description Optimize the Lagrange multiplier for the C-SVR L1:
+//'
+//' Min (1/2)u^{t}Qu+g^{t}u
+//' s.t.
+//' 0<=u<=C1
+//'
+//' where u=(lambda*,lambda), g=(e-y,e+y)
+//' and Q=|K -K|.
+//'       |-K K|
+//' C is the Cost parameter and e (epsilon) is the insentitive band
+//'
+//' @param y Vector with dependent variables. Dimension equal Nx1.
+//' @param X Numeric matrix with the explanatory variables. Dimension equal NxP
+//' @param C Cost parameter. Should be C>0.
+//' @param epsilon Insentitive band. Should be epsilon>0.
+//' @param kernel Name of the kernel that will be used.
+//' @param parms Parameters associated with chosen kenel.
+//' @return List Support Vectors, Kernel used and parameters.
+//' If the results for the Support Vectors are NaN it means that
+//' there is no Support Vector and the Quadratic Programming Problem
+//' is unfeasible.
+//' @examples
+//'
+//' A<-matrix(c(1,2,5,6,
+//' 2,4,1,2),nrow=4,ncol=2)
+//' d<-c(-1,-1,+1,-1)
+//' svm1<- CSVML1(d, A, 1, 0.1, "Gaussian", c(0.5))
+//'
+//' @seealso See \code{\link{.CallOctave}}, \code{\link{o_source}}, \code{\link{o_help}}
+// @cite soman2009machine
+// @bibliography ~/vignettes/bibliography.bib
+// [[Rcpp::export]]
+Rcpp::List CSVRL1(Eigen::VectorXd y, Eigen::MatrixXd X, double C, double epsilon, std::string kernel, arma::vec parms){
+  //Support Vectors
+  Eigen::VectorXd SV(2*y.size());
+  //Create the one vector 2Nx1
+  Eigen::VectorXd yfull = Eigen::VectorXd(2*y.size());
+  yfull<< (-1.0)*y, (+1.0)*y;
+  Eigen::VectorXd evec = Eigen::VectorXd(2*y.size());
+  evec.fill(epsilon);
+  Eigen::VectorXd g = Eigen::VectorXd(2*y.size());
+  g = evec+yfull;
+  //RHS equality
+  Eigen::VectorXd ce0;
+  //LHS equality
+  Eigen::MatrixXd CE;
+  //RHS: Inequality 1
+  Eigen::VectorXd ci1 = Eigen::VectorXd::Zero(2*y.size());
+  //LHS: Inequality 1
+  Eigen::MatrixXd CI1 = Eigen::MatrixXd::Identity(2*y.size(),2*y.size());
+  //RHS: Inequality 2
+  Eigen::VectorXd ci2(2*y.size());
+  ci2.fill(C);
+  //Append RHS
+  Eigen::VectorXd ci0(4.0*y.size());
+  ci0 << ci1, ci2;
+  //Append LHS
+  Eigen::MatrixXd CI(CI1.rows()+CI1.rows(), CI1.cols());
+  //Diagonal matrix
+  Eigen::VectorXd me(2*y.size());
+  me.fill(-1.0);
+  Eigen::MatrixXd mI = me.asDiagonal();
+  //Vertical concatenation
+  CI << CI1,
+        mI;
+  //Create the Kernel Matrix
+  Eigen::MatrixXd K = KernelMatrixComputation(X,kernel,parms);
+  //Create matrix Q
+  Eigen::MatrixXd Q = Eigen::MatrixXd(2*y.size(),2*y.size());
+  Q<< K,-K,
+     -K, K;
+  //Nearest positive semidefinite matrix in terms of Frobenius norm
+  nearPositiveDefinite(Q,1e-10);
+  //Get the solution Support Vectors
+  SV = rcppeigen_quadratic_solve(Q,g, CE.transpose(),ce0, CI.transpose(), ci0);
+  //Return the results
+  return Rcpp::List::create(Rcpp::Named("SupportVectors") = SV,
+                            Rcpp::Named("Kernel") = kernel,
+                            Rcpp::Named("Parameters") = parms);
+}
+
+
+//' @name Predicted CSVRL1
+//' @title C-SVR L1 - Support Vector Regression with C cost and L1 regularization.
+//' @description Prediction for the C-SVR L1:
+//'
+//' f(x)=Sum_{i=1}^{N}(lambda*-lambda)K(x_{i},x)
+//' @param CSVRL1 List of Results of the CSVRL1
+//' @param X Numeric matrix with the explanatory variables. Dimension equal NxP
+//' @param Xprev Numeric matrix with the explanatory variables (predicted). Dimension equal MxP
+//' @param kernel Name of the kernel that will be used.
+//' @param parms Parameters associated with chosen kenel.
+//' @return Eigen::VectorXd with the predicted values for Xpred
+//' @examples
+//'
+//' A<-matrix(c(1,2,5,6,
+//' 2,4,1,2),nrow=4,ncol=2)
+//' d<-c(-1,-1,+1,-1)
+//' svm1<- CSVML1(d, A, 1, 0.1, "Gaussian", c(0.5))
+//'
+//' @seealso See \code{\link{.CallOctave}}, \code{\link{o_source}}, \code{\link{o_help}}
+// @cite soman2009machine
+// @bibliography ~/vignettes/bibliography.bib
+// [[Rcpp::export]]
+Eigen::VectorXd PredictedCSVRL1(Rcpp::List CSVRL1, Eigen::MatrixXd X, Eigen::MatrixXd Xprev, std::string kernel, arma::vec parms){
+  //Get the SV
+  Eigen::VectorXd SV = as<Eigen::VectorXd> (CSVRL1["SupportVectors"]);
+  //Total number of observations
+  int size = Xprev.rows();
+  Eigen::VectorXd predVec(size);
+  //Separating the SV
+  Eigen::VectorXd diffLambda = SV.head(X.rows()) - SV.tail(X.rows());
+
+  for(int i=0;i<size;i++){
+    //Create the Kernel Matrix
+    Eigen::VectorXd K = KernelMatrixComputationPred(X,Xprev.row(i),kernel,parms);
+    Eigen::VectorXd F = diffLambda.array() *K.array();
+    predVec(i) = F.sum();
+  }
+return(predVec);
+}
+
+
+//' @param y Vector with dependent variables. Dimension equal Nx1.
+//' @param X Numeric matrix with the explanatory variables. Dimension equal NxP
+//' @param epsilon Insentitive band. Should be epsilon>0.
+//' @param kernel Name of the kernel that will be used.
+//' @param parms Parameters associated with chosen kenel.
+
+// [[Rcpp::export]]
+Eigen::MatrixXd minimumCSVRL1(Eigen::VectorXd y, Eigen::MatrixXd X, double epsilon, std::string kernel, arma::vec parms){
+  Eigen::VectorXd SV(2*y.size());
+  //Create the one vector 2Nx1
+  Eigen::VectorXd yfull = Eigen::VectorXd(2*y.size());
+  yfull<< (-1.0)*y, (+1.0)*y;
+  Eigen::VectorXd evec = Eigen::VectorXd(2*y.size());
+  evec.fill(epsilon);
+  Eigen::VectorXd g = Eigen::VectorXd(2*y.size());
+  g = evec+yfull;
+  //Create the Kernel Matrix
+  Eigen::MatrixXd K = KernelMatrixComputation(X,kernel,parms);
+  //Create matrix Q
+  Eigen::MatrixXd Q = Eigen::MatrixXd(2*y.size(),2*y.size());
+  Q<< K,-K,
+     -K, K;
+  //Nearest positive semidefinite matrix in terms of Frobenius norm
+
+//  nearPositiveDefinite(Q,1e-10);
+//  std::cout<<Q<<std::endl;
+  //Calculate the Minimum Objective function
+  SV = -Q.inverse()*g;
+  return(Q);
+}

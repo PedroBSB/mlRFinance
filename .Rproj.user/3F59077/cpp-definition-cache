@@ -1,0 +1,896 @@
+[
+    {
+        "definitions" : [
+            {
+                "column" : 8,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/ErrorMeasure.cpp",
+                "kind" : 6,
+                "line" : 10,
+                "name" : "MSEfunction(Eigen::VectorXd, Eigen::VectorXd)",
+                "parent_name" : "",
+                "usr" : "c:@F@MSEfunction#$@N@Eigen@C@Matrix>#d#VI-1#VI1#VI0#VI-1#VI1#S0_#"
+            },
+            {
+                "column" : 12,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/ErrorMeasure.cpp",
+                "kind" : 6,
+                "line" : 16,
+                "name" : "ErrorMeasures(Eigen::VectorXd, Eigen::VectorXd)",
+                "parent_name" : "",
+                "usr" : "c:@F@ErrorMeasures#$@N@Eigen@C@Matrix>#d#VI-1#VI1#VI0#VI-1#VI1#S0_#"
+            }
+        ],
+        "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/ErrorMeasure.cpp",
+        "file_last_write" : 1477064051
+    },
+    {
+        "definitions" : [
+        ],
+        "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/ErrorMeasure.h",
+        "file_last_write" : 1477059736
+    },
+    {
+        "definitions" : [
+            {
+                "column" : 17,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/GarchSVR.cpp",
+                "kind" : 6,
+                "line" : 33,
+                "name" : "httFunction(Eigen::VectorXd)",
+                "parent_name" : "",
+                "usr" : "c:@F@httFunction#$@N@Eigen@C@Matrix>#d#VI-1#VI1#VI0#VI-1#VI1#"
+            },
+            {
+                "column" : 12,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/GarchSVR.cpp",
+                "kind" : 6,
+                "line" : 72,
+                "name" : "GARCHCSVRL1(Eigen::VectorXd, Eigen::VectorXd, double, double, double, double, std::string, arma::vec, std::string, arma::vec)",
+                "parent_name" : "",
+                "usr" : "c:@F@GARCHCSVRL1#$@N@Eigen@C@Matrix>#d#VI-1#VI1#VI0#VI-1#VI1#S0_#d#d#d#d#$@N@std@C@basic_string>#C#$@N@std@S@char_traits>#C#$@N@std@C@allocator>#C#$@N@arma@C@Col>#d#S1_#S4_#"
+            }
+        ],
+        "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/GarchSVR.cpp",
+        "file_last_write" : 1477065656
+    },
+    {
+        "definitions" : [
+            {
+                "column" : 8,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/KernelComputation.cpp",
+                "kind" : 6,
+                "line" : 15,
+                "name" : "ArccosKernel(arma::vec, arma::vec, arma::vec)",
+                "parent_name" : "",
+                "usr" : "c:@F@ArccosKernel#$@N@arma@C@Col>#d#S0_#S0_#"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/KernelComputation.cpp",
+                "kind" : 6,
+                "line" : 37,
+                "name" : "BesselKernel(arma::vec, arma::vec, arma::vec)",
+                "parent_name" : "",
+                "usr" : "c:@F@BesselKernel#$@N@arma@C@Col>#d#S0_#S0_#"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/KernelComputation.cpp",
+                "kind" : 6,
+                "line" : 56,
+                "name" : "ThinSplinePlateKernel(arma::vec, arma::vec, arma::vec)",
+                "parent_name" : "",
+                "usr" : "c:@F@ThinSplinePlateKernel#$@N@arma@C@Col>#d#S0_#S0_#"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/KernelComputation.cpp",
+                "kind" : 6,
+                "line" : 69,
+                "name" : "SymmetricTriangleKernel(arma::vec, arma::vec, arma::vec)",
+                "parent_name" : "",
+                "usr" : "c:@F@SymmetricTriangleKernel#$@N@arma@C@Col>#d#S0_#S0_#"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/KernelComputation.cpp",
+                "kind" : 6,
+                "line" : 84,
+                "name" : "SquaredSincKernel(arma::vec, arma::vec, arma::vec)",
+                "parent_name" : "",
+                "usr" : "c:@F@SquaredSincKernel#$@N@arma@C@Col>#d#S0_#S0_#"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/KernelComputation.cpp",
+                "kind" : 6,
+                "line" : 101,
+                "name" : "SigmoidKernel(arma::vec, arma::vec, arma::vec)",
+                "parent_name" : "",
+                "usr" : "c:@F@SigmoidKernel#$@N@arma@C@Col>#d#S0_#S0_#"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/KernelComputation.cpp",
+                "kind" : 6,
+                "line" : 113,
+                "name" : "PearsonKernel(arma::vec, arma::vec, arma::vec)",
+                "parent_name" : "",
+                "usr" : "c:@F@PearsonKernel#$@N@arma@C@Col>#d#S0_#S0_#"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/KernelComputation.cpp",
+                "kind" : 6,
+                "line" : 136,
+                "name" : "DirichletKernel(arma::vec, arma::vec, arma::vec)",
+                "parent_name" : "",
+                "usr" : "c:@F@DirichletKernel#$@N@arma@C@Col>#d#S0_#S0_#"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/KernelComputation.cpp",
+                "kind" : 6,
+                "line" : 152,
+                "name" : "HellingerKernel(arma::vec, arma::vec, arma::vec)",
+                "parent_name" : "",
+                "usr" : "c:@F@HellingerKernel#$@N@arma@C@Col>#d#S0_#S0_#"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/KernelComputation.cpp",
+                "kind" : 6,
+                "line" : 159,
+                "name" : "WaveKernel(arma::vec, arma::vec, arma::vec)",
+                "parent_name" : "",
+                "usr" : "c:@F@WaveKernel#$@N@arma@C@Col>#d#S0_#S0_#"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/KernelComputation.cpp",
+                "kind" : 6,
+                "line" : 170,
+                "name" : "LogKernel(arma::vec, arma::vec, arma::vec)",
+                "parent_name" : "",
+                "usr" : "c:@F@LogKernel#$@N@arma@C@Col>#d#S0_#S0_#"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/KernelComputation.cpp",
+                "kind" : 6,
+                "line" : 179,
+                "name" : "SphericalKernel(arma::vec, arma::vec, arma::vec)",
+                "parent_name" : "",
+                "usr" : "c:@F@SphericalKernel#$@N@arma@C@Col>#d#S0_#S0_#"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/KernelComputation.cpp",
+                "kind" : 6,
+                "line" : 190,
+                "name" : "CircularKernel(arma::vec, arma::vec, arma::vec)",
+                "parent_name" : "",
+                "usr" : "c:@F@CircularKernel#$@N@arma@C@Col>#d#S0_#S0_#"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/KernelComputation.cpp",
+                "kind" : 6,
+                "line" : 202,
+                "name" : "HistogramIntersectionKernel(arma::vec, arma::vec, arma::vec)",
+                "parent_name" : "",
+                "usr" : "c:@F@HistogramIntersectionKernel#$@N@arma@C@Col>#d#S0_#S0_#"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/KernelComputation.cpp",
+                "kind" : 6,
+                "line" : 211,
+                "name" : "GeneralizedHistogramIntersectionKernel(arma::vec, arma::vec, arma::vec)",
+                "parent_name" : "",
+                "usr" : "c:@F@GeneralizedHistogramIntersectionKernel#$@N@arma@C@Col>#d#S0_#S0_#"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/KernelComputation.cpp",
+                "kind" : 6,
+                "line" : 222,
+                "name" : "CauchyKernel(arma::vec, arma::vec, arma::vec)",
+                "parent_name" : "",
+                "usr" : "c:@F@CauchyKernel#$@N@arma@C@Col>#d#S0_#S0_#"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/KernelComputation.cpp",
+                "kind" : 6,
+                "line" : 230,
+                "name" : "PolynomialKernel(arma::vec, arma::vec, arma::vec)",
+                "parent_name" : "",
+                "usr" : "c:@F@PolynomialKernel#$@N@arma@C@Col>#d#S0_#S0_#"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/KernelComputation.cpp",
+                "kind" : 6,
+                "line" : 241,
+                "name" : "ChiSquareKernel(arma::vec, arma::vec, arma::vec)",
+                "parent_name" : "",
+                "usr" : "c:@F@ChiSquareKernel#$@N@arma@C@Col>#d#S0_#S0_#"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/KernelComputation.cpp",
+                "kind" : 6,
+                "line" : 249,
+                "name" : "ExponentialKernel(arma::vec, arma::vec, arma::vec)",
+                "parent_name" : "",
+                "usr" : "c:@F@ExponentialKernel#$@N@arma@C@Col>#d#S0_#S0_#"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/KernelComputation.cpp",
+                "kind" : 6,
+                "line" : 259,
+                "name" : "GaussianKernel(arma::vec, arma::vec, arma::vec)",
+                "parent_name" : "",
+                "usr" : "c:@F@GaussianKernel#$@N@arma@C@Col>#d#S0_#S0_#"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/KernelComputation.cpp",
+                "kind" : 6,
+                "line" : 268,
+                "name" : "GeneralizedTStudentKernel(arma::vec, arma::vec, arma::vec)",
+                "parent_name" : "",
+                "usr" : "c:@F@GeneralizedTStudentKernel#$@N@arma@C@Col>#d#S0_#S0_#"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/KernelComputation.cpp",
+                "kind" : 6,
+                "line" : 275,
+                "name" : "HyperbolicTangentKernel(arma::vec, arma::vec, arma::vec)",
+                "parent_name" : "",
+                "usr" : "c:@F@HyperbolicTangentKernel#$@N@arma@C@Col>#d#S0_#S0_#"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/KernelComputation.cpp",
+                "kind" : 6,
+                "line" : 284,
+                "name" : "SplineKernel(arma::vec, arma::vec, arma::vec)",
+                "parent_name" : "",
+                "usr" : "c:@F@SplineKernel#$@N@arma@C@Col>#d#S0_#S0_#"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/KernelComputation.cpp",
+                "kind" : 6,
+                "line" : 294,
+                "name" : "ANOVAKernel(arma::vec, arma::vec, arma::vec)",
+                "parent_name" : "",
+                "usr" : "c:@F@ANOVAKernel#$@N@arma@C@Col>#d#S0_#S0_#"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/KernelComputation.cpp",
+                "kind" : 6,
+                "line" : 303,
+                "name" : "InverseMultiquadraticKernel(arma::vec, arma::vec, arma::vec)",
+                "parent_name" : "",
+                "usr" : "c:@F@InverseMultiquadraticKernel#$@N@arma@C@Col>#d#S0_#S0_#"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/KernelComputation.cpp",
+                "kind" : 6,
+                "line" : 310,
+                "name" : "LaplacianoKernel(arma::vec, arma::vec, arma::vec)",
+                "parent_name" : "",
+                "usr" : "c:@F@LaplacianoKernel#$@N@arma@C@Col>#d#S0_#S0_#"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/KernelComputation.cpp",
+                "kind" : 6,
+                "line" : 319,
+                "name" : "LinearKernel(arma::vec, arma::vec, arma::vec)",
+                "parent_name" : "",
+                "usr" : "c:@F@LinearKernel#$@N@arma@C@Col>#d#S0_#S0_#"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/KernelComputation.cpp",
+                "kind" : 6,
+                "line" : 327,
+                "name" : "LogLinearKernel(arma::vec, arma::vec, arma::vec)",
+                "parent_name" : "",
+                "usr" : "c:@F@LogLinearKernel#$@N@arma@C@Col>#d#S0_#S0_#"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/KernelComputation.cpp",
+                "kind" : 6,
+                "line" : 334,
+                "name" : "MultiquadraticKernel(arma::vec, arma::vec, arma::vec)",
+                "parent_name" : "",
+                "usr" : "c:@F@MultiquadraticKernel#$@N@arma@C@Col>#d#S0_#S0_#"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/KernelComputation.cpp",
+                "kind" : 6,
+                "line" : 341,
+                "name" : "PowerKernel(arma::vec, arma::vec, arma::vec)",
+                "parent_name" : "",
+                "usr" : "c:@F@PowerKernel#$@N@arma@C@Col>#d#S0_#S0_#"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/KernelComputation.cpp",
+                "kind" : 6,
+                "line" : 349,
+                "name" : "RationalQuadraticKernel(arma::vec, arma::vec, arma::vec)",
+                "parent_name" : "",
+                "usr" : "c:@F@RationalQuadraticKernel#$@N@arma@C@Col>#d#S0_#S0_#"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/KernelComputation.cpp",
+                "kind" : 6,
+                "line" : 358,
+                "name" : "WaveletKernel(arma::vec, arma::vec, arma::vec)",
+                "parent_name" : "",
+                "usr" : "c:@F@WaveletKernel#$@N@arma@C@Col>#d#S0_#S0_#"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/KernelComputation.cpp",
+                "kind" : 6,
+                "line" : 370,
+                "name" : "MexicanHatKernel(arma::vec, arma::vec, arma::vec)",
+                "parent_name" : "",
+                "usr" : "c:@F@MexicanHatKernel#$@N@arma@C@Col>#d#S0_#S0_#"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/KernelComputation.cpp",
+                "kind" : 6,
+                "line" : 377,
+                "name" : "MorletKernel(arma::vec, arma::vec, arma::vec)",
+                "parent_name" : "",
+                "usr" : "c:@F@MorletKernel#$@N@arma@C@Col>#d#S0_#S0_#"
+            }
+        ],
+        "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/KernelComputation.cpp",
+        "file_last_write" : 1476991119
+    },
+    {
+        "definitions" : [
+        ],
+        "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/KernelComputation.h",
+        "file_last_write" : 1476990541
+    },
+    {
+        "definitions" : [
+            {
+                "column" : 11,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/KernelMatrix.cpp",
+                "kind" : 6,
+                "line" : 13,
+                "name" : "convertEigenToArma(Eigen::MatrixXd)",
+                "parent_name" : "",
+                "usr" : "c:@F@convertEigenToArma#$@N@Eigen@C@Matrix>#d#VI-1#VI-1#VI0#VI-1#VI-1#"
+            },
+            {
+                "column" : 11,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/KernelMatrix.cpp",
+                "kind" : 6,
+                "line" : 24,
+                "name" : "convertEigenToArma(Eigen::RowVectorXd)",
+                "parent_name" : "",
+                "usr" : "c:@F@convertEigenToArma#$@N@Eigen@C@Matrix>#d#VI1#VI-1#VI1#VI1#VI-1#"
+            },
+            {
+                "column" : 17,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/KernelMatrix.cpp",
+                "kind" : 6,
+                "line" : 37,
+                "name" : "KernelMatrix(Eigen::MatrixXd, Eigen::RowVectorXd, const std::function<double (arma::vec, arma::vec, arma::vec)>, arma::vec)",
+                "parent_name" : "",
+                "usr" : "c:@F@KernelMatrix#$@N@Eigen@C@Matrix>#d#VI-1#VI-1#VI0#VI-1#VI-1#$@N@Eigen@C@Matrix>#d#VI1#VI-1#VI1#VI1#VI-1#1$@N@std@C@function>#d#p3$@N@arma@C@Col>#dS3_S3_#S3_#"
+            },
+            {
+                "column" : 17,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/KernelMatrix.cpp",
+                "kind" : 6,
+                "line" : 62,
+                "name" : "KernelMatrix(Eigen::MatrixXd, const std::function<double (arma::vec, arma::vec, arma::vec)>, arma::vec)",
+                "parent_name" : "",
+                "usr" : "c:@F@KernelMatrix#$@N@Eigen@C@Matrix>#d#VI-1#VI-1#VI0#VI-1#VI-1#1$@N@std@C@function>#d#p3$@N@arma@C@Col>#dS2_S2_#S2_#"
+            },
+            {
+                "column" : 17,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/KernelMatrix.cpp",
+                "kind" : 6,
+                "line" : 126,
+                "name" : "KernelMatrixComputation(Eigen::MatrixXd, std::string, arma::vec)",
+                "parent_name" : "",
+                "usr" : "c:@F@KernelMatrixComputation#$@N@Eigen@C@Matrix>#d#VI-1#VI-1#VI0#VI-1#VI-1#$@N@std@C@basic_string>#C#$@N@std@S@char_traits>#C#$@N@std@C@allocator>#C#$@N@arma@C@Col>#d#"
+            },
+            {
+                "column" : 17,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/KernelMatrix.cpp",
+                "kind" : 6,
+                "line" : 236,
+                "name" : "KernelMatrixComputationPred(Eigen::MatrixXd, Eigen::RowVectorXd, std::string, arma::vec)",
+                "parent_name" : "",
+                "usr" : "c:@F@KernelMatrixComputationPred#$@N@Eigen@C@Matrix>#d#VI-1#VI-1#VI0#VI-1#VI-1#$@N@Eigen@C@Matrix>#d#VI1#VI-1#VI1#VI1#VI-1#$@N@std@C@basic_string>#C#$@N@std@S@char_traits>#C#$@N@std@C@allocator>#C#$@N@arma@C@Col>#d#"
+            }
+        ],
+        "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/KernelMatrix.cpp",
+        "file_last_write" : 1477058763
+    },
+    {
+        "definitions" : [
+        ],
+        "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/KernelMatrix.h",
+        "file_last_write" : 1477057676
+    },
+    {
+        "definitions" : [
+            {
+                "column" : 11,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/Optimization.cpp",
+                "kind" : 6,
+                "line" : 20,
+                "name" : "quadprogEquality(arma::mat, arma::vec, arma::mat, arma::vec)",
+                "parent_name" : "",
+                "usr" : "c:@F@quadprogEquality#$@N@arma@C@Mat>#d#$@N@arma@C@Col>#d#S0_#S1_#"
+            },
+            {
+                "column" : 12,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/Optimization.cpp",
+                "kind" : 6,
+                "line" : 47,
+                "name" : "findWorkSet(arma::vec, arma::mat, arma::vec)",
+                "parent_name" : "",
+                "usr" : "c:@F@findWorkSet#$@N@arma@C@Col>#d#$@N@arma@C@Mat>#d#S0_#"
+            },
+            {
+                "column" : 6,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/Optimization.cpp",
+                "kind" : 6,
+                "line" : 78,
+                "name" : "testingFeasibilitySolution(arma::vec, arma::mat, arma::vec)",
+                "parent_name" : "",
+                "usr" : "c:@F@testingFeasibilitySolution#$@N@arma@C@Col>#d#$@N@arma@C@Mat>#d#S0_#"
+            },
+            {
+                "column" : 12,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/Optimization.cpp",
+                "kind" : 6,
+                "line" : 95,
+                "name" : "findConstrNFeasibilitySolution(arma::vec, arma::mat, arma::vec)",
+                "parent_name" : "",
+                "usr" : "c:@F@findConstrNFeasibilitySolution#$@N@arma@C@Col>#d#$@N@arma@C@Mat>#d#S0_#"
+            },
+            {
+                "column" : 12,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/Optimization.cpp",
+                "kind" : 6,
+                "line" : 118,
+                "name" : "verifyLambda(arma::vec)",
+                "parent_name" : "",
+                "usr" : "c:@F@verifyLambda#$@N@arma@C@Col>#d#"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/Optimization.cpp",
+                "kind" : 6,
+                "line" : 146,
+                "name" : "findMax(arma::vec)",
+                "parent_name" : "",
+                "usr" : "c:@F@findMax#$@N@arma@C@Col>#d#"
+            },
+            {
+                "column" : 11,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/Optimization.cpp",
+                "kind" : 6,
+                "line" : 174,
+                "name" : "quadprogInequality(arma::vec, arma::mat, arma::vec, arma::mat, arma::vec)",
+                "parent_name" : "",
+                "usr" : "c:@F@quadprogInequality#$@N@arma@C@Col>#d#$@N@arma@C@Mat>#d#S0_#S1_#S0_#"
+            }
+        ],
+        "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/Optimization.cpp",
+        "file_last_write" : 1475066819
+    },
+    {
+        "definitions" : [
+            {
+                "column" : 8,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/Parallel.cpp",
+                "kind" : 3,
+                "line" : 11,
+                "name" : "SquareRoot",
+                "parent_name" : "",
+                "usr" : "c:@S@SquareRoot"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/Parallel.cpp",
+                "kind" : 7,
+                "line" : 24,
+                "name" : "operator(std::size_t, std::size_t)",
+                "parent_name" : "SquareRoot",
+                "usr" : "c:@S@SquareRoot@F@operator()#k#k#"
+            },
+            {
+                "column" : 21,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/Parallel.cpp",
+                "kind" : 6,
+                "line" : 35,
+                "name" : "parallelMatrixSqrt(Rcpp::NumericMatrix)",
+                "parent_name" : "",
+                "usr" : "c:@F@parallelMatrixSqrt#$@N@Rcpp@C@Matrix>#VI14#@N@Rcpp@CT>1#T@PreserveStorage#"
+            },
+            {
+                "column" : 15,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/Parallel.cpp",
+                "kind" : 6,
+                "line" : 61,
+                "name" : "kl_divergence(InputIterator1, InputIterator1, InputIterator2)",
+                "parent_name" : "",
+                "usr" : "c:@FT@>2#T#Tkl_divergence#t0.0#S0_#t0.1#"
+            },
+            {
+                "column" : 15,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/Parallel.cpp",
+                "kind" : 6,
+                "line" : 86,
+                "name" : "average(double, double)",
+                "parent_name" : "",
+                "usr" : "c:@F@average#d#d#"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/Parallel.cpp",
+                "kind" : 3,
+                "line" : 89,
+                "name" : "JsDistance",
+                "parent_name" : "",
+                "usr" : "c:@S@JsDistance"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/Parallel.cpp",
+                "kind" : 7,
+                "line" : 103,
+                "name" : "operator(std::size_t, std::size_t)",
+                "parent_name" : "JsDistance",
+                "usr" : "c:@S@JsDistance@F@operator()#k#k#"
+            },
+            {
+                "column" : 21,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/Parallel.cpp",
+                "kind" : 6,
+                "line" : 130,
+                "name" : "rcpp_parallel_js_distance(Rcpp::NumericMatrix)",
+                "parent_name" : "",
+                "usr" : "c:@F@rcpp_parallel_js_distance#$@N@Rcpp@C@Matrix>#VI14#@N@Rcpp@CT>1#T@PreserveStorage#"
+            }
+        ],
+        "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/Parallel.cpp",
+        "file_last_write" : 1474894505
+    },
+    {
+        "definitions" : [
+            {
+                "column" : 12,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/SVC.cpp",
+                "kind" : 6,
+                "line" : 138,
+                "name" : "WOCSCM(Eigen::MatrixXd, double, int, double, int, std::string, arma::vec)",
+                "parent_name" : "",
+                "usr" : "c:@F@WOCSCM#$@N@Eigen@C@Matrix>#d#VI-1#VI-1#VI0#VI-1#VI-1#d#I#d#I#$@N@std@C@basic_string>#C#$@N@std@S@char_traits>#C#$@N@std@C@allocator>#C#$@N@arma@C@Col>#d#"
+            }
+        ],
+        "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/SVC.cpp",
+        "file_last_write" : 1477055391
+    },
+    {
+        "definitions" : [
+            {
+                "column" : 12,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/SVM.cpp",
+                "kind" : 6,
+                "line" : 72,
+                "name" : "CSVML1(Eigen::VectorXd, Eigen::MatrixXd, double, std::string, arma::vec)",
+                "parent_name" : "",
+                "usr" : "c:@F@CSVML1#$@N@Eigen@C@Matrix>#d#VI-1#VI1#VI0#VI-1#VI1#$@N@Eigen@C@Matrix>#d#VI-1#VI-1#VI0#VI-1#VI-1#d#$@N@std@C@basic_string>#C#$@N@std@S@char_traits>#C#$@N@std@C@allocator>#C#$@N@arma@C@Col>#d#"
+            },
+            {
+                "column" : 12,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/SVM.cpp",
+                "kind" : 6,
+                "line" : 149,
+                "name" : "CSVML2(Eigen::VectorXd, Eigen::MatrixXd, double, std::string, arma::vec)",
+                "parent_name" : "",
+                "usr" : "c:@F@CSVML2#$@N@Eigen@C@Matrix>#d#VI-1#VI1#VI0#VI-1#VI1#$@N@Eigen@C@Matrix>#d#VI-1#VI-1#VI0#VI-1#VI-1#d#$@N@std@C@basic_string>#C#$@N@std@S@char_traits>#C#$@N@std@C@allocator>#C#$@N@arma@C@Col>#d#"
+            },
+            {
+                "column" : 12,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/SVM.cpp",
+                "kind" : 6,
+                "line" : 218,
+                "name" : "nuSVM(Eigen::VectorXd, Eigen::MatrixXd, double, std::string, arma::vec)",
+                "parent_name" : "",
+                "usr" : "c:@F@nuSVM#$@N@Eigen@C@Matrix>#d#VI-1#VI1#VI0#VI-1#VI1#$@N@Eigen@C@Matrix>#d#VI-1#VI-1#VI0#VI-1#VI-1#d#$@N@std@C@basic_string>#C#$@N@std@S@char_traits>#C#$@N@std@C@allocator>#C#$@N@arma@C@Col>#d#"
+            },
+            {
+                "column" : 17,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/SVM.cpp",
+                "kind" : 6,
+                "line" : 264,
+                "name" : "solveTest(Eigen::MatrixXd, Eigen::VectorXd, Eigen::MatrixXd, Eigen::VectorXd, Eigen::MatrixXd, Eigen::VectorXd)",
+                "parent_name" : "",
+                "usr" : "c:@F@solveTest#$@N@Eigen@C@Matrix>#d#VI-1#VI-1#VI0#VI-1#VI-1#$@N@Eigen@C@Matrix>#d#VI-1#VI1#VI0#VI-1#VI1#S0_#S1_#S0_#S1_#"
+            },
+            {
+                "column" : 17,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/SVM.cpp",
+                "kind" : 6,
+                "line" : 276,
+                "name" : "solveTest2(Eigen::MatrixXd, Eigen::VectorXd, Eigen::MatrixXd, Eigen::VectorXd)",
+                "parent_name" : "",
+                "usr" : "c:@F@solveTest2#$@N@Eigen@C@Matrix>#d#VI-1#VI-1#VI0#VI-1#VI-1#$@N@Eigen@C@Matrix>#d#VI-1#VI1#VI0#VI-1#VI1#S0_#S1_#"
+            }
+        ],
+        "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/SVM.cpp",
+        "file_last_write" : 1476892479
+    },
+    {
+        "definitions" : [
+            {
+                "column" : 12,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/SVR.cpp",
+                "kind" : 6,
+                "line" : 79,
+                "name" : "CSVRL1(Eigen::VectorXd, Eigen::MatrixXd, double, double, std::string, arma::vec)",
+                "parent_name" : "",
+                "usr" : "c:@F@CSVRL1#$@N@Eigen@C@Matrix>#d#VI-1#VI1#VI0#VI-1#VI1#$@N@Eigen@C@Matrix>#d#VI-1#VI-1#VI0#VI-1#VI-1#d#d#$@N@std@C@basic_string>#C#$@N@std@S@char_traits>#C#$@N@std@C@allocator>#C#$@N@arma@C@Col>#d#"
+            },
+            {
+                "column" : 17,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/SVR.cpp",
+                "kind" : 6,
+                "line" : 151,
+                "name" : "PredictedCSVRL1(Rcpp::List, Eigen::MatrixXd, Eigen::MatrixXd, std::string, arma::vec)",
+                "parent_name" : "",
+                "usr" : "c:@F@PredictedCSVRL1#$@N@Rcpp@C@Vector>#VI19#@N@Rcpp@CT>1#T@PreserveStorage#$@N@Eigen@C@Matrix>#d#VI-1#VI-1#VI0#VI-1#VI-1#S1_#$@N@std@C@basic_string>#C#$@N@std@S@char_traits>#C#$@N@std@C@allocator>#C#$@N@arma@C@Col>#d#"
+            },
+            {
+                "column" : 17,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/SVR.cpp",
+                "kind" : 6,
+                "line" : 177,
+                "name" : "minimumCSVRL1(Eigen::VectorXd, Eigen::MatrixXd, double, std::string, arma::vec)",
+                "parent_name" : "",
+                "usr" : "c:@F@minimumCSVRL1#$@N@Eigen@C@Matrix>#d#VI-1#VI1#VI0#VI-1#VI1#$@N@Eigen@C@Matrix>#d#VI-1#VI-1#VI0#VI-1#VI-1#d#$@N@std@C@basic_string>#C#$@N@std@S@char_traits>#C#$@N@std@C@allocator>#C#$@N@arma@C@Col>#d#"
+            }
+        ],
+        "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/SVR.cpp",
+        "file_last_write" : 1477073584
+    },
+    {
+        "definitions" : [
+        ],
+        "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/SVR.h",
+        "file_last_write" : 1477057594
+    },
+    {
+        "definitions" : [
+            {
+                "column" : 6,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/Utils.cpp",
+                "kind" : 6,
+                "line" : 10,
+                "name" : "PrintObjectLine(arma::vec)",
+                "parent_name" : "",
+                "usr" : "c:@F@PrintObjectLine#$@N@arma@C@Col>#d#"
+            },
+            {
+                "column" : 6,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/Utils.cpp",
+                "kind" : 6,
+                "line" : 18,
+                "name" : "PrintObjectLine(arma::uvec)",
+                "parent_name" : "",
+                "usr" : "c:@F@PrintObjectLine#$@N@arma@C@Col>#i#"
+            },
+            {
+                "column" : 6,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/Utils.cpp",
+                "kind" : 6,
+                "line" : 26,
+                "name" : "PrintObject(Eigen::VectorXd)",
+                "parent_name" : "",
+                "usr" : "c:@F@PrintObject#$@N@Eigen@C@Matrix>#d#VI-1#VI1#VI0#VI-1#VI1#"
+            },
+            {
+                "column" : 6,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/Utils.cpp",
+                "kind" : 6,
+                "line" : 34,
+                "name" : "PrintObject(Eigen::MatrixXd)",
+                "parent_name" : "",
+                "usr" : "c:@F@PrintObject#$@N@Eigen@C@Matrix>#d#VI-1#VI-1#VI0#VI-1#VI-1#"
+            },
+            {
+                "column" : 6,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/Utils.cpp",
+                "kind" : 6,
+                "line" : 44,
+                "name" : "PrintObject(arma::mat)",
+                "parent_name" : "",
+                "usr" : "c:@F@PrintObject#$@N@arma@C@Mat>#d#"
+            },
+            {
+                "column" : 6,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/Utils.cpp",
+                "kind" : 6,
+                "line" : 55,
+                "name" : "PrintTime",
+                "parent_name" : "",
+                "usr" : "c:@F@PrintTime#"
+            },
+            {
+                "column" : 6,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/Utils.cpp",
+                "kind" : 6,
+                "line" : 64,
+                "name" : "IsPositiveDefinite(Eigen::MatrixXd)",
+                "parent_name" : "",
+                "usr" : "c:@F@IsPositiveDefinite#$@N@Eigen@C@Matrix>#d#VI-1#VI-1#VI0#VI-1#VI-1#"
+            },
+            {
+                "column" : 6,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/Utils.cpp",
+                "kind" : 6,
+                "line" : 88,
+                "name" : "addNoise(Eigen::MatrixXd &, double)",
+                "parent_name" : "",
+                "usr" : "c:@F@addNoise#&$@N@Eigen@C@Matrix>#d#VI-1#VI-1#VI0#VI-1#VI-1#d#"
+            },
+            {
+                "column" : 6,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/Utils.cpp",
+                "kind" : 6,
+                "line" : 101,
+                "name" : "nearPositiveDefinite(Eigen::MatrixXd &, double)",
+                "parent_name" : "",
+                "usr" : "c:@F@nearPositiveDefinite#&$@N@Eigen@C@Matrix>#d#VI-1#VI-1#VI0#VI-1#VI-1#d#"
+            }
+        ],
+        "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/Utils.cpp",
+        "file_last_write" : 1477316044
+    },
+    {
+        "definitions" : [
+        ],
+        "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/Utils.h",
+        "file_last_write" : 1476882699
+    },
+    {
+        "definitions" : [
+            {
+                "column" : 15,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/eiquadprog.h",
+                "kind" : 6,
+                "line" : 93,
+                "name" : "distance(Scalar, Scalar)",
+                "parent_name" : "",
+                "usr" : "c:@N@Eigen@FT@>1#Tdistance#t0.0#S0_#"
+            },
+            {
+                "column" : 13,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/eiquadprog.h",
+                "kind" : 6,
+                "line" : 114,
+                "name" : "compute_d(VectorXd &, const MatrixXd &, const VectorXd &)",
+                "parent_name" : "",
+                "usr" : "c:@N@Eigen@F@compute_d#&$@N@Eigen@C@Matrix>#d#VI-1#VI1#VI0#VI-1#VI1#&1$@N@Eigen@C@Matrix>#d#VI-1#VI-1#VI0#VI-1#VI-1#&1S1_#"
+            },
+            {
+                "column" : 13,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/eiquadprog.h",
+                "kind" : 6,
+                "line" : 119,
+                "name" : "update_z(VectorXd &, const MatrixXd &, const VectorXd &, int)",
+                "parent_name" : "",
+                "usr" : "c:@N@Eigen@F@update_z#&$@N@Eigen@C@Matrix>#d#VI-1#VI1#VI0#VI-1#VI1#&1$@N@Eigen@C@Matrix>#d#VI-1#VI-1#VI0#VI-1#VI-1#&1S1_#I#"
+            },
+            {
+                "column" : 13,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/eiquadprog.h",
+                "kind" : 6,
+                "line" : 124,
+                "name" : "update_r(const MatrixXd &, VectorXd &, const VectorXd &, int)",
+                "parent_name" : "",
+                "usr" : "c:@N@Eigen@F@update_r#&1$@N@Eigen@C@Matrix>#d#VI-1#VI-1#VI0#VI-1#VI-1#&$@N@Eigen@C@Matrix>#d#VI-1#VI1#VI0#VI-1#VI1#&1S3_#I#"
+            },
+            {
+                "column" : 15,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/eiquadprog.h",
+                "kind" : 6,
+                "line" : 140,
+                "name" : "solve_quadprog(MatrixBase<tA> &, MatrixBase<tB> &, const MatrixBase<tC> &, const MatrixBase<tD> &, const MatrixBase<tE> &, const MatrixBase<tF> &, MatrixBase<tG> &)",
+                "parent_name" : "",
+                "usr" : "c:@N@Eigen@FT@>7#T#T#T#T#T#T#Tsolve_quadprog#&>@N@Eigen@CT>1#T@MatrixBase1t0.0#&>@N@Eigen@CT>1#T@MatrixBase1t0.1#&1>@N@Eigen@CT>1#T@MatrixBase1t0.2#&1>@N@Eigen@CT>1#T@MatrixBase1t0.3#&1>@N@Eigen@CT>1#T@MatrixBase1t0.4#&1>@N@Eigen@CT>1#T@MatrixBase1t0.5#&>@N@Eigen@CT>1#T@MatrixBase1t0.6#"
+            },
+            {
+                "column" : 15,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/eiquadprog.h",
+                "kind" : 6,
+                "line" : 160,
+                "name" : "solve_quadprog2(LLT<MatrixXd, Lower> &, double, MatrixBase<tA> &, const MatrixBase<tB> &, const MatrixBase<tC> &, const MatrixBase<tD> &, const MatrixBase<tE> &, MatrixBase<tF> &)",
+                "parent_name" : "",
+                "usr" : "c:@N@Eigen@FT@>6#T#T#T#T#T#Tsolve_quadprog2#&$@N@Eigen@C@LLT>#$@N@Eigen@C@Matrix>#d#VI-1#VI-1#VI0#VI-1#VI-1#VI1#d#&>@N@Eigen@CT>1#T@MatrixBase1t0.0#&1>@N@Eigen@CT>1#T@MatrixBase1t0.1#&1>@N@Eigen@CT>1#T@MatrixBase1t0.2#&1>@N@Eigen@CT>1#T@MatrixBase1t0.3#&1>@N@Eigen@CT>1#T@MatrixBase1t0.4#&>@N@Eigen@CT>1#T@MatrixBase1t0.5#"
+            },
+            {
+                "column" : 13,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/eiquadprog.h",
+                "kind" : 6,
+                "line" : 476,
+                "name" : "add_constraint(MatrixXd &, MatrixXd &, VectorXd &, int &, double &)",
+                "parent_name" : "",
+                "usr" : "c:@N@Eigen@F@add_constraint#&$@N@Eigen@C@Matrix>#d#VI-1#VI-1#VI0#VI-1#VI-1#S0_#&$@N@Eigen@C@Matrix>#d#VI-1#VI1#VI0#VI-1#VI1#&I#&d#"
+            },
+            {
+                "column" : 13,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/eiquadprog.h",
+                "kind" : 6,
+                "line" : 542,
+                "name" : "delete_constraint(MatrixXd &, MatrixXd &, VectorXi &, VectorXd &, int, int &, int)",
+                "parent_name" : "",
+                "usr" : "c:@N@Eigen@F@delete_constraint#&$@N@Eigen@C@Matrix>#d#VI-1#VI-1#VI0#VI-1#VI-1#S0_#&$@N@Eigen@C@Matrix>#I#VI-1#VI1#VI0#VI-1#VI1#&$@N@Eigen@C@Matrix>#d#VI-1#VI1#VI0#VI-1#VI1#I#&I#I#"
+            }
+        ],
+        "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/eiquadprog.h",
+        "file_last_write" : 1476793016
+    },
+    {
+        "definitions" : [
+            {
+                "column" : 8,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/qpinterface.cpp",
+                "kind" : 3,
+                "line" : 37,
+                "name" : "QPException",
+                "parent_name" : "",
+                "usr" : "c:@S@QPException"
+            },
+            {
+                "column" : 15,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/qpinterface.cpp",
+                "kind" : 7,
+                "line" : 42,
+                "name" : "what",
+                "parent_name" : "QPException",
+                "usr" : "c:@S@QPException@F@what#1"
+            },
+            {
+                "column" : 17,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/qpinterface.cpp",
+                "kind" : 6,
+                "line" : 46,
+                "name" : "rcppeigen_quadratic_solve(Eigen::MatrixXd &, Eigen::VectorXd &, const Eigen::MatrixXd &, const Eigen::VectorXd &, const Eigen::MatrixXd &, const Eigen::VectorXd &)",
+                "parent_name" : "",
+                "usr" : "c:@F@rcppeigen_quadratic_solve#&$@N@Eigen@C@Matrix>#d#VI-1#VI-1#VI0#VI-1#VI-1#&$@N@Eigen@C@Matrix>#d#VI-1#VI1#VI0#VI-1#VI1#&1S1_#&1S3_#S4_#S5_#"
+            }
+        ],
+        "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/qpinterface.cpp",
+        "file_last_write" : 1476707802
+    }
+]

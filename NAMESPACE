@@ -1,0 +1,8 @@
+exportPattern("^[[:alpha:]]+")
+import(Rcpp)
+import(RcppArmadillo)
+import(RcppProgress)
+importFrom(RcppParallel, RcppParallelLibs)
+useDynLib(mlRFinance)
+
+
