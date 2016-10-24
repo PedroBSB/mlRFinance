@@ -3,9 +3,81 @@
         "definitions" : [
             {
                 "column" : 8,
+                "file" : "C:/Users/ASUS/Dropbox/mlRFinance/src/ErrorMeasure.cpp",
+                "kind" : 6,
+                "line" : 10,
+                "name" : "MSEfunction(Eigen::VectorXd, Eigen::VectorXd)",
+                "parent_name" : "",
+                "usr" : "c:@F@MSEfunction#$@N@Eigen@C@Matrix>#d#VI-1#VI1#VI0#VI-1#VI1#S0_#"
+            },
+            {
+                "column" : 12,
+                "file" : "C:/Users/ASUS/Dropbox/mlRFinance/src/ErrorMeasure.cpp",
+                "kind" : 6,
+                "line" : 16,
+                "name" : "ErrorMeasures(Eigen::VectorXd, Eigen::VectorXd)",
+                "parent_name" : "",
+                "usr" : "c:@F@ErrorMeasures#$@N@Eigen@C@Matrix>#d#VI-1#VI1#VI0#VI-1#VI1#S0_#"
+            }
+        ],
+        "file" : "C:/Users/ASUS/Dropbox/mlRFinance/src/ErrorMeasure.cpp",
+        "file_last_write" : 1477064051
+    },
+    {
+        "definitions" : [
+        ],
+        "file" : "C:/Users/ASUS/Dropbox/mlRFinance/src/ErrorMeasure.h",
+        "file_last_write" : 1477059736
+    },
+    {
+        "definitions" : [
+            {
+                "column" : 17,
+                "file" : "C:/Users/ASUS/Dropbox/mlRFinance/src/GarchSVR.cpp",
+                "kind" : 6,
+                "line" : 33,
+                "name" : "httFunction(Eigen::VectorXd)",
+                "parent_name" : "",
+                "usr" : "c:@F@httFunction#$@N@Eigen@C@Matrix>#d#VI-1#VI1#VI0#VI-1#VI1#"
+            },
+            {
+                "column" : 12,
+                "file" : "C:/Users/ASUS/Dropbox/mlRFinance/src/GarchSVR.cpp",
+                "kind" : 6,
+                "line" : 72,
+                "name" : "GARCHCSVRL1(Eigen::VectorXd, Eigen::VectorXd, double, double, double, double, std::string, arma::vec, std::string, arma::vec)",
+                "parent_name" : "",
+                "usr" : "c:@F@GARCHCSVRL1#$@N@Eigen@C@Matrix>#d#VI-1#VI1#VI0#VI-1#VI1#S0_#d#d#d#d#$@N@std@C@basic_string>#C#$@N@std@S@char_traits>#C#$@N@std@C@allocator>#C#$@N@arma@C@Col>#d#S1_#S4_#"
+            }
+        ],
+        "file" : "C:/Users/ASUS/Dropbox/mlRFinance/src/GarchSVR.cpp",
+        "file_last_write" : 1477065656
+    },
+    {
+        "definitions" : [
+            {
+                "column" : 8,
                 "file" : "C:/Users/ASUS/Dropbox/mlRFinance/src/KernelComputation.cpp",
                 "kind" : 6,
-                "line" : 14,
+                "line" : 15,
+                "name" : "ArccosKernel(arma::vec, arma::vec, arma::vec)",
+                "parent_name" : "",
+                "usr" : "c:@F@ArccosKernel#$@N@arma@C@Col>#d#S0_#S0_#"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/ASUS/Dropbox/mlRFinance/src/KernelComputation.cpp",
+                "kind" : 6,
+                "line" : 37,
+                "name" : "BesselKernel(arma::vec, arma::vec, arma::vec)",
+                "parent_name" : "",
+                "usr" : "c:@F@BesselKernel#$@N@arma@C@Col>#d#S0_#S0_#"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/ASUS/Dropbox/mlRFinance/src/KernelComputation.cpp",
+                "kind" : 6,
+                "line" : 56,
                 "name" : "ThinSplinePlateKernel(arma::vec, arma::vec, arma::vec)",
                 "parent_name" : "",
                 "usr" : "c:@F@ThinSplinePlateKernel#$@N@arma@C@Col>#d#S0_#S0_#"
@@ -14,7 +86,7 @@
                 "column" : 8,
                 "file" : "C:/Users/ASUS/Dropbox/mlRFinance/src/KernelComputation.cpp",
                 "kind" : 6,
-                "line" : 27,
+                "line" : 69,
                 "name" : "SymmetricTriangleKernel(arma::vec, arma::vec, arma::vec)",
                 "parent_name" : "",
                 "usr" : "c:@F@SymmetricTriangleKernel#$@N@arma@C@Col>#d#S0_#S0_#"
@@ -23,7 +95,7 @@
                 "column" : 8,
                 "file" : "C:/Users/ASUS/Dropbox/mlRFinance/src/KernelComputation.cpp",
                 "kind" : 6,
-                "line" : 42,
+                "line" : 84,
                 "name" : "SquaredSincKernel(arma::vec, arma::vec, arma::vec)",
                 "parent_name" : "",
                 "usr" : "c:@F@SquaredSincKernel#$@N@arma@C@Col>#d#S0_#S0_#"
@@ -32,7 +104,7 @@
                 "column" : 8,
                 "file" : "C:/Users/ASUS/Dropbox/mlRFinance/src/KernelComputation.cpp",
                 "kind" : 6,
-                "line" : 59,
+                "line" : 101,
                 "name" : "SigmoidKernel(arma::vec, arma::vec, arma::vec)",
                 "parent_name" : "",
                 "usr" : "c:@F@SigmoidKernel#$@N@arma@C@Col>#d#S0_#S0_#"
@@ -41,7 +113,7 @@
                 "column" : 8,
                 "file" : "C:/Users/ASUS/Dropbox/mlRFinance/src/KernelComputation.cpp",
                 "kind" : 6,
-                "line" : 71,
+                "line" : 113,
                 "name" : "PearsonKernel(arma::vec, arma::vec, arma::vec)",
                 "parent_name" : "",
                 "usr" : "c:@F@PearsonKernel#$@N@arma@C@Col>#d#S0_#S0_#"
@@ -50,7 +122,7 @@
                 "column" : 8,
                 "file" : "C:/Users/ASUS/Dropbox/mlRFinance/src/KernelComputation.cpp",
                 "kind" : 6,
-                "line" : 94,
+                "line" : 136,
                 "name" : "DirichletKernel(arma::vec, arma::vec, arma::vec)",
                 "parent_name" : "",
                 "usr" : "c:@F@DirichletKernel#$@N@arma@C@Col>#d#S0_#S0_#"
@@ -59,7 +131,7 @@
                 "column" : 8,
                 "file" : "C:/Users/ASUS/Dropbox/mlRFinance/src/KernelComputation.cpp",
                 "kind" : 6,
-                "line" : 110,
+                "line" : 152,
                 "name" : "HellingerKernel(arma::vec, arma::vec, arma::vec)",
                 "parent_name" : "",
                 "usr" : "c:@F@HellingerKernel#$@N@arma@C@Col>#d#S0_#S0_#"
@@ -68,7 +140,7 @@
                 "column" : 8,
                 "file" : "C:/Users/ASUS/Dropbox/mlRFinance/src/KernelComputation.cpp",
                 "kind" : 6,
-                "line" : 117,
+                "line" : 159,
                 "name" : "WaveKernel(arma::vec, arma::vec, arma::vec)",
                 "parent_name" : "",
                 "usr" : "c:@F@WaveKernel#$@N@arma@C@Col>#d#S0_#S0_#"
@@ -77,7 +149,7 @@
                 "column" : 8,
                 "file" : "C:/Users/ASUS/Dropbox/mlRFinance/src/KernelComputation.cpp",
                 "kind" : 6,
-                "line" : 128,
+                "line" : 170,
                 "name" : "LogKernel(arma::vec, arma::vec, arma::vec)",
                 "parent_name" : "",
                 "usr" : "c:@F@LogKernel#$@N@arma@C@Col>#d#S0_#S0_#"
@@ -86,7 +158,7 @@
                 "column" : 8,
                 "file" : "C:/Users/ASUS/Dropbox/mlRFinance/src/KernelComputation.cpp",
                 "kind" : 6,
-                "line" : 137,
+                "line" : 179,
                 "name" : "SphericalKernel(arma::vec, arma::vec, arma::vec)",
                 "parent_name" : "",
                 "usr" : "c:@F@SphericalKernel#$@N@arma@C@Col>#d#S0_#S0_#"
@@ -95,7 +167,7 @@
                 "column" : 8,
                 "file" : "C:/Users/ASUS/Dropbox/mlRFinance/src/KernelComputation.cpp",
                 "kind" : 6,
-                "line" : 148,
+                "line" : 190,
                 "name" : "CircularKernel(arma::vec, arma::vec, arma::vec)",
                 "parent_name" : "",
                 "usr" : "c:@F@CircularKernel#$@N@arma@C@Col>#d#S0_#S0_#"
@@ -104,7 +176,7 @@
                 "column" : 8,
                 "file" : "C:/Users/ASUS/Dropbox/mlRFinance/src/KernelComputation.cpp",
                 "kind" : 6,
-                "line" : 160,
+                "line" : 202,
                 "name" : "HistogramIntersectionKernel(arma::vec, arma::vec, arma::vec)",
                 "parent_name" : "",
                 "usr" : "c:@F@HistogramIntersectionKernel#$@N@arma@C@Col>#d#S0_#S0_#"
@@ -113,7 +185,7 @@
                 "column" : 8,
                 "file" : "C:/Users/ASUS/Dropbox/mlRFinance/src/KernelComputation.cpp",
                 "kind" : 6,
-                "line" : 169,
+                "line" : 211,
                 "name" : "GeneralizedHistogramIntersectionKernel(arma::vec, arma::vec, arma::vec)",
                 "parent_name" : "",
                 "usr" : "c:@F@GeneralizedHistogramIntersectionKernel#$@N@arma@C@Col>#d#S0_#S0_#"
@@ -122,7 +194,7 @@
                 "column" : 8,
                 "file" : "C:/Users/ASUS/Dropbox/mlRFinance/src/KernelComputation.cpp",
                 "kind" : 6,
-                "line" : 180,
+                "line" : 222,
                 "name" : "CauchyKernel(arma::vec, arma::vec, arma::vec)",
                 "parent_name" : "",
                 "usr" : "c:@F@CauchyKernel#$@N@arma@C@Col>#d#S0_#S0_#"
@@ -131,7 +203,7 @@
                 "column" : 8,
                 "file" : "C:/Users/ASUS/Dropbox/mlRFinance/src/KernelComputation.cpp",
                 "kind" : 6,
-                "line" : 188,
+                "line" : 230,
                 "name" : "PolynomialKernel(arma::vec, arma::vec, arma::vec)",
                 "parent_name" : "",
                 "usr" : "c:@F@PolynomialKernel#$@N@arma@C@Col>#d#S0_#S0_#"
@@ -140,7 +212,7 @@
                 "column" : 8,
                 "file" : "C:/Users/ASUS/Dropbox/mlRFinance/src/KernelComputation.cpp",
                 "kind" : 6,
-                "line" : 199,
+                "line" : 241,
                 "name" : "ChiSquareKernel(arma::vec, arma::vec, arma::vec)",
                 "parent_name" : "",
                 "usr" : "c:@F@ChiSquareKernel#$@N@arma@C@Col>#d#S0_#S0_#"
@@ -149,7 +221,7 @@
                 "column" : 8,
                 "file" : "C:/Users/ASUS/Dropbox/mlRFinance/src/KernelComputation.cpp",
                 "kind" : 6,
-                "line" : 207,
+                "line" : 249,
                 "name" : "ExponentialKernel(arma::vec, arma::vec, arma::vec)",
                 "parent_name" : "",
                 "usr" : "c:@F@ExponentialKernel#$@N@arma@C@Col>#d#S0_#S0_#"
@@ -158,7 +230,7 @@
                 "column" : 8,
                 "file" : "C:/Users/ASUS/Dropbox/mlRFinance/src/KernelComputation.cpp",
                 "kind" : 6,
-                "line" : 217,
+                "line" : 259,
                 "name" : "GaussianKernel(arma::vec, arma::vec, arma::vec)",
                 "parent_name" : "",
                 "usr" : "c:@F@GaussianKernel#$@N@arma@C@Col>#d#S0_#S0_#"
@@ -167,7 +239,7 @@
                 "column" : 8,
                 "file" : "C:/Users/ASUS/Dropbox/mlRFinance/src/KernelComputation.cpp",
                 "kind" : 6,
-                "line" : 226,
+                "line" : 268,
                 "name" : "GeneralizedTStudentKernel(arma::vec, arma::vec, arma::vec)",
                 "parent_name" : "",
                 "usr" : "c:@F@GeneralizedTStudentKernel#$@N@arma@C@Col>#d#S0_#S0_#"
@@ -176,7 +248,7 @@
                 "column" : 8,
                 "file" : "C:/Users/ASUS/Dropbox/mlRFinance/src/KernelComputation.cpp",
                 "kind" : 6,
-                "line" : 233,
+                "line" : 275,
                 "name" : "HyperbolicTangentKernel(arma::vec, arma::vec, arma::vec)",
                 "parent_name" : "",
                 "usr" : "c:@F@HyperbolicTangentKernel#$@N@arma@C@Col>#d#S0_#S0_#"
@@ -185,7 +257,7 @@
                 "column" : 8,
                 "file" : "C:/Users/ASUS/Dropbox/mlRFinance/src/KernelComputation.cpp",
                 "kind" : 6,
-                "line" : 242,
+                "line" : 284,
                 "name" : "SplineKernel(arma::vec, arma::vec, arma::vec)",
                 "parent_name" : "",
                 "usr" : "c:@F@SplineKernel#$@N@arma@C@Col>#d#S0_#S0_#"
@@ -194,7 +266,7 @@
                 "column" : 8,
                 "file" : "C:/Users/ASUS/Dropbox/mlRFinance/src/KernelComputation.cpp",
                 "kind" : 6,
-                "line" : 252,
+                "line" : 294,
                 "name" : "ANOVAKernel(arma::vec, arma::vec, arma::vec)",
                 "parent_name" : "",
                 "usr" : "c:@F@ANOVAKernel#$@N@arma@C@Col>#d#S0_#S0_#"
@@ -203,7 +275,7 @@
                 "column" : 8,
                 "file" : "C:/Users/ASUS/Dropbox/mlRFinance/src/KernelComputation.cpp",
                 "kind" : 6,
-                "line" : 261,
+                "line" : 303,
                 "name" : "InverseMultiquadraticKernel(arma::vec, arma::vec, arma::vec)",
                 "parent_name" : "",
                 "usr" : "c:@F@InverseMultiquadraticKernel#$@N@arma@C@Col>#d#S0_#S0_#"
@@ -212,7 +284,7 @@
                 "column" : 8,
                 "file" : "C:/Users/ASUS/Dropbox/mlRFinance/src/KernelComputation.cpp",
                 "kind" : 6,
-                "line" : 268,
+                "line" : 310,
                 "name" : "LaplacianoKernel(arma::vec, arma::vec, arma::vec)",
                 "parent_name" : "",
                 "usr" : "c:@F@LaplacianoKernel#$@N@arma@C@Col>#d#S0_#S0_#"
@@ -221,7 +293,7 @@
                 "column" : 8,
                 "file" : "C:/Users/ASUS/Dropbox/mlRFinance/src/KernelComputation.cpp",
                 "kind" : 6,
-                "line" : 277,
+                "line" : 319,
                 "name" : "LinearKernel(arma::vec, arma::vec, arma::vec)",
                 "parent_name" : "",
                 "usr" : "c:@F@LinearKernel#$@N@arma@C@Col>#d#S0_#S0_#"
@@ -230,7 +302,7 @@
                 "column" : 8,
                 "file" : "C:/Users/ASUS/Dropbox/mlRFinance/src/KernelComputation.cpp",
                 "kind" : 6,
-                "line" : 285,
+                "line" : 327,
                 "name" : "LogLinearKernel(arma::vec, arma::vec, arma::vec)",
                 "parent_name" : "",
                 "usr" : "c:@F@LogLinearKernel#$@N@arma@C@Col>#d#S0_#S0_#"
@@ -239,7 +311,7 @@
                 "column" : 8,
                 "file" : "C:/Users/ASUS/Dropbox/mlRFinance/src/KernelComputation.cpp",
                 "kind" : 6,
-                "line" : 292,
+                "line" : 334,
                 "name" : "MultiquadraticKernel(arma::vec, arma::vec, arma::vec)",
                 "parent_name" : "",
                 "usr" : "c:@F@MultiquadraticKernel#$@N@arma@C@Col>#d#S0_#S0_#"
@@ -248,7 +320,7 @@
                 "column" : 8,
                 "file" : "C:/Users/ASUS/Dropbox/mlRFinance/src/KernelComputation.cpp",
                 "kind" : 6,
-                "line" : 299,
+                "line" : 341,
                 "name" : "PowerKernel(arma::vec, arma::vec, arma::vec)",
                 "parent_name" : "",
                 "usr" : "c:@F@PowerKernel#$@N@arma@C@Col>#d#S0_#S0_#"
@@ -257,7 +329,7 @@
                 "column" : 8,
                 "file" : "C:/Users/ASUS/Dropbox/mlRFinance/src/KernelComputation.cpp",
                 "kind" : 6,
-                "line" : 307,
+                "line" : 349,
                 "name" : "RationalQuadraticKernel(arma::vec, arma::vec, arma::vec)",
                 "parent_name" : "",
                 "usr" : "c:@F@RationalQuadraticKernel#$@N@arma@C@Col>#d#S0_#S0_#"
@@ -266,7 +338,7 @@
                 "column" : 8,
                 "file" : "C:/Users/ASUS/Dropbox/mlRFinance/src/KernelComputation.cpp",
                 "kind" : 6,
-                "line" : 316,
+                "line" : 358,
                 "name" : "WaveletKernel(arma::vec, arma::vec, arma::vec)",
                 "parent_name" : "",
                 "usr" : "c:@F@WaveletKernel#$@N@arma@C@Col>#d#S0_#S0_#"
@@ -275,7 +347,7 @@
                 "column" : 8,
                 "file" : "C:/Users/ASUS/Dropbox/mlRFinance/src/KernelComputation.cpp",
                 "kind" : 6,
-                "line" : 328,
+                "line" : 370,
                 "name" : "MexicanHatKernel(arma::vec, arma::vec, arma::vec)",
                 "parent_name" : "",
                 "usr" : "c:@F@MexicanHatKernel#$@N@arma@C@Col>#d#S0_#S0_#"
@@ -284,20 +356,20 @@
                 "column" : 8,
                 "file" : "C:/Users/ASUS/Dropbox/mlRFinance/src/KernelComputation.cpp",
                 "kind" : 6,
-                "line" : 335,
+                "line" : 377,
                 "name" : "MorletKernel(arma::vec, arma::vec, arma::vec)",
                 "parent_name" : "",
                 "usr" : "c:@F@MorletKernel#$@N@arma@C@Col>#d#S0_#S0_#"
             }
         ],
         "file" : "C:/Users/ASUS/Dropbox/mlRFinance/src/KernelComputation.cpp",
-        "file_last_write" : 1476814201
+        "file_last_write" : 1476991119
     },
     {
         "definitions" : [
         ],
         "file" : "C:/Users/ASUS/Dropbox/mlRFinance/src/KernelComputation.h",
-        "file_last_write" : 1474916567
+        "file_last_write" : 1476990541
     },
     {
         "definitions" : [
@@ -311,10 +383,28 @@
                 "usr" : "c:@F@convertEigenToArma#$@N@Eigen@C@Matrix>#d#VI-1#VI-1#VI0#VI-1#VI-1#"
             },
             {
+                "column" : 11,
+                "file" : "C:/Users/ASUS/Dropbox/mlRFinance/src/KernelMatrix.cpp",
+                "kind" : 6,
+                "line" : 24,
+                "name" : "convertEigenToArma(Eigen::RowVectorXd)",
+                "parent_name" : "",
+                "usr" : "c:@F@convertEigenToArma#$@N@Eigen@C@Matrix>#d#VI1#VI-1#VI1#VI1#VI-1#"
+            },
+            {
                 "column" : 17,
                 "file" : "C:/Users/ASUS/Dropbox/mlRFinance/src/KernelMatrix.cpp",
                 "kind" : 6,
-                "line" : 28,
+                "line" : 37,
+                "name" : "KernelMatrix(Eigen::MatrixXd, Eigen::RowVectorXd, const std::function<double (arma::vec, arma::vec, arma::vec)>, arma::vec)",
+                "parent_name" : "",
+                "usr" : "c:@F@KernelMatrix#$@N@Eigen@C@Matrix>#d#VI-1#VI-1#VI0#VI-1#VI-1#$@N@Eigen@C@Matrix>#d#VI1#VI-1#VI1#VI1#VI-1#1$@N@std@C@function>#d#p3$@N@arma@C@Col>#dS3_S3_#S3_#"
+            },
+            {
+                "column" : 17,
+                "file" : "C:/Users/ASUS/Dropbox/mlRFinance/src/KernelMatrix.cpp",
+                "kind" : 6,
+                "line" : 62,
                 "name" : "KernelMatrix(Eigen::MatrixXd, const std::function<double (arma::vec, arma::vec, arma::vec)>, arma::vec)",
                 "parent_name" : "",
                 "usr" : "c:@F@KernelMatrix#$@N@Eigen@C@Matrix>#d#VI-1#VI-1#VI0#VI-1#VI-1#1$@N@std@C@function>#d#p3$@N@arma@C@Col>#dS2_S2_#S2_#"
@@ -323,20 +413,29 @@
                 "column" : 17,
                 "file" : "C:/Users/ASUS/Dropbox/mlRFinance/src/KernelMatrix.cpp",
                 "kind" : 6,
-                "line" : 90,
+                "line" : 126,
                 "name" : "KernelMatrixComputation(Eigen::MatrixXd, std::string, arma::vec)",
                 "parent_name" : "",
                 "usr" : "c:@F@KernelMatrixComputation#$@N@Eigen@C@Matrix>#d#VI-1#VI-1#VI0#VI-1#VI-1#$@N@std@C@basic_string>#C#$@N@std@S@char_traits>#C#$@N@std@C@allocator>#C#$@N@arma@C@Col>#d#"
+            },
+            {
+                "column" : 17,
+                "file" : "C:/Users/ASUS/Dropbox/mlRFinance/src/KernelMatrix.cpp",
+                "kind" : 6,
+                "line" : 236,
+                "name" : "KernelMatrixComputationPred(Eigen::MatrixXd, Eigen::RowVectorXd, std::string, arma::vec)",
+                "parent_name" : "",
+                "usr" : "c:@F@KernelMatrixComputationPred#$@N@Eigen@C@Matrix>#d#VI-1#VI-1#VI0#VI-1#VI-1#$@N@Eigen@C@Matrix>#d#VI1#VI-1#VI1#VI1#VI-1#$@N@std@C@basic_string>#C#$@N@std@S@char_traits>#C#$@N@std@C@allocator>#C#$@N@arma@C@Col>#d#"
             }
         ],
         "file" : "C:/Users/ASUS/Dropbox/mlRFinance/src/KernelMatrix.cpp",
-        "file_last_write" : 1476814237
+        "file_last_write" : 1477058763
     },
     {
         "definitions" : [
         ],
         "file" : "C:/Users/ASUS/Dropbox/mlRFinance/src/KernelMatrix.h",
-        "file_last_write" : 1475084549
+        "file_last_write" : 1477057676
     },
     {
         "definitions" : [
@@ -491,14 +590,14 @@
                 "column" : 12,
                 "file" : "C:/Users/ASUS/Dropbox/mlRFinance/src/SVC.cpp",
                 "kind" : 6,
-                "line" : 85,
+                "line" : 138,
                 "name" : "WOCSCM(Eigen::MatrixXd, double, int, double, int, std::string, arma::vec)",
                 "parent_name" : "",
                 "usr" : "c:@F@WOCSCM#$@N@Eigen@C@Matrix>#d#VI-1#VI-1#VI0#VI-1#VI-1#d#I#d#I#$@N@std@C@basic_string>#C#$@N@std@S@char_traits>#C#$@N@std@C@allocator>#C#$@N@arma@C@Col>#d#"
             }
         ],
         "file" : "C:/Users/ASUS/Dropbox/mlRFinance/src/SVC.cpp",
-        "file_last_write" : 1476926288
+        "file_last_write" : 1477055391
     },
     {
         "definitions" : [
@@ -557,14 +656,38 @@
                 "column" : 12,
                 "file" : "C:/Users/ASUS/Dropbox/mlRFinance/src/SVR.cpp",
                 "kind" : 6,
-                "line" : 75,
+                "line" : 79,
                 "name" : "CSVRL1(Eigen::VectorXd, Eigen::MatrixXd, double, double, std::string, arma::vec)",
                 "parent_name" : "",
                 "usr" : "c:@F@CSVRL1#$@N@Eigen@C@Matrix>#d#VI-1#VI1#VI0#VI-1#VI1#$@N@Eigen@C@Matrix>#d#VI-1#VI-1#VI0#VI-1#VI-1#d#d#$@N@std@C@basic_string>#C#$@N@std@S@char_traits>#C#$@N@std@C@allocator>#C#$@N@arma@C@Col>#d#"
+            },
+            {
+                "column" : 17,
+                "file" : "C:/Users/ASUS/Dropbox/mlRFinance/src/SVR.cpp",
+                "kind" : 6,
+                "line" : 151,
+                "name" : "PredictedCSVRL1(Rcpp::List, Eigen::MatrixXd, Eigen::MatrixXd, std::string, arma::vec)",
+                "parent_name" : "",
+                "usr" : "c:@F@PredictedCSVRL1#$@N@Rcpp@C@Vector>#VI19#@N@Rcpp@CT>1#T@PreserveStorage#$@N@Eigen@C@Matrix>#d#VI-1#VI-1#VI0#VI-1#VI-1#S1_#$@N@std@C@basic_string>#C#$@N@std@S@char_traits>#C#$@N@std@C@allocator>#C#$@N@arma@C@Col>#d#"
+            },
+            {
+                "column" : 17,
+                "file" : "C:/Users/ASUS/Dropbox/mlRFinance/src/SVR.cpp",
+                "kind" : 6,
+                "line" : 177,
+                "name" : "minimumCSVRL1(Eigen::VectorXd, Eigen::MatrixXd, double, std::string, arma::vec)",
+                "parent_name" : "",
+                "usr" : "c:@F@minimumCSVRL1#$@N@Eigen@C@Matrix>#d#VI-1#VI1#VI0#VI-1#VI1#$@N@Eigen@C@Matrix>#d#VI-1#VI-1#VI0#VI-1#VI-1#d#$@N@std@C@basic_string>#C#$@N@std@S@char_traits>#C#$@N@std@C@allocator>#C#$@N@arma@C@Col>#d#"
             }
         ],
         "file" : "C:/Users/ASUS/Dropbox/mlRFinance/src/SVR.cpp",
-        "file_last_write" : 1476895356
+        "file_last_write" : 1477073584
+    },
+    {
+        "definitions" : [
+        ],
+        "file" : "C:/Users/ASUS/Dropbox/mlRFinance/src/SVR.h",
+        "file_last_write" : 1477057594
     },
     {
         "definitions" : [
@@ -651,7 +774,7 @@
             }
         ],
         "file" : "C:/Users/ASUS/Dropbox/mlRFinance/src/Utils.cpp",
-        "file_last_write" : 1476882699
+        "file_last_write" : 1477316044
     },
     {
         "definitions" : [

@@ -6,6 +6,7 @@
         "-Ic:/Rtools/mingw_64/x86_64-w64-mingw32/include/c++/x86_64-w64-mingw32",
         "-IC:/R/R-3.3.1/library/Rcpp/include",
         "-IC:/R/R-3.3.1/library/RcppArmadillo/include",
+        "-IC:/R/R-3.3.1/library/RcppParallel/include",
         "-IC:/R/R-3.3.1/library/RcppEigen/include",
         "-std=c++0x",
         "-IC:/R/R-3.3.1/include",
@@ -13,7 +14,7 @@
         "-Id:/Compiler/gcc-4.9.3/local330/include",
         "-DRCPP_PARALLEL_USE_TBB=1"
     ],
-    "hash" : "147627828814746607181474660743",
+    "hash" : "147698661814746607181474660743",
     "is_cpp" : true,
     "pch" : "Rcpp"
 }
