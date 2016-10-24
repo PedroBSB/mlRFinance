@@ -137,7 +137,7 @@ Eigen::MatrixXd removeColumns(Eigen::MatrixXd Q, Eigen::VectorXd d, double e1){
 }
 
 //Repeated Vector
-Eigen::VectorXd repetVector(Eigen::VectorXd d,double e1, int nrows){
+Eigen::MatrixXd repetVector(Eigen::VectorXd d,double e1, int nrows){
   //Find the number of columns
   int ncols = (d.array()>e1).count();
   //Initialize the new matrix
