@@ -158,3 +158,44 @@ Eigen::MatrixXd repetVector(Eigen::VectorXd d,double e1, int nrows){
 }
 
 
+//Near Positive Definite matrix
+// [[Rcpp::export]]
+Eigen::MatrixXd nearPDefinite(Eigen::MatrixXd mat, int maxit, double eigtol = 1e-06, double conv_tol = 1e-07, double posd_tol = 1e-08){
+  int n = mat.cols();
+  Eigen::MatrixXd D_S = Eigen::MatrixXd::Zero(mat.rows(),mat.cols());
+  Eigen::MatrixXd X = mat;
+  int iter = 0;
+  bool converged = false;
+  double conv = std::numeric_limits<double>::infinity();
+  while (iter < maxit && !converged) {
+    Eigen::MatrixXd Y = X;
+    Eigen::MatrixXd R = Y - D_S;
+    //Getting the eigenvalues
+    Eigen::EigenSolver<Eigen::MatrixXd> e(R,true);
+    Eigen::MatrixXd Q = e.eigenvectors().real();
+    Eigen::VectorXd d = e.eigenvalues();
+    double e1 = eigtol*d(0);
+    //Test if the matrix seems be negative definite
+    if (!(d.array()>e1).any()) stop("Matrix seems negative semi-definite");
+    //Remove columns with d <= eig.tol * d[0]
+    Eigen::MatrixXd Q0 = removeColumns(Q,d,e1);
+    //Create repeated vector
+    Eigen::VectorXd repVec = repetVector(d,e1,Q0.rows());
+    //Elementwise multiplication
+    Q0 = Q0.cwiseProduct(repVec);
+    //Calculate the crossprod
+    Q0 = Q0*Q0.transpose();
+    //Dykstra's correction
+    D_S = X - R;
+    //Get the infinity norm
+    double convNum = (Y-X).cwiseAbs().rowwise().sum().maxCoeff();
+    double convDem = Y.cwiseAbs().rowwise().sum().maxCoeff();
+    double conv = convNum/convDem;
+    //Update the interaction and convergence;
+    int iter = iter + 1;
+    //Update the convergence criteria
+    converged = (conv <= conv_tol);
+  }
+return(X);
+}
+
