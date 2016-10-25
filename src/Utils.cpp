@@ -160,7 +160,7 @@ Eigen::MatrixXd repetVector(Eigen::VectorXd d,double e1, int nrows){
 
 //Near Positive Definite matrix
 // [[Rcpp::export]]
-Eigen::MatrixXd nearPDefinite(Eigen::MatrixXd mat, int maxit, double eigtol = 1e-06, double conv_tol = 1e-07, double posd_tol = 1e-08){
+Eigen::MatrixXd nearPDefinite(Eigen::MatrixXd mat, int maxit=1e+6, double eigtol = 1e-06, double conv_tol = 1e-07, double posd_tol = 1e-08){
   int n = mat.cols();
   Eigen::MatrixXd D_S = Eigen::MatrixXd::Zero(mat.rows(),mat.cols());
   Eigen::MatrixXd X = mat;
@@ -192,9 +192,9 @@ Eigen::MatrixXd nearPDefinite(Eigen::MatrixXd mat, int maxit, double eigtol = 1e
     double convDem = Y.cwiseAbs().rowwise().sum().maxCoeff();
     double conv = convNum/convDem;
     //Update the interaction and convergence;
-//    int iter = iter + 1;
+    int iter = iter + 1;
     //Update the convergence criteria
-//    converged = (conv <= conv_tol);
+    converged = (conv <= conv_tol);
   }
 return(X);
 }
