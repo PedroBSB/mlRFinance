@@ -272,8 +272,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // nearPDefinite
-Eigen::MatrixXd nearPDefinite(Eigen::MatrixXd mat, int maxit, double eigtol, double conv_tol, double posd_tol);
-RcppExport SEXP mlRFinance_nearPDefinite(SEXP matSEXP, SEXP maxitSEXP, SEXP eigtolSEXP, SEXP conv_tolSEXP, SEXP posd_tolSEXP) {
+Eigen::MatrixXd nearPDefinite(Eigen::MatrixXd mat, int maxit, double eigtol, double conv_tol, double posd_tol, bool keepDiagonal);
+RcppExport SEXP mlRFinance_nearPDefinite(SEXP matSEXP, SEXP maxitSEXP, SEXP eigtolSEXP, SEXP conv_tolSEXP, SEXP posd_tolSEXP, SEXP keepDiagonalSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -282,7 +282,8 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< double >::type eigtol(eigtolSEXP);
     Rcpp::traits::input_parameter< double >::type conv_tol(conv_tolSEXP);
     Rcpp::traits::input_parameter< double >::type posd_tol(posd_tolSEXP);
-    rcpp_result_gen = Rcpp::wrap(nearPDefinite(mat, maxit, eigtol, conv_tol, posd_tol));
+    Rcpp::traits::input_parameter< bool >::type keepDiagonal(keepDiagonalSEXP);
+    rcpp_result_gen = Rcpp::wrap(nearPDefinite(mat, maxit, eigtol, conv_tol, posd_tol, keepDiagonal));
     return rcpp_result_gen;
 END_RCPP
 }

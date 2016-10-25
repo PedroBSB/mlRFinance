@@ -288,7 +288,7 @@ minimumCSVRL1 <- function(y, X, epsilon, kernel, parms) {
     .Call('mlRFinance_minimumCSVRL1', PACKAGE = 'mlRFinance', y, X, epsilon, kernel, parms)
 }
 
-nearPDefinite <- function(mat, maxit = 1e+6L, eigtol = 1e-06, conv_tol = 1e-07, posd_tol = 1e-08) {
-    .Call('mlRFinance_nearPDefinite', PACKAGE = 'mlRFinance', mat, maxit, eigtol, conv_tol, posd_tol)
+nearPDefinite <- function(mat, maxit = 1e+6L, eigtol = 1e-06, conv_tol = 1e-07, posd_tol = 1e-08, keepDiagonal = FALSE) {
+    .Call('mlRFinance_nearPDefinite', PACKAGE = 'mlRFinance', mat, maxit, eigtol, conv_tol, posd_tol, keepDiagonal)
 }
 
