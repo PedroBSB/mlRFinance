@@ -31,6 +31,8 @@ Eigen::VectorXd rcppeigen_quadratic_solve(Eigen::MatrixXd & G,
 bool IsPositiveDefinite(Eigen::MatrixXd mat);
 //nearest positive semidefinite matrix in terms of Frobenius norm
 void nearPositiveDefinite(Eigen::MatrixXd &mat,double noise);
+//Nearest positive semidefinite matrix (Matrix::nearPD)
+Eigen::MatrixXd nearPDefinite(Eigen::MatrixXd mat, int maxit, double eigtol, double conv_tol, double posd_tol, bool keepDiagonal);
 //Add some noise to the matrix diagonal
 void addNoise(Eigen::MatrixXd &mat,double noise);
 //Print Object at Console
@@ -115,8 +117,9 @@ Rcpp::List CSVRL1(Eigen::VectorXd y, Eigen::MatrixXd X, double C, double epsilon
   Eigen::MatrixXd Q = Eigen::MatrixXd(2*y.size(),2*y.size());
   Q<< K,-K,
      -K, K;
-  //Nearest positive semidefinite matrix in terms of Frobenius norm
-  nearPositiveDefinite(Q,1e-10);
+  //Nearest positive semidefinite
+  //nearPositiveDefinite(Q,1e-10);
+  Q = nearPDefinite(Q, 1e+6, 1e-06, 1e-07, 1e-08, true);
   //Get the solution Support Vectors
   SV = rcppeigen_quadratic_solve(Q,g, CE.transpose(),ce0, CI.transpose(), ci0);
   //Return the results
