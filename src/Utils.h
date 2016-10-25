@@ -18,6 +18,8 @@ void PrintObject(Eigen::VectorXd mat);
 
 void nearPositiveDefinite(Eigen::MatrixXd &mat);
 
+Eigen::MatrixXd nearPDefinite(Eigen::MatrixXd mat, int maxit, double eigtol, double conv_tol, double posd_tol, bool keepDiagonal);
+
 void addNoise(Eigen::MatrixXd &mat,double noise);
 
 // This is the end of the header guard

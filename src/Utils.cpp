@@ -183,7 +183,7 @@ Eigen::MatrixXd nearPDefinite(Eigen::MatrixXd mat, int maxit=1e+6, double eigtol
     //Remove columns with d <= eig.tol * d[0]
     Eigen::MatrixXd Q0 = removeColumns(Q,d,e1);
     //Create repeated vector
-    Eigen::VectorXd repVec = repetVector(d,e1,Q0.rows());
+    Eigen::MatrixXd repVec = repetVector(d,e1,Q0.rows());
     //Elementwise multiplication
     Eigen::MatrixXd Q0temp = Q0.cwiseProduct(repVec);
     //Calculate the tcrossprod
