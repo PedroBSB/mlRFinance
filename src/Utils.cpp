@@ -173,7 +173,7 @@ Eigen::MatrixXd nearPDefinite(Eigen::MatrixXd mat, int maxit, double eigtol = 1e
     //Getting the eigenvalues
     Eigen::EigenSolver<Eigen::MatrixXd> e(R,true);
     Eigen::MatrixXd Q = e.eigenvectors().real();
-    Eigen::VectorXd d = e.eigenvalues();
+    Eigen::VectorXd d = e.eigenvalues().real();
     double e1 = eigtol*d(0);
     //Test if the matrix seems be negative definite
     if (!(d.array()>e1).any()) stop("Matrix seems negative semi-definite");
@@ -183,7 +183,7 @@ Eigen::MatrixXd nearPDefinite(Eigen::MatrixXd mat, int maxit, double eigtol = 1e
     Eigen::VectorXd repVec = repetVector(d,e1,Q0.rows());
     //Elementwise multiplication
     Q0 = Q0.cwiseProduct(repVec);
-    //Calculate the crossprod
+    //Calculate the tcrossprod
     Q0 = Q0*Q0.transpose();
     //Dykstra's correction
     D_S = X - R;
@@ -192,9 +192,9 @@ Eigen::MatrixXd nearPDefinite(Eigen::MatrixXd mat, int maxit, double eigtol = 1e
     double convDem = Y.cwiseAbs().rowwise().sum().maxCoeff();
     double conv = convNum/convDem;
     //Update the interaction and convergence;
-    int iter = iter + 1;
+//    int iter = iter + 1;
     //Update the convergence criteria
-    converged = (conv <= conv_tol);
+//    converged = (conv <= conv_tol);
   }
 return(X);
 }
