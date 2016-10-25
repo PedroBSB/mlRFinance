@@ -27,6 +27,8 @@ Eigen::VectorXd rcppeigen_quadratic_solve(Eigen::MatrixXd & G,
 bool IsPositiveDefinite(Eigen::MatrixXd mat);
 //nearest positive semidefinite matrix in terms of Frobenius norm
 void nearPositiveDefinite(Eigen::MatrixXd &mat,double noise);
+//Nearest positive semidefinite matrix (Matrix::nearPD)
+Eigen::MatrixXd nearPDefinite(Eigen::MatrixXd mat, int maxit, double eigtol, double conv_tol, double posd_tol, bool keepDiagonal);
 //Add some noise to the matrix diagonal
 void addNoise(Eigen::MatrixXd &mat,double noise);
 //Print Object at Console
@@ -105,7 +107,8 @@ Rcpp::List CSVML1(Eigen::VectorXd y, Eigen::MatrixXd X, double C, std::string ke
   //Create matrix Q
   Eigen::MatrixXd Q = K.cwiseProduct(D);
   //Nearest positive semidefinite matrix in terms of Frobenius norm
-  nearPositiveDefinite(Q,1e-10);
+  //nearPositiveDefinite(Q,1e-10);
+  Q = nearPDefinite(Q, 1e+6, 1e-06, 1e-07, 1e-08, true);
   //Get the solution Support Vectors
   SV = rcppeigen_quadratic_solve(Q,e, CE.transpose(),ce0, CI.transpose(), ci0);
   //Return the results
@@ -168,7 +171,8 @@ Rcpp::List CSVML2(Eigen::VectorXd y, Eigen::MatrixXd X, double C, std::string ke
   //Create matrix Q
   Eigen::MatrixXd Q = K.cwiseProduct(D);
   //Nearest positive semidefinite matrix in terms of Frobenius norm
-  nearPositiveDefinite(Q,1e-10);
+  //nearPositiveDefinite(Q,1e-10);
+  Q = nearPDefinite(Q, 1e+6, 1e-06, 1e-07, 1e-08, true);
   //Get the solution Support Vectors
   SV = rcppeigen_quadratic_solve(Q,e, CE,ce0, CI.transpose(), ci0);
   //Return the results
@@ -250,7 +254,8 @@ Rcpp::List nuSVM(Eigen::VectorXd y, Eigen::MatrixXd X, double nu, std::string ke
   //Create matrix Q
   Eigen::MatrixXd Q = K.cwiseProduct(D);
   //Nearest positive semidefinite matrix in terms of Frobenius norm
-  nearPositiveDefinite(Q,1e-10);
+  //  nearPositiveDefinite(Q,1e-10);
+  Q = nearPDefinite(Q, 1e+6, 1e-06, 1e-07, 1e-08, true);
   //Get the solution Support Vectors
   SV = rcppeigen_quadratic_solve(Q,e, CE,ce0, CI.transpose(), ci0);
   //Return the results
