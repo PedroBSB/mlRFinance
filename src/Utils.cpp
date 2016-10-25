@@ -160,9 +160,12 @@ Eigen::MatrixXd repetVector(Eigen::VectorXd d,double e1, int nrows){
 
 //Near Positive Definite matrix
 // [[Rcpp::export]]
-Eigen::MatrixXd nearPDefinite(Eigen::MatrixXd mat, int maxit=1e+6, double eigtol = 1e-06, double conv_tol = 1e-07, double posd_tol = 1e-08){
+Eigen::MatrixXd nearPDefinite(Eigen::MatrixXd mat, int maxit=1e+6, double eigtol = 1e-06, double conv_tol = 1e-07, double posd_tol = 1e-08, bool keepDiagonal=false){
+  //Number of columns
   int n = mat.cols();
+  //Dykstra matrix
   Eigen::MatrixXd D_S = Eigen::MatrixXd::Zero(mat.rows(),mat.cols());
+  //Store the original matrix
   Eigen::MatrixXd X = mat;
   int iter = 0;
   bool converged = false;
@@ -182,17 +185,19 @@ Eigen::MatrixXd nearPDefinite(Eigen::MatrixXd mat, int maxit=1e+6, double eigtol
     //Create repeated vector
     Eigen::VectorXd repVec = repetVector(d,e1,Q0.rows());
     //Elementwise multiplication
-    Q0 = Q0.cwiseProduct(repVec);
+    Eigen::MatrixXd Q0temp = Q0.cwiseProduct(repVec);
     //Calculate the tcrossprod
-    X = Q0*Q0.transpose();
+    X = Q0temp*Q0.transpose();
     //Dykstra's correction
     D_S = X - R;
+    //Keep the same diagonal
+    if(keepDiagonal) X.diagonal() = mat.diagonal();
     //Get the infinity norm
     double convNum = (Y-X).cwiseAbs().rowwise().sum().maxCoeff();
     double convDem = Y.cwiseAbs().rowwise().sum().maxCoeff();
-    double conv = convNum/convDem;
+    conv = convNum/convDem;
     //Update the interaction and convergence;
-    int iter = iter + 1;
+    iter = iter + 1;
     //Update the convergence criteria
     converged = (conv <= conv_tol);
   }
