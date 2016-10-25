@@ -184,7 +184,7 @@ Eigen::MatrixXd nearPDefinite(Eigen::MatrixXd mat, int maxit=1e+6, double eigtol
     //Elementwise multiplication
     Q0 = Q0.cwiseProduct(repVec);
     //Calculate the tcrossprod
-    Q0 = Q0*Q0.transpose();
+    X = Q0*Q0.transpose();
     //Dykstra's correction
     D_S = X - R;
     //Get the infinity norm
