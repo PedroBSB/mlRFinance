@@ -54,7 +54,7 @@ GarchSVR <- function(train,valid,Cm,epsilonM,kernel,parmMat,Cg,epsilonG,kernelGa
   doParallel::registerDoParallel(cl)
 
   #Initialize the validation
-  svrGarch <- foreach(i=nrow(matAll), .combine=rbind, .errorhandling='pass', .packages="mlRFinance") %dopar% {
+  svrGarch <- foreach(i=1:nrow(matAll), .combine=rbind, .errorhandling='pass', .packages="mlRFinance") %dopar% {
     #Cost - Mean Equation
     C0m<-matAll$Cm[i]
     #Epsilon - Mean Equation
@@ -66,18 +66,20 @@ GarchSVR <- function(train,valid,Cm,epsilonM,kernel,parmMat,Cg,epsilonG,kernelGa
     #Epsilon - Garch Equation
     eps0g<-matAll$epsilonG[i]
     #Parms Garch
-    parmsG<-as.numeric(matAll[i,(5+ncol(parmMat)):(4+ncol(parmMat)+ncol(parmMat))])
+    parmsG<-as.numeric(matAll[i,(5+ncol(parmMat)):(3+ncol(parmMat)+ncol(parmMat))])
     #Training the machine
     svr<-GARCHCSVRL1(train, valid, C0m, eps0m,
                      C0g, eps0g,
                      kernel, parmsM,
                      kernelGarch, parmsG)
 
-    res<-data.frame(matAll[i,],"MSEm"=svm$ErrorMeasureValidation,"MSEg"=svm$ErrorMeasureValidationGarch)
+    res<-data.frame(matAll[i,],"MSEm"=svr$ErrorMeasureValidation,"MSEg"=svr$ErrorMeasureValidationGarch)
+    res
   }
 
   #Stop clusters
   stopCluster(cl)
+  return(svrGarch)
 }
 
 
