@@ -31,11 +31,9 @@ hansen.spa <- function(Dmat,bVec,typeFunc,B,geomMean) {
   #Apply the Hansen function
   if(typeFunc==0){
     gFunc <- apply(as.matrix(d.bar),1,function(x) max(x,0))
-  }
-  else(typeFunc==1){
+  }else if(typeFunc==1){
     gFunc <- apply(as.matrix(d.bar),1,function(x) x*ifelse(x>=-sqrt(((omega^2)/n)*log(log(n))),1,0))
-  }
-  else{
+  }else{
     gFunc <- d.bar
   }
   Z <- t(apply(d.mat,1,function(x) x - gFunc))
