@@ -19,40 +19,42 @@ hansen.spa <- function(Dmat,bVec,typeFunc,B,geomMean) {
   #Size of the Time series
   n<-length(bVec)
 
-  #Sample mean
+  #Step 1: Compute d.bar
   d.bar  <- colMeans(d.mat)
 
-  #Needs to be a consistent estimator of V(n^(1/2)*overline(d)_{k})
+  #Fin a consistent estimator of V(n^(1/2)*overline(d)_{k})
   omega <- sqrt(apply(d.mat,2,var))
 
-  #Step 1: Computes the T.spa Statistic
+  # Computes the T.spa Statistic
   t.SPA <- max(max(sqrt(n)*d.bar/omega),0)
 
   #Apply the Hansen function
   if(typeFunc==0){
-    gFunc<-apply(as.matrix(d.bar),1,function(x) max(x,0))
+    gFunc <- apply(as.matrix(d.bar),1,function(x) max(x,0))
   }
   else(typeFunc==1){
-    gFunc<-apply(as.matrix(d.bar),1,function(x) x*ifelse(x>=-sqrt(((omega^2)/n)*log(log(n))),1,0))
+    gFunc <- apply(as.matrix(d.bar),1,function(x) x*ifelse(x>=-sqrt(((omega^2)/n)*log(log(n))),1,0))
   }
   else{
-    gFunc<-d.bar
+    gFunc <- d.bar
   }
   Z <- t(apply(d.mat,1,function(x) x - gFunc))
 
-  #Step 2: Stationary Bootstrap
+  #Stationary Bootstrap
   Zboot <- boot::tsboot(Z,statistic=colMeans, R=B,l=geomMean,sim="geom")$t*sqrt(n)
 
-  #Step 3: T.SPA
+  #Boostrap T.SPA
   T.SPA <- t(apply(Zboot,1,function(x) x/omega))
 
   #For each time series:
   T.SPA <- apply(as.matrix(apply(T.SPA,1,max)),1,function(x) max(x,0))
 
-  #Generate bootstrap
+  #P-value
   p.value <- mean(T.SPA>t.SPA)
-  list("Hansen's SPA statistic"=t.SPA,
-       "P-value"=p.value)
+
+  #Return function
+  return(list("Hansen's SPA statistic"=t.SPA,
+              "P-value"=p.value))
 }
 
 
