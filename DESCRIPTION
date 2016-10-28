@@ -17,6 +17,7 @@ Imports:
     RcppProgress,
     foreach,
     doParallel,
-    parallel
+    parallel,
+    tsboot
 SystemRequirements: GNU make
 RoxygenNote: 5.0.1
