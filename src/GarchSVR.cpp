@@ -108,6 +108,7 @@ Rcpp::List GARCHCSVRL1(Eigen::VectorXd train, Eigen::VectorXd valid, double Cmea
   Eigen::VectorXd httTrain;
   Eigen::VectorXd httValid;
   if(true){
+    //TODO: Implement others proxies to htt
     httTrain = httFunction(y);
     httValid = httFunction(yValid);
   }
