@@ -12,7 +12,7 @@
 #' @examples
 #' add(1, 1)
 #' add(10, 1)
-hansen.spa <- function(Dmat,bVec,typeFunc,B,geomMean) {
+hansen.spa <- function(Dmat,bVec,typeFunc,B,geomMean,bandwidth) {
   #Step 0: Computes the performance of model k relative to the benchmark at time t.
   d.mat <- apply(Dmat,2,function(x)x-bVec)
 
@@ -22,8 +22,22 @@ hansen.spa <- function(Dmat,bVec,typeFunc,B,geomMean) {
   #Step 1: Compute d.bar
   d.bar  <- colMeans(d.mat)
 
-  #Fin a consistent estimator of V(n^(1/2)*overline(d)_{k})
-  omega <- sqrt(apply(d.mat,2,var))
+  #Find a consistent estimator of V(n^(1/2)*overline(d)_{k})
+  ##Computes the variance
+  gamma0 <- sqrt(apply(d.mat,2,var))
+
+  ## Compute the Auto-covariance
+  auto.cov<-apply(d.mat,2, function(x) acf(x, "covariance", plot = F)$acf)
+  auto.cov<-auto.cov[-1,]
+  auto.cov<-rbind(gamma0,auto.cov)
+
+  ##Compute the Kernel matrix Politis and Romano 1994
+  i<-as.matrix(seq(1,nrow(d.mat)-1))
+  kernel <- c(0,apply(i,1,function(x) ((n-x)/n)*((1-bandwidth)^x)+(x/n)*((1-bandwidth)^(n-x))))
+
+  ##Compute a consistent estimator
+  omega <-apply(auto.cov,2,function(x) x*kernel)
+  omega <- auto.cov[1,]+colSums(omega)*2
 
   # Computes the T.spa Statistic
   t.SPA <- max(max(sqrt(n)*d.bar/omega),0)
