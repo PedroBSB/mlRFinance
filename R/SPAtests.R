@@ -8,11 +8,14 @@
 #' 2 - x
 #' @param B total of boostraps samples.
 #' @param geomMean mean of the geometric distribution used to generate the block lengths
+#' @param alpha Type-I Error (level)
+#' @param k Number of false rejections assumed
+#' @param gamma The false discovery proportion (FDP) parameter
 #' @return Statistic of the test and p-value
 #' @examples
 #' add(1, 1)
 #' add(10, 1)
-hansen.spa <- function(Dmat,bVec,typeFunc,B,geomMean,bandwidth) {
+hansen.spa <- function(Dmat,bVec,typeFunc=1,B=1000,geomMean=20,bandwidth=0.5, alpha=0.05, k=1, gamma=0.1) {
   #Step 0: Computes the performance of model k relative to the benchmark at time t.
   d.mat <- apply(Dmat,2,function(x)x-bVec)
 
@@ -46,7 +49,10 @@ hansen.spa <- function(Dmat,bVec,typeFunc,B,geomMean,bandwidth) {
   if(typeFunc==0){
     gFunc <- apply(as.matrix(d.bar),1,function(x) max(x,0))
   }else if(typeFunc==1){
-    gFunc <- apply(as.matrix(d.bar),1,function(x) x*ifelse(x>=-sqrt(((omega^2)/n)*log(log(n))),1,0))
+    gFunc <- rep(NA,length(d.bar) )
+    for(i in 1:length(d.bar)){
+      gFunc[i] <- d.bar[i]*ifelse(d.bar[i]>=-sqrt(((omega[i]^2)/n)*log(log(n))),1,0)
+    }
   }else{
     gFunc <- d.bar
   }
@@ -56,17 +62,25 @@ hansen.spa <- function(Dmat,bVec,typeFunc,B,geomMean,bandwidth) {
   Zboot <- boot::tsboot(Z,statistic=colMeans, R=B,l=geomMean,sim="geom")$t*sqrt(n)
 
   #Boostrap T.SPA
-  T.SPA <- t(apply(Zboot,1,function(x) x/omega))
+  T.SPABoot <- t(apply(Zboot,1,function(x) x/omega))
 
   #For each time series:
-  T.SPA <- apply(as.matrix(apply(T.SPA,1,max)),1,function(x) max(x,0))
+  T.SPA <- apply(as.matrix(apply(T.SPABoot,1,max)),1,function(x) max(x,0))
 
   #P-value
   p.value <- mean(T.SPA>t.SPA)
 
+  #False Discovery Proportion (FDP)
+  fdp <- FDPControl(t.SPA, t(T.SPABoot), gamma, alpha)
+
+  #FamilyWise Error Rate (FWER)
+  fwer <- FWERkControl(t.SPA, t(T.SPABoot), k, alpha)
+
   #Return function
   return(list("Hansen's SPA statistic"=t.SPA,
-              "P-value"=p.value))
+              "P-value"=p.value,
+              "FDP"=fdp,
+              "FWERk"=fwer))
 }
 
 
@@ -80,11 +94,14 @@ hansen.spa <- function(Dmat,bVec,typeFunc,B,geomMean,bandwidth) {
 #' 2 - x
 #' @param B total of boostraps samples.
 #' @param geomMean mean of the geometric distribution used to generate the block lengths
+#' @param alpha Type-I Error (level)
+#' @param k Number of false rejections assumed
+#' @param gamma The false discovery proportion (FDP) parameter
 #' @return Statistic of the test and p-value
 #' @examples
 #' add(1, 1)
 #' add(10, 1)
-white.spa <- function(Dmat,bVec,typeFunc,B,geomMean,bandwidth) {
+white.spa <- function(Dmat,bVec,typeFunc=1,B=1000,geomMean=20,bandwidth=0.5, alpha=0.05, k=1, gamma=0.1) {
   #Step 0: Computes the performance of model k relative to the benchmark at time t.
   d.mat <- apply(Dmat,2,function(x)x-bVec)
 
@@ -104,7 +121,10 @@ white.spa <- function(Dmat,bVec,typeFunc,B,geomMean,bandwidth) {
   if(typeFunc==0){
     gFunc <- apply(as.matrix(d.bar),1,function(x) max(x,0))
   }else if(typeFunc==1){
-    gFunc <- apply(as.matrix(d.bar),1,function(x) x*ifelse(x>=-sqrt(((omega^2)/n)*log(log(n))),1,0))
+    gFunc <- rep(NA,length(d.bar) )
+    for(i in 1:length(d.bar)){
+      gFunc[i] <- d.bar[i]*ifelse(d.bar[i]>=-sqrt(((omega[i]^2)/n)*log(log(n))),1,0)
+    }
   }else{
     gFunc <- d.bar
   }
@@ -114,17 +134,25 @@ white.spa <- function(Dmat,bVec,typeFunc,B,geomMean,bandwidth) {
   Zboot <- boot::tsboot(Z,statistic=colMeans, R=B,l=geomMean,sim="geom")$t*sqrt(n)
 
   #Boostrap T.SPA
-  T.SPA <- t(apply(Zboot,1,function(x) x/omega))
+  T.SPABoot <- t(apply(Zboot,1,function(x) x/omega))
 
   #For each time series:
-  T.SPA <- apply(as.matrix(apply(T.SPA,1,max)),1,function(x) max(x,0))
+  T.SPA <- apply(as.matrix(apply(T.SPABoot,1,max)),1,function(x) max(x,0))
 
   #P-value
   p.value <- mean(T.SPA>t.SPA)
 
+  #False Discovery Proportion (FDP)
+  fdp <- FDPControl(t.SPA, t(T.SPABoot), gamma, alpha)
+
+  #FamilyWise Error Rate (FWER)
+  fwer <- FWERkControl(t.SPA, t(T.SPABoot), k, alpha)
+
   #Return function
   return(list("White's RC statistic"=t.SPA,
-              "P-value"=p.value))
+              "P-value"=p.value,
+              "FDP"=fdp,
+              "FWERk"=fwer))
 }
 
 
