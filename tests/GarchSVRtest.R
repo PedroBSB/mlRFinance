@@ -20,7 +20,7 @@ train <- as.numeric(retorno[1:180])
 #Validation set
 valid <- as.numeric(retorno[181:216])
 #Cost parameter - Mean Equation
-Cmean<-seq(0.01,10)
+Cmean<-seq(0.01,0.1,length.out = 5)
 #Epsilon parameter - Mean Equation
 epsilonMean <-seq(0.04,0.5,length.out=7)
 #Kernel mean equation
