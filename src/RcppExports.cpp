@@ -19,6 +19,18 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// ErrorMeasuresBinary
+Rcpp::List ErrorMeasuresBinary(Eigen::VectorXd y, Eigen::VectorXd yPred);
+RcppExport SEXP mlRFinance_ErrorMeasuresBinary(SEXP ySEXP, SEXP yPredSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Eigen::VectorXd >::type y(ySEXP);
+    Rcpp::traits::input_parameter< Eigen::VectorXd >::type yPred(yPredSEXP);
+    rcpp_result_gen = Rcpp::wrap(ErrorMeasuresBinary(y, yPred));
+    return rcpp_result_gen;
+END_RCPP
+}
 // GARCHCSVRL1
 Rcpp::List GARCHCSVRL1(Eigen::VectorXd train, Eigen::VectorXd valid, double Cmean, double epsilonMean, double Cvola, double epsilonVola, std::string kernelMean, arma::vec parmsMean, std::string kernelVolat, arma::vec parmsVola);
 RcppExport SEXP mlRFinance_GARCHCSVRL1(SEXP trainSEXP, SEXP validSEXP, SEXP CmeanSEXP, SEXP epsilonMeanSEXP, SEXP CvolaSEXP, SEXP epsilonVolaSEXP, SEXP kernelMeanSEXP, SEXP parmsMeanSEXP, SEXP kernelVolatSEXP, SEXP parmsVolaSEXP) {
@@ -117,6 +129,24 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// PortfolioSelectionCSVML1
+Rcpp::List PortfolioSelectionCSVML1(Eigen::VectorXd y_train, Eigen::MatrixXd X_train, Eigen::VectorXd y_valid, Eigen::MatrixXd X_valid, double C, std::string kernel, arma::vec parms, int typePredict);
+RcppExport SEXP mlRFinance_PortfolioSelectionCSVML1(SEXP y_trainSEXP, SEXP X_trainSEXP, SEXP y_validSEXP, SEXP X_validSEXP, SEXP CSEXP, SEXP kernelSEXP, SEXP parmsSEXP, SEXP typePredictSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Eigen::VectorXd >::type y_train(y_trainSEXP);
+    Rcpp::traits::input_parameter< Eigen::MatrixXd >::type X_train(X_trainSEXP);
+    Rcpp::traits::input_parameter< Eigen::VectorXd >::type y_valid(y_validSEXP);
+    Rcpp::traits::input_parameter< Eigen::MatrixXd >::type X_valid(X_validSEXP);
+    Rcpp::traits::input_parameter< double >::type C(CSEXP);
+    Rcpp::traits::input_parameter< std::string >::type kernel(kernelSEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type parms(parmsSEXP);
+    Rcpp::traits::input_parameter< int >::type typePredict(typePredictSEXP);
+    rcpp_result_gen = Rcpp::wrap(PortfolioSelectionCSVML1(y_train, X_train, y_valid, X_valid, C, kernel, parms, typePredict));
+    return rcpp_result_gen;
+END_RCPP
+}
 // rcppeigen_quadratic_solve
 Eigen::VectorXd rcppeigen_quadratic_solve(Eigen::MatrixXd& G, Eigen::VectorXd& g0, const Eigen::MatrixXd& CE, const Eigen::VectorXd& ce0, const Eigen::MatrixXd& CI, const Eigen::VectorXd& ci0);
 RcppExport SEXP mlRFinance_rcppeigen_quadratic_solve(SEXP GSEXP, SEXP g0SEXP, SEXP CESEXP, SEXP ce0SEXP, SEXP CISEXP, SEXP ci0SEXP) {
@@ -130,6 +160,34 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< const Eigen::MatrixXd& >::type CI(CISEXP);
     Rcpp::traits::input_parameter< const Eigen::VectorXd& >::type ci0(ci0SEXP);
     rcpp_result_gen = Rcpp::wrap(rcppeigen_quadratic_solve(G, g0, CE, ce0, CI, ci0));
+    return rcpp_result_gen;
+END_RCPP
+}
+// FWERkControl
+List FWERkControl(arma::vec test_stat, arma::mat boot_stat, int k, double alpha);
+RcppExport SEXP mlRFinance_FWERkControl(SEXP test_statSEXP, SEXP boot_statSEXP, SEXP kSEXP, SEXP alphaSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::vec >::type test_stat(test_statSEXP);
+    Rcpp::traits::input_parameter< arma::mat >::type boot_stat(boot_statSEXP);
+    Rcpp::traits::input_parameter< int >::type k(kSEXP);
+    Rcpp::traits::input_parameter< double >::type alpha(alphaSEXP);
+    rcpp_result_gen = Rcpp::wrap(FWERkControl(test_stat, boot_stat, k, alpha));
+    return rcpp_result_gen;
+END_RCPP
+}
+// FDPControl
+List FDPControl(arma::vec test_stat, arma::mat boot_stat, double gamma, double alpha);
+RcppExport SEXP mlRFinance_FDPControl(SEXP test_statSEXP, SEXP boot_statSEXP, SEXP gammaSEXP, SEXP alphaSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::vec >::type test_stat(test_statSEXP);
+    Rcpp::traits::input_parameter< arma::mat >::type boot_stat(boot_statSEXP);
+    Rcpp::traits::input_parameter< double >::type gamma(gammaSEXP);
+    Rcpp::traits::input_parameter< double >::type alpha(alphaSEXP);
+    rcpp_result_gen = Rcpp::wrap(FDPControl(test_stat, boot_stat, gamma, alpha));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -162,6 +220,22 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< std::string >::type kernel(kernelSEXP);
     Rcpp::traits::input_parameter< arma::vec >::type parms(parmsSEXP);
     rcpp_result_gen = Rcpp::wrap(CSVML1(y, X, C, kernel, parms));
+    return rcpp_result_gen;
+END_RCPP
+}
+// PredictedCSVML1
+Eigen::VectorXd PredictedCSVML1(Rcpp::List CSVML1, Eigen::MatrixXd X, Eigen::MatrixXd Xprev, std::string kernel, arma::vec parms, int typePredict);
+RcppExport SEXP mlRFinance_PredictedCSVML1(SEXP CSVML1SEXP, SEXP XSEXP, SEXP XprevSEXP, SEXP kernelSEXP, SEXP parmsSEXP, SEXP typePredictSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::List >::type CSVML1(CSVML1SEXP);
+    Rcpp::traits::input_parameter< Eigen::MatrixXd >::type X(XSEXP);
+    Rcpp::traits::input_parameter< Eigen::MatrixXd >::type Xprev(XprevSEXP);
+    Rcpp::traits::input_parameter< std::string >::type kernel(kernelSEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type parms(parmsSEXP);
+    Rcpp::traits::input_parameter< int >::type typePredict(typePredictSEXP);
+    rcpp_result_gen = Rcpp::wrap(PredictedCSVML1(CSVML1, X, Xprev, kernel, parms, typePredict));
     return rcpp_result_gen;
 END_RCPP
 }

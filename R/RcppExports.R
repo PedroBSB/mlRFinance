@@ -5,6 +5,10 @@ ErrorMeasures <- function(y, yPred) {
     .Call('mlRFinance_ErrorMeasures', PACKAGE = 'mlRFinance', y, yPred)
 }
 
+ErrorMeasuresBinary <- function(y, yPred) {
+    .Call('mlRFinance_ErrorMeasuresBinary', PACKAGE = 'mlRFinance', y, yPred)
+}
+
 #' @name Garch C-SVR L1
 #' @title Garch C-SVR L1 - Garch Support Vector Regression with C cost and L1 regularization.
 #' @description Training and Forecasting volatility
@@ -60,8 +64,47 @@ rcpp_parallel_js_distance <- function(mat) {
     .Call('mlRFinance_rcpp_parallel_js_distance', PACKAGE = 'mlRFinance', mat)
 }
 
+#' @name Portfolio Selection C-SVR L1
+#' @title Portfolio Selection C-SVR L1 - Portfolio Selection Support Vector Regression
+#' with C cost and L1 regularization.
+#' @description Training and Forecasting the portfolio
+#'
+#' @param y_train Binary Vector of good (+1) and bad (-1) firms. Dimension equal Nx1.
+#' @param X_train Fundamental matrix explaining the y_train, y_train_t=f(X_train_(t-1)). Dimension equal NxP.
+#' @param y_valid Binary Vector of good (+1) and bad (-1) firms. Dimension equal Mx1.
+#' @param X_valid Fundamental matrix explaining the y_train, y_train_t=f(X_train_(t-1)). Dimension equal MxP.
+#' @param C Cost parameter. Should be C>0.
+#' @param kernel Name of the kernel that will be used for the mean equation.
+#' @param parms Parameters associated with chosen kenel for the mean equation.
+#' @param typePredict 0-Binary(-1,+1), 1-Probability, 2- Raw result
+#' @return List Support Vectors, Forecast , EAM
+#' If the results for the Support Vectors are NaN it means that
+#' there is no Support Vector and the Quadratic Programming Problem
+#' is unfeasible.
+#' @examples
+#'
+#' A<-matrix(c(1,2,5,6,
+#' 2,4,1,2),nrow=4,ncol=2)
+#' d<-c(-1,-1,+1,-1)
+#' svm1<- CSVML1(d, A, 1, 0.1, "Gaussian", c(0.5))
+#'
+#' @seealso See \code{\link{.CallOctave}}, \code{\link{o_source}}, \code{\link{o_help}}
+NULL
+
+PortfolioSelectionCSVML1 <- function(y_train, X_train, y_valid, X_valid, C, kernel, parms, typePredict) {
+    .Call('mlRFinance_PortfolioSelectionCSVML1', PACKAGE = 'mlRFinance', y_train, X_train, y_valid, X_valid, C, kernel, parms, typePredict)
+}
+
 rcppeigen_quadratic_solve <- function(G, g0, CE, ce0, CI, ci0) {
     .Call('mlRFinance_rcppeigen_quadratic_solve', PACKAGE = 'mlRFinance', G, g0, CE, ce0, CI, ci0)
+}
+
+FWERkControl <- function(test_stat, boot_stat, k, alpha) {
+    .Call('mlRFinance_FWERkControl', PACKAGE = 'mlRFinance', test_stat, boot_stat, k, alpha)
+}
+
+FDPControl <- function(test_stat, boot_stat, gamma, alpha) {
+    .Call('mlRFinance_FDPControl', PACKAGE = 'mlRFinance', test_stat, boot_stat, gamma, alpha)
 }
 
 #' @name WOC-SCM
@@ -125,6 +168,28 @@ WOCSCM <- function(X, C, k, sigma, inter, kernel, parms) {
 #' 2,4,1,2),nrow=4,ncol=2)
 #' d<-c(-1,-1,+1,-1)
 #' svm1<- CSVML1(d, A, 1, "Gaussian", c(0.5))
+#'
+#' @seealso See \code{\link{.CallOctave}}, \code{\link{o_source}}, \code{\link{o_help}}
+NULL
+
+#' @name Predicted CSVML1
+#' @title C-SVM L1 - Support Vector Regression with C cost and L1 regularization.
+#' @description Prediction for the C-SVR L1:
+#'
+#' f(x)=Sum_{i=1}^{N}(lambda*-lambda)K(x_{i},x)
+#' @param CSVML1 List of Results of the CSVML1
+#' @param X Numeric matrix with the explanatory variables. Dimension equal NxP
+#' @param Xprev Numeric matrix with the explanatory variables (predicted). Dimension equal MxP
+#' @param kernel Name of the kernel that will be used.
+#' @param parms Parameters associated with chosen kenel.
+#' @param typePredict 0-Binary(-1,+1), 1-Probability, 2- Raw result
+#' @return Eigen::VectorXd with the predicted values for Xpred
+#' @examples
+#'
+#' A<-matrix(c(1,2,5,6,
+#' 2,4,1,2),nrow=4,ncol=2)
+#' d<-c(-1,-1,+1,-1)
+#' svm1<- CSVML1(d, A, 1, 0.1, "Gaussian", c(0.5))
 #'
 #' @seealso See \code{\link{.CallOctave}}, \code{\link{o_source}}, \code{\link{o_help}}
 NULL
@@ -197,6 +262,10 @@ NULL
 
 CSVML1 <- function(y, X, C, kernel, parms) {
     .Call('mlRFinance_CSVML1', PACKAGE = 'mlRFinance', y, X, C, kernel, parms)
+}
+
+PredictedCSVML1 <- function(CSVML1, X, Xprev, kernel, parms, typePredict) {
+    .Call('mlRFinance_PredictedCSVML1', PACKAGE = 'mlRFinance', CSVML1, X, Xprev, kernel, parms, typePredict)
 }
 
 CSVML2 <- function(y, X, C, kernel, parms) {

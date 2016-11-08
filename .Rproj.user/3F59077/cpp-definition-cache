@@ -18,16 +18,25 @@
                 "name" : "ErrorMeasures(Eigen::VectorXd, Eigen::VectorXd)",
                 "parent_name" : "",
                 "usr" : "c:@F@ErrorMeasures#$@N@Eigen@C@Matrix>#d#VI-1#VI1#VI0#VI-1#VI1#S0_#"
+            },
+            {
+                "column" : 12,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/ErrorMeasure.cpp",
+                "kind" : 6,
+                "line" : 25,
+                "name" : "ErrorMeasuresBinary(Eigen::VectorXd, Eigen::VectorXd)",
+                "parent_name" : "",
+                "usr" : "c:@F@ErrorMeasuresBinary#$@N@Eigen@C@Matrix>#d#VI-1#VI1#VI0#VI-1#VI1#S0_#"
             }
         ],
         "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/ErrorMeasure.cpp",
-        "file_last_write" : 1477064051
+        "file_last_write" : 1478619010
     },
     {
         "definitions" : [
         ],
         "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/ErrorMeasure.h",
-        "file_last_write" : 1477059736
+        "file_last_write" : 1478617221
     },
     {
         "definitions" : [
@@ -51,7 +60,7 @@
             }
         ],
         "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/GarchSVR.cpp",
-        "file_last_write" : 1477065656
+        "file_last_write" : 1478290275
     },
     {
         "definitions" : [
@@ -588,6 +597,21 @@
         "definitions" : [
             {
                 "column" : 12,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/PortfolioSelectionSVM.cpp",
+                "kind" : 6,
+                "line" : 67,
+                "name" : "PortfolioSelectionCSVML1(Eigen::VectorXd, Eigen::MatrixXd, Eigen::VectorXd, Eigen::MatrixXd, double, std::string, arma::vec, int)",
+                "parent_name" : "",
+                "usr" : "c:@F@PortfolioSelectionCSVML1#$@N@Eigen@C@Matrix>#d#VI-1#VI1#VI0#VI-1#VI1#$@N@Eigen@C@Matrix>#d#VI-1#VI-1#VI0#VI-1#VI-1#S0_#S1_#d#$@N@std@C@basic_string>#C#$@N@std@S@char_traits>#C#$@N@std@C@allocator>#C#$@N@arma@C@Col>#d#I#"
+            }
+        ],
+        "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/PortfolioSelectionSVM.cpp",
+        "file_last_write" : 1478619096
+    },
+    {
+        "definitions" : [
+            {
+                "column" : 12,
                 "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/SVC.cpp",
                 "kind" : 6,
                 "line" : 140,
@@ -605,16 +629,25 @@
                 "column" : 12,
                 "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/SVM.cpp",
                 "kind" : 6,
-                "line" : 74,
+                "line" : 75,
                 "name" : "CSVML1(Eigen::VectorXd, Eigen::MatrixXd, double, std::string, arma::vec)",
                 "parent_name" : "",
                 "usr" : "c:@F@CSVML1#$@N@Eigen@C@Matrix>#d#VI-1#VI1#VI0#VI-1#VI1#$@N@Eigen@C@Matrix>#d#VI-1#VI-1#VI0#VI-1#VI-1#d#$@N@std@C@basic_string>#C#$@N@std@S@char_traits>#C#$@N@std@C@allocator>#C#$@N@arma@C@Col>#d#"
             },
             {
+                "column" : 17,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/SVM.cpp",
+                "kind" : 6,
+                "line" : 145,
+                "name" : "PredictedCSVML1(Rcpp::List, Eigen::MatrixXd, Eigen::MatrixXd, std::string, arma::vec, int)",
+                "parent_name" : "",
+                "usr" : "c:@F@PredictedCSVML1#$@N@Rcpp@C@Vector>#VI19#@N@Rcpp@CT>1#T@PreserveStorage#$@N@Eigen@C@Matrix>#d#VI-1#VI-1#VI0#VI-1#VI-1#S1_#$@N@std@C@basic_string>#C#$@N@std@S@char_traits>#C#$@N@std@C@allocator>#C#$@N@arma@C@Col>#d#I#"
+            },
+            {
                 "column" : 12,
                 "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/SVM.cpp",
                 "kind" : 6,
-                "line" : 152,
+                "line" : 215,
                 "name" : "CSVML2(Eigen::VectorXd, Eigen::MatrixXd, double, std::string, arma::vec)",
                 "parent_name" : "",
                 "usr" : "c:@F@CSVML2#$@N@Eigen@C@Matrix>#d#VI-1#VI1#VI0#VI-1#VI1#$@N@Eigen@C@Matrix>#d#VI-1#VI-1#VI0#VI-1#VI-1#d#$@N@std@C@basic_string>#C#$@N@std@S@char_traits>#C#$@N@std@C@allocator>#C#$@N@arma@C@Col>#d#"
@@ -623,7 +656,7 @@
                 "column" : 12,
                 "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/SVM.cpp",
                 "kind" : 6,
-                "line" : 222,
+                "line" : 285,
                 "name" : "nuSVM(Eigen::VectorXd, Eigen::MatrixXd, double, std::string, arma::vec)",
                 "parent_name" : "",
                 "usr" : "c:@F@nuSVM#$@N@Eigen@C@Matrix>#d#VI-1#VI1#VI0#VI-1#VI1#$@N@Eigen@C@Matrix>#d#VI-1#VI-1#VI0#VI-1#VI-1#d#$@N@std@C@basic_string>#C#$@N@std@S@char_traits>#C#$@N@std@C@allocator>#C#$@N@arma@C@Col>#d#"
@@ -632,7 +665,7 @@
                 "column" : 17,
                 "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/SVM.cpp",
                 "kind" : 6,
-                "line" : 269,
+                "line" : 332,
                 "name" : "solveTest(Eigen::MatrixXd, Eigen::VectorXd, Eigen::MatrixXd, Eigen::VectorXd, Eigen::MatrixXd, Eigen::VectorXd)",
                 "parent_name" : "",
                 "usr" : "c:@F@solveTest#$@N@Eigen@C@Matrix>#d#VI-1#VI-1#VI0#VI-1#VI-1#$@N@Eigen@C@Matrix>#d#VI-1#VI1#VI0#VI-1#VI1#S0_#S1_#S0_#S1_#"
@@ -641,14 +674,20 @@
                 "column" : 17,
                 "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/SVM.cpp",
                 "kind" : 6,
-                "line" : 281,
+                "line" : 344,
                 "name" : "solveTest2(Eigen::MatrixXd, Eigen::VectorXd, Eigen::MatrixXd, Eigen::VectorXd)",
                 "parent_name" : "",
                 "usr" : "c:@F@solveTest2#$@N@Eigen@C@Matrix>#d#VI-1#VI-1#VI0#VI-1#VI-1#$@N@Eigen@C@Matrix>#d#VI-1#VI1#VI0#VI-1#VI1#S0_#S1_#"
             }
         ],
         "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/SVM.cpp",
-        "file_last_write" : 1477421264
+        "file_last_write" : 1478616780
+    },
+    {
+        "definitions" : [
+        ],
+        "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/SVM.h",
+        "file_last_write" : 1478616634
     },
     {
         "definitions" : [
@@ -688,6 +727,39 @@
         ],
         "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/SVR.h",
         "file_last_write" : 1477057594
+    },
+    {
+        "definitions" : [
+            {
+                "column" : 11,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/StepwiseTest.cpp",
+                "kind" : 6,
+                "line" : 11,
+                "name" : "HF(arma::vec, double)",
+                "parent_name" : "",
+                "usr" : "c:@F@HF#$@N@arma@C@Col>#d#d#"
+            },
+            {
+                "column" : 6,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/StepwiseTest.cpp",
+                "kind" : 6,
+                "line" : 20,
+                "name" : "FWERkControl(arma::vec, arma::mat, int, double)",
+                "parent_name" : "",
+                "usr" : "c:@F@FWERkControl#$@N@arma@C@Col>#d#$@N@arma@C@Mat>#d#I#d#"
+            },
+            {
+                "column" : 6,
+                "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/StepwiseTest.cpp",
+                "kind" : 6,
+                "line" : 66,
+                "name" : "FDPControl(arma::vec, arma::mat, double, double)",
+                "parent_name" : "",
+                "usr" : "c:@F@FDPControl#$@N@arma@C@Col>#d#$@N@arma@C@Mat>#d#d#d#"
+            }
+        ],
+        "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/StepwiseTest.cpp",
+        "file_last_write" : 1478284774
     },
     {
         "definitions" : [
@@ -801,7 +873,7 @@
             }
         ],
         "file" : "C:/Users/p.albuquerque/Dropbox/mlRFinance/src/Utils.cpp",
-        "file_last_write" : 1477420957
+        "file_last_write" : 1477676379
     },
     {
         "definitions" : [

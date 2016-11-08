@@ -15,7 +15,7 @@
         "-Id:/Compiler/gcc-4.9.3/local330/include",
         "-DRCPP_PARALLEL_USE_TBB=1"
     ],
-    "hash" : "147698661814746607181474660743",
+    "hash" : "147853619914746607181474660743",
     "is_cpp" : true,
     "pch" : "Rcpp"
 }
