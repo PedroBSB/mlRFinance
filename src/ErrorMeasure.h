@@ -3,6 +3,7 @@
 #define ERRORMEASURE_H
 
 Rcpp::List ErrorMeasures(Eigen::VectorXd y, Eigen::VectorXd yPred);
+Rcpp::List ErrorMeasuresBinary(Eigen::VectorXd y, Eigen::VectorXd yPred);
 
 // This is the end of the header guard
 #endif
