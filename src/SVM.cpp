@@ -40,6 +40,7 @@ void PrintObject(Eigen::VectorXd vec);
 /*********************************     SVM FUNCTIONS    ****************************************/
 /***********************************************************************************************/
 
+/************************************ C-SVM L1 *************************************************/
 //' @name CSVML1
 //' @title C-SVM L1 - Support Vector Regression with C cost and L1 regularization.
 //' @description Optimize the Lagrange multiplier for the C-SVM L1:
@@ -117,6 +118,68 @@ Rcpp::List CSVML1(Eigen::VectorXd y, Eigen::MatrixXd X, double C, std::string ke
                             Rcpp::Named("Parameters") = parms);
 }
 
+
+//' @name Predicted CSVML1
+//' @title C-SVM L1 - Support Vector Regression with C cost and L1 regularization.
+//' @description Prediction for the C-SVR L1:
+//'
+//' f(x)=Sum_{i=1}^{N}(lambda*-lambda)K(x_{i},x)
+//' @param CSVML1 List of Results of the CSVML1
+//' @param X Numeric matrix with the explanatory variables. Dimension equal NxP
+//' @param Xprev Numeric matrix with the explanatory variables (predicted). Dimension equal MxP
+//' @param kernel Name of the kernel that will be used.
+//' @param parms Parameters associated with chosen kenel.
+//' @param typePredict 0-Binary(-1,+1), 1-Probability, 2- Raw result
+//' @return Eigen::VectorXd with the predicted values for Xpred
+//' @examples
+//'
+//' A<-matrix(c(1,2,5,6,
+//' 2,4,1,2),nrow=4,ncol=2)
+//' d<-c(-1,-1,+1,-1)
+//' svm1<- CSVML1(d, A, 1, 0.1, "Gaussian", c(0.5))
+//'
+//' @seealso See \code{\link{.CallOctave}}, \code{\link{o_source}}, \code{\link{o_help}}
+// @cite soman2009machine
+// @bibliography ~/vignettes/bibliography.bib
+// [[Rcpp::export]]
+Eigen::VectorXd PredictedCSVML1(Rcpp::List CSVML1, Eigen::MatrixXd X, Eigen::MatrixXd Xprev, std::string kernel, arma::vec parms, int typePredict){
+
+  //Get the SV
+  Eigen::VectorXd SV = as<Eigen::VectorXd> (CSVML1["SupportVectors"]);
+
+  //Total number of observations
+  int size = Xprev.rows();
+  Eigen::VectorXd predVec(size);
+
+  for(int i=0;i<size;i++){
+    //Create the Kernel Matrix
+    Eigen::VectorXd K = KernelMatrixComputationPred(X,Xprev.row(i),kernel,parms);
+    Eigen::VectorXd F = SV.array() *K.array();
+    double res = F.sum();
+    if(typePredict==0){
+      //Return the signal
+      if(res<0){
+        predVec(i)=-1.0;
+      }
+      else{
+        predVec(i)=+1.0;
+      }
+    }
+    else if(typePredict==1){
+      //Return the probability
+      //TODO: Impelement the probability forecast
+    }
+    else{
+      //Return the raw forecast
+      predVec(i)=res;
+    }
+
+  }
+  return(predVec);
+}
+
+
+/************************************ C-SVM L2 *************************************************/
 
 //' @name CSVML2
 //' @title C-SVM L2 - Support Vector Regression with C cost and L2 regularization.
