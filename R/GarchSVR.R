@@ -1,7 +1,7 @@
 #' Execute the Garch SVR model with cross-validation.
 #'
-#' @param train A training dataframe with the returns.
-#' @param valid A validation dataframe with the returns.
+#' @param train A training dataframe with the returns. (Don't need to be lagged)
+#' @param valid A validation dataframe with the returns. (Don't need to be lagged)
 #' @param Cm Vector of costs to be validated. Mean Equation.
 #' @param epsilonM Vector of Insentitive band.  Mean Equation.
 #' @param kernel Type of kernel to be used - Mean Equation.
@@ -73,7 +73,7 @@ GarchSVR <- function(train,valid,Cm,epsilonM,kernel,parmMat,Cg,epsilonG,kernelGa
                      kernel, parmsM,
                      kernelGarch, parmsG)
 
-    res<-data.frame(matAll[i,],"MSEm"=svr$ErrorMeasureValidation,"MSEg"=svr$ErrorMeasureValidationGarch)
+    res<-data.frame(matAll[i,],"MSEm"=svr$ErrorMeasureValidation$MSE,"MSEg"=svr$ErrorMeasureValidationGarch$MSE)
     res
   }
 
