@@ -2,6 +2,7 @@
 // [[Rcpp::depends(RcppArmadillo)]]
 
 //https://github.com/cran/StepwiseTest/tree/master/src
+//A Generalized Stepwise Procedure with Improved Power for Multiple Inequalities Testing
 
 using namespace Rcpp;
 using namespace arma;
