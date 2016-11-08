@@ -156,3 +156,69 @@ white.spa <- function(Dmat,bVec,typeFunc=1,B=1000,geomMean=20,bandwidth=0.5, alp
 }
 
 
+
+#' Execute the Classical Diebold and Mariano - EPA
+#'
+#' @param e.model loss function based on the comparasion
+#' between model forecast and observed value (Nx1)
+#' @param e.bench loss function based on the comparasion
+#' between benchmark forecast and observed value (Nx1)
+#' @param M lag considered
+#' @return Statistic of the test and p-value
+#' @examples
+#' add(1, 1)
+#' add(10, 1)
+DM.epa(e.model,e.bench,M=ceiling(length(e.model)^(1/3))){
+  #Size of the serie
+  T <- length(e.model)
+  #Calculate the difference
+  d.diff <- e.model-e.bench
+  #Calculate the numerator
+  d.bar <- mean(d.diff)
+  #Compute the auto-covariance
+  auto.cov <- acf(d.diff, "covariance", plot = F)$acf
+  auto.cov <- auto.cov[2:M]
+  #Calculate an estimate to spectral density
+  var <- var(d.diff) +2*sum(auto.cov)
+  #Diebold-Mariano Statistic
+  DM <- d.bar/sqrt(var/T)
+  #Calculate p-value
+  pvalue <- 2*pnorm(-abs(DM))
+  #Return function
+  return(list("DM Statistic"=DM, "P-value"=p.value))
+}
+
+#' Harvey, Leybourne, and Newbold (1997) Modification
+#' to the Classical Diebold and Mariano - EPA
+#'
+#' @param e.model loss function based on the comparasion
+#' between model forecast and observed value (Nx1)
+#' @param e.bench loss function based on the comparasion
+#' between benchmark forecast and observed value (Nx1)
+#' @param M lag considered
+#' @return Statistic of the test and p-value
+#' @examples
+#' add(1, 1)
+#' add(10, 1)
+#
+DM.epa.corrected(e.model,e.bench,M=ceiling(length(e.model)^(1/3))){
+  #Size of the serie
+  T <- length(e.model)
+  #Calculate the difference
+  d.diff <- e.model-e.bench
+  #Calculate the numerator
+  d.bar <- mean(d.diff)
+  #Compute the auto-covariance
+  auto.cov <- acf(d.diff, "covariance", plot = F)$acf
+  auto.cov <- auto.cov[2:M]
+  #Calculate an estimate to spectral density
+  var <- var(d.diff) +2*sum(auto.cov)
+  #Diebold-Mariano Statistic
+  DM <- d.bar/sqrt(var/T)
+  #Correct as Harvey, Leybourne, and Newbold (1997)
+  DM <- DM*sqrt((T+1-2*M+M(M-1))/T)
+  #Calculate p-value
+  pvalue <-  2*pt(-abs(DM),df=T-1)
+  #Return function
+  return(list("Corrected DM Statistic"=DM, "P-value"=p.value))
+}
