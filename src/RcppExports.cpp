@@ -224,18 +224,19 @@ BEGIN_RCPP
 END_RCPP
 }
 // PredictedCSVML1
-Eigen::VectorXd PredictedCSVML1(Rcpp::List CSVML1, Eigen::MatrixXd X, Eigen::MatrixXd Xprev, std::string kernel, arma::vec parms, int typePredict);
-RcppExport SEXP mlRFinance_PredictedCSVML1(SEXP CSVML1SEXP, SEXP XSEXP, SEXP XprevSEXP, SEXP kernelSEXP, SEXP parmsSEXP, SEXP typePredictSEXP) {
+Eigen::VectorXd PredictedCSVML1(Rcpp::List CSVML1, Eigen::VectorXd y, Eigen::MatrixXd X, Eigen::MatrixXd Xprev, std::string kernel, arma::vec parms, int typePredict);
+RcppExport SEXP mlRFinance_PredictedCSVML1(SEXP CSVML1SEXP, SEXP ySEXP, SEXP XSEXP, SEXP XprevSEXP, SEXP kernelSEXP, SEXP parmsSEXP, SEXP typePredictSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< Rcpp::List >::type CSVML1(CSVML1SEXP);
+    Rcpp::traits::input_parameter< Eigen::VectorXd >::type y(ySEXP);
     Rcpp::traits::input_parameter< Eigen::MatrixXd >::type X(XSEXP);
     Rcpp::traits::input_parameter< Eigen::MatrixXd >::type Xprev(XprevSEXP);
     Rcpp::traits::input_parameter< std::string >::type kernel(kernelSEXP);
     Rcpp::traits::input_parameter< arma::vec >::type parms(parmsSEXP);
     Rcpp::traits::input_parameter< int >::type typePredict(typePredictSEXP);
-    rcpp_result_gen = Rcpp::wrap(PredictedCSVML1(CSVML1, X, Xprev, kernel, parms, typePredict));
+    rcpp_result_gen = Rcpp::wrap(PredictedCSVML1(CSVML1, y, X, Xprev, kernel, parms, typePredict));
     return rcpp_result_gen;
 END_RCPP
 }

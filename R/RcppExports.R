@@ -178,6 +178,7 @@ NULL
 #'
 #' f(x)=Sum_{i=1}^{N}(lambda*-lambda)K(x_{i},x)
 #' @param CSVML1 List of Results of the CSVML1
+#' @param y Numeric vector with the response variable. Dimension equal Nx1
 #' @param X Numeric matrix with the explanatory variables. Dimension equal NxP
 #' @param Xprev Numeric matrix with the explanatory variables (predicted). Dimension equal MxP
 #' @param kernel Name of the kernel that will be used.
@@ -264,8 +265,8 @@ CSVML1 <- function(y, X, C, kernel, parms) {
     .Call('mlRFinance_CSVML1', PACKAGE = 'mlRFinance', y, X, C, kernel, parms)
 }
 
-PredictedCSVML1 <- function(CSVML1, X, Xprev, kernel, parms, typePredict) {
-    .Call('mlRFinance_PredictedCSVML1', PACKAGE = 'mlRFinance', CSVML1, X, Xprev, kernel, parms, typePredict)
+PredictedCSVML1 <- function(CSVML1, y, X, Xprev, kernel, parms, typePredict) {
+    .Call('mlRFinance_PredictedCSVML1', PACKAGE = 'mlRFinance', CSVML1, y, X, Xprev, kernel, parms, typePredict)
 }
 
 CSVML2 <- function(y, X, C, kernel, parms) {

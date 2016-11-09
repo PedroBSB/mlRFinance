@@ -40,6 +40,138 @@ void PrintObject(Eigen::VectorXd vec);
 /*********************************     SVM FUNCTIONS    ****************************************/
 /***********************************************************************************************/
 
+//Platt, J.: 2000, ‘Probabilistic outputs for support vector machines and comparison
+//to regularized likelihood methods’. In: A. Smola, P. Bartlett, B. Sch¨olkopf, and
+//D. Schuurmans (eds.): Advances in Large Margin Classifiers. Cambridge, MA.
+// http://www.csie.ntu.edu.tw/~htlin/paper/doc/plattprob.pdf
+Eigen::VectorXd predictProbability(Eigen::VectorXd predVec,Eigen::VectorXd y, Eigen::VectorXd SV){
+  Eigen::VectorXd parms(2);
+  //Initial parameters
+  double A=0;
+  double B=0;
+  //Parameter setting
+  int maxiter=100; //Maximum number of iterations
+  double minstep=1e-10; //Minimum step taken in line search
+  double sigma=1e-12; //Set to any value > 0
+  double prior0=0;
+  double prior1=0;
+  //Count the number of elements
+  for(int i=0;i<y.size();i++){
+    if(y(i)<0){
+      prior0=prior0+1;
+    }
+    else{
+      prior1=prior1+1;
+    }
+  }
+  //Construct initial values: target support in array t,
+  // initial function value in fval
+  double hiTarget=(prior1+1.0)/(prior1+2.0);
+  double loTarget=1.0/(prior0+2.0);
+  int len=prior1+prior0; // Total number of data
+  Eigen::VectorXd t(len);
+  for(int i = 0;i<len;i++) {
+    if (y(i) > 0)
+    {
+      t(i)=hiTarget;
+    }
+    else{
+      t(i)=loTarget;
+    }
+  }
+
+  A=0.0;
+  B=log((prior0+1.0)/(prior1+1.0));
+  double fval=0.0;
+  double fApB=0.0;
+  for(int i = 0;i<len;i++){
+    fApB=predVec(i)*A+B;
+    if (fApB >= 0.0){
+      fval = fval+t(i)*fApB+std::log(1+std::exp(-fApB));
+    }
+    else{
+      fval = fval+(t(i)-1)*fApB+std::log(1+std::exp(fApB));
+    }
+  }
+  int it=0;
+  for(it = 0;it<maxiter;it++){
+    //Update Gradient and Hessian (use H’ = H + sigma I)
+    double h11=sigma;
+    double h22=sigma;
+    double h21=0.0;
+    double g1=0.0;
+    double g2=0.0;
+    double p=0.0;
+    double q=0.0;
+    for(int i = 0;i<len;i++){
+        fApB=predVec(i)*A+B;
+        if (fApB >= 0){
+          p=std::exp(-fApB)/(1.0+std::exp(-fApB));
+          q=1.0/(1.0+std::exp(-fApB));
+        }
+        else{
+          p=1.0/(1.0+std::exp(fApB));
+          q=std::exp(fApB)/(1.0+std::exp(fApB));
+        }
+          double d2=p*q;
+          h11 = h11+ predVec(i)*predVec(i)*d2;
+          h22 += h22+d2;
+          h21 += predVec(i)*d2;
+          double d1=t[i]-p;
+          g1 =g1+predVec(i)*d1;
+          g2 = g2+d1;
+      }
+      if (std::abs(g1)<1e-5 && std::abs(g2)<1e-5){//Stopping criteria
+        break;
+      }
+      //Compute modified Newton directions
+      double det=h11*h22-h21*h21;
+      double dA=-(h22*g1-h21*g2)/det;
+      double dB=-(-h21*g1+h11*g2)/det;
+      double gd=g1*dA+g2*dB;
+      double stepsize=1.0;
+      double newA=0;
+      double newB=0;
+      double newf=0.0;
+      while (stepsize >= minstep){ //Line search
+        newA=A+stepsize*dA;
+        newB=B+stepsize*dB;
+        newf=0.0;
+        for(int i = 0;i<len;i++){
+          fApB=predVec(i)*newA+newB;
+          if (fApB >= 0){
+            newf = newf+t(i)*fApB+std::log(1+std::exp(-fApB));
+          }
+          else{
+            newf = newf+(t(i)-1)*fApB+std::log(1+std::exp(fApB));
+          }
+        }
+        if (newf<fval+0.0001*stepsize*gd){
+          A=newA;
+          B=newB;
+          fval=newf;
+          break; //Sufficient decrease satisfied
+        }
+        else{
+          stepsize = stepsize/2.0;
+        }
+        if (stepsize < minstep){
+          //Didn't work.
+          //print ’Line search fails’
+          break;
+        }
+      }
+    }
+    if (it >= maxiter){
+      //print ’Reaching maximum iterations’
+    }
+    //Results
+    parms(0)=A;
+    parms(1)=B;
+    return(parms);
+}
+
+
 /************************************ C-SVM L1 *************************************************/
 //' @name CSVML1
 //' @title C-SVM L1 - Support Vector Regression with C cost and L1 regularization.
@@ -151,31 +283,46 @@ Eigen::VectorXd PredictedCSVML1(Rcpp::List CSVML1,Eigen::VectorXd y, Eigen::Matr
   //Total number of observations
   int size = Xprev.rows();
   Eigen::VectorXd predVec(size);
-
-  for(int i=0;i<size;i++){
-    //Create the Kernel Matrix
-    Eigen::VectorXd K = KernelMatrixComputationPred(X,Xprev.row(i),kernel,parms);
-    Eigen::VectorXd F = y.array()*SV.array() *K.array();
-    double res = F.sum();
-    if(typePredict==0){
-      //Return the signal
-      if(res<0){
-        predVec(i)=-1.0;
-      }
-      else{
-        predVec(i)=+1.0;
-      }
-    }
-    else if(typePredict==1){
-      //Return the probability
-      //TODO: Impelement the probability forecast
-    }
-    else{
-      //Return the raw forecast
+  if(typePredict==1){
+    for(int i=0;i<size;i++){
+      //Create the Kernel Matrix
+      Eigen::VectorXd K = KernelMatrixComputationPred(X,Xprev.row(i),kernel,parms);
+      Eigen::VectorXd F = y.array()*SV.array() *K.array();
+      double res = F.sum();
       predVec(i)=res;
     }
-
+      //Return the probability
+    Eigen::VectorXd parms = predictProbability(predVec, y, SV);
+    double A=parms(0);
+    double B=parms(1);
+    //Normalize the predVec;
+    for(int i=0;i<size;i++){
+      predVec(i)=1.0/(1+std::exp(A*predVec(i)+B));
+    }
   }
+  else{
+    for(int i=0;i<size;i++){
+      //Create the Kernel Matrix
+      Eigen::VectorXd K = KernelMatrixComputationPred(X,Xprev.row(i),kernel,parms);
+      Eigen::VectorXd F = y.array()*SV.array() *K.array();
+      double res = F.sum();
+      if(typePredict==0){
+        //Return the signal
+        if(res<0){
+          predVec(i)=-1.0;
+        }
+        else{
+          predVec(i)=+1.0;
+        }
+      }
+      else{
+        //Return the raw forecast
+        predVec(i)=res;
+      }
+    }
+  }
+
+
   return(predVec);
 }
 
