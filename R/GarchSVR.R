@@ -55,8 +55,6 @@ GarchSVR <- function(train,valid,Cm,epsilonM,kernel,parmMat,Cg,epsilonG,kernelGa
 
   #Initialize the validation
   svrGarch <- foreach(i=1:nrow(matAll), .combine=rbind, .errorhandling='pass', .packages="mlRFinance") %dopar% {
-  for(i in 1:nrow(matAll)){
-    print(i)
     #Cost - Mean Equation
     C0m<-matAll$Cm[i]
     #Epsilon - Mean Equation
