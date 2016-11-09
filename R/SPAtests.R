@@ -168,7 +168,7 @@ white.spa <- function(Dmat,bVec,typeFunc=1,B=1000,geomMean=20,bandwidth=0.5, alp
 #' @examples
 #' add(1, 1)
 #' add(10, 1)
-DM.epa(e.model,e.bench,M=ceiling(length(e.model)^(1/3))){
+DM.epa <- function(e.model,e.bench,M=ceiling(length(e.model)^(1/3))){
   #Size of the serie
   T <- length(e.model)
   #Calculate the difference
@@ -201,7 +201,7 @@ DM.epa(e.model,e.bench,M=ceiling(length(e.model)^(1/3))){
 #' add(1, 1)
 #' add(10, 1)
 #
-DM.epa.corrected(e.model,e.bench,M=ceiling(length(e.model)^(1/3))){
+DM.epa.corrected <- function(e.model,e.bench,M=ceiling(length(e.model)^(1/3))){
   #Size of the serie
   T <- length(e.model)
   #Calculate the difference

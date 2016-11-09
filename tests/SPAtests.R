@@ -12,6 +12,3 @@ tt<-hansen.spa(Dmat,bVec,typeFunc=1,B=1000,geomMean=20,bandwidth=0.5, alpha=0.05
 fdp<-tt$FDP
 fdp<-tt$FWERk
 
-
-
-#####################################################################################################
