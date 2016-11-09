@@ -125,6 +125,7 @@ Rcpp::List CSVML1(Eigen::VectorXd y, Eigen::MatrixXd X, double C, std::string ke
 //'
 //' f(x)=Sum_{i=1}^{N}(lambda*-lambda)K(x_{i},x)
 //' @param CSVML1 List of Results of the CSVML1
+//' @param y Numeric vector with the response variable. Dimension equal Nx1
 //' @param X Numeric matrix with the explanatory variables. Dimension equal NxP
 //' @param Xprev Numeric matrix with the explanatory variables (predicted). Dimension equal MxP
 //' @param kernel Name of the kernel that will be used.
@@ -142,7 +143,7 @@ Rcpp::List CSVML1(Eigen::VectorXd y, Eigen::MatrixXd X, double C, std::string ke
 // @cite soman2009machine
 // @bibliography ~/vignettes/bibliography.bib
 // [[Rcpp::export]]
-Eigen::VectorXd PredictedCSVML1(Rcpp::List CSVML1, Eigen::MatrixXd X, Eigen::MatrixXd Xprev, std::string kernel, arma::vec parms, int typePredict){
+Eigen::VectorXd PredictedCSVML1(Rcpp::List CSVML1,Eigen::VectorXd y, Eigen::MatrixXd X, Eigen::MatrixXd Xprev, std::string kernel, arma::vec parms, int typePredict){
 
   //Get the SV
   Eigen::VectorXd SV = as<Eigen::VectorXd> (CSVML1["SupportVectors"]);
@@ -154,7 +155,7 @@ Eigen::VectorXd PredictedCSVML1(Rcpp::List CSVML1, Eigen::MatrixXd X, Eigen::Mat
   for(int i=0;i<size;i++){
     //Create the Kernel Matrix
     Eigen::VectorXd K = KernelMatrixComputationPred(X,Xprev.row(i),kernel,parms);
-    Eigen::VectorXd F = SV.array() *K.array();
+    Eigen::VectorXd F = y.array()*SV.array() *K.array();
     double res = F.sum();
     if(typePredict==0){
       //Return the signal
