@@ -1,26 +1,33 @@
-#Load the data
-data("SpiralDataSet")
+#MlRFinance
+rm(list=ls())
+library(mlRFinance)
+library(quantmod)
+#Cria um novo ambiente para armazenar os dados
+stockData <- new.env()
 
-#Plot the data
-colors<-ifelse(SpiralDataSet[,3]==-1,"red","blue")
-plot(SpiralDataSet[,1:2],col=colors,pch=16)
+#Especifica as datas de interesse
+startDate = as.Date("2011-01-01")
+endDate = as.Date("2011-12-31")
 
-#Separate the data
-train <- as.matrix(SpiralDataSet[1:100,])
-X_train <- train[,1:2]
-y_train <- train[,3]
+#Obtêm os dados do ativo PETR4 e PETR3
+getSymbols("^BVSP", src="yahoo",from=startDate,to=endDate)
 
-valid <- as.matrix(SpiralDataSet[101:194,])
-X_valid <- valid[,1:2]
-y_valid <- valid[,3]
+#Calcula o log-retorno
+retorno<-na.omit(diff(log(Cl(BVSP))))
+#Training set
+train <- as.numeric(retorno[1:180])
+#Validation set
+valid <- as.numeric(retorno[181:216])
 
-#Automatic cross-validation
-cross<- PortfolioSelectionCSVML1(y_train, X_train,
-                                 y_valid, X_valid,
-                                 1,
-                                 "Polynomial", c(2,1), 0)
+Cmean <- 0.05
+epsilonMean <- 0.10
+kernelMean <- "Gaussian"
+parmsMean <- 1
 
-#Exercise: Change the kernel
+Cvola <- 0.7
+epsilonVola <- 0.1
+kernelVolat <- "Polynomial"
+parmsVola <- c(3,1)
 
-#Exercise: Improve the results
-
+svm<-GARCHCSVRL1(train, valid, Cmean, epsilonMean, Cvola, epsilonVola, kernelMean, parmsMean, kernelVolat, parmsVola)
+svm$PredictedMeanTraining
