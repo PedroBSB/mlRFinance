@@ -1,10 +1,10 @@
-#mlRFinance
-=====
+mlRFinance
+---
 Um pacote em R para geração de portifólios baseado em aprendizado de máquinas. 
 
 
-##Instalação
------
+Instalação
+===
 ######Automatica:
 1. No R instale o devtools ```install.packages("devtools")```
 2. Após finalizada a instalação que pode demorar alguns minutos instale o seguinte pacote do github ```devtools::install_github("hadley/devtools")```
@@ -25,9 +25,10 @@ No Linux, instale o R development package, normalmente chamado de r-devel ou r-b
 -----
 
 É preciso fazer a importação do LAPACK and BLAS
-1) Rode a biblioteca library(RcppArmadillo)
-2) Execute RcppArmadillo.package.skeleton("Pacote")
-3) Copie os arquivos Makevars para a pasta src do seu pacote
+1. Rode a biblioteca library(RcppArmadillo)
+2. Execute RcppArmadillo.package.skeleton("Pacote")
+3. Copie os arquivos Makevars para a pasta src do seu pacote
+
 **Olhar aqui**: http://stackoverflow.com/questions/28754573/c-compiling-error-while-compiling-r-package-on-winbuild
 _____
 **Para o RcppParallel**: https://rcppcore.github.io/RcppParallel/#r_packages
