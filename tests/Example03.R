@@ -22,7 +22,7 @@ svm2<- CSVRL1(train[,2], as.matrix(train[,1]), 50,0.5, "Polynomial", c(2,1))
 svm2
 
 #Do the forecast
-pred<-PredictedCSVRL1(svm2, as.matrix(train[,1]), as.matrix(train[,1]),"Polynomial", c(2,1))
+pred<-PredictedCSVRL1(svm2, as.matrix(train[,1]), as.matrix(train[,1]))
 
 #Sort dataset
 plot(train[,1],train[,2],type="l",col="blue")
