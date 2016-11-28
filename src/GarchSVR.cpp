@@ -19,7 +19,7 @@ void PrintObject(Eigen::VectorXd vec);
 
 //C-SVR L1
 Rcpp::List CSVRL1(Eigen::VectorXd y, Eigen::MatrixXd X, double C, double epsilon, std::string kernel, arma::vec parms);
-Eigen::VectorXd PredictedCSVRL1(Rcpp::List CSVRL1, Eigen::MatrixXd X, Eigen::MatrixXd Xprev, std::string kernel, arma::vec parms);
+Eigen::VectorXd PredictedCSVRL1(Rcpp::List CSVRL1, Eigen::MatrixXd X, Eigen::MatrixXd Xprev);
 
 //Error Measure
 Rcpp::List ErrorMeasures(Eigen::VectorXd y, Eigen::VectorXd yPred);
@@ -93,8 +93,8 @@ Rcpp::List GARCHCSVRL1(Eigen::VectorXd train, Eigen::VectorXd valid, double Cmea
   Rcpp::List SVRmean = CSVRL1(y, X, Cmean, epsilonMean, kernelMean, parmsMean);
 
   //Forecasting the results
-  Eigen::VectorXd yPred = PredictedCSVRL1(SVRmean, X, X, kernelMean, parmsMean);
-  Eigen::VectorXd yValidPred = PredictedCSVRL1(SVRmean, X, Xvalid, kernelMean, parmsMean);
+  Eigen::VectorXd yPred = PredictedCSVRL1(SVRmean, X, X);
+  Eigen::VectorXd yValidPred = PredictedCSVRL1(SVRmean, X, Xvalid);
 
   //Calculate the error measure
   Rcpp::List yPredError = ErrorMeasures(y,yPred);
@@ -130,8 +130,8 @@ Rcpp::List GARCHCSVRL1(Eigen::VectorXd train, Eigen::VectorXd valid, double Cmea
   Rcpp::List SVRgarch = CSVRL1(httY, XGarchTrain, Cvola, epsilonVola, kernelVolat, parmsVola);
 
   //Forecasting the results
-  Eigen::VectorXd garchPred = PredictedCSVRL1(SVRgarch, XGarchTrain, XGarchTrain, kernelVolat, parmsVola);
-  Eigen::VectorXd garchValidPred = PredictedCSVRL1(SVRgarch, XGarchTrain, XGarchValid, kernelVolat, parmsVola);
+  Eigen::VectorXd garchPred = PredictedCSVRL1(SVRgarch, XGarchTrain, XGarchTrain);
+  Eigen::VectorXd garchValidPred = PredictedCSVRL1(SVRgarch, XGarchTrain, XGarchValid);
 
   //Calculate the error measure
   Rcpp::List garchPredError = ErrorMeasures(httY,garchPred);

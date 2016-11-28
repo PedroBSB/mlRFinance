@@ -151,9 +151,16 @@ Rcpp::List CSVRL1(Eigen::VectorXd y, Eigen::MatrixXd X, double C, double epsilon
 // @cite soman2009machine
 // @bibliography ~/vignettes/bibliography.bib
 // [[Rcpp::export]]
-Eigen::VectorXd PredictedCSVRL1(Rcpp::List CSVRL1, Eigen::MatrixXd X, Eigen::MatrixXd Xprev, std::string kernel, arma::vec parms){
+Eigen::VectorXd PredictedCSVRL1(Rcpp::List CSVRL1, Eigen::MatrixXd X, Eigen::MatrixXd Xprev){
   //Get the SV
   Eigen::VectorXd SV = as<Eigen::VectorXd> (CSVRL1["SupportVectors"]);
+
+  //Get the kernel
+  std::string kernel = as<std::string> (CSVRL1["Kernel"]);
+
+  //Get the parameters
+  arma::vec parms = as<arma::vec> (CSVRL1["Parameters"]);
+
   //Total number of observations
   int size = Xprev.rows();
   Eigen::VectorXd predVec(size);

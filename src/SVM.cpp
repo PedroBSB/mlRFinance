@@ -275,10 +275,16 @@ Rcpp::List CSVML1(Eigen::VectorXd y, Eigen::MatrixXd X, double C, std::string ke
 // @cite soman2009machine
 // @bibliography ~/vignettes/bibliography.bib
 // [[Rcpp::export]]
-Eigen::VectorXd PredictedCSVML1(Rcpp::List CSVML1,Eigen::VectorXd y, Eigen::MatrixXd X, Eigen::MatrixXd Xprev, std::string kernel, arma::vec parms, int typePredict){
+Eigen::VectorXd PredictedCSVML1(Rcpp::List CSVML1,Eigen::VectorXd y, Eigen::MatrixXd X, Eigen::MatrixXd Xprev, int typePredict){
 
   //Get the SV
   Eigen::VectorXd SV = as<Eigen::VectorXd> (CSVML1["SupportVectors"]);
+
+  //Get the kernel
+  std::string kernel = as<std::string> (CSVML1["Kernel"]);
+
+  //Get the parameters
+  arma::vec parms = as<arma::vec> (CSVML1["Parameters"]);
 
   //Total number of observations
   int size = Xprev.rows();
