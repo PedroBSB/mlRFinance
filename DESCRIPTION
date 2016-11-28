@@ -4,20 +4,21 @@ Title: Machine Learning functions applied to Finance
 Version: 0.1.0
 Author: Pedro Albuquerque
 Maintainer: Pedro Albuquerque <pedroa@unb.br>
-Description: Machine Learning functions applied to Finance <http://lamfo.unb.br/
-    >
+Description: Machine Learning functions applied to Finance <http://lamfo.unb.br/>
+Depends: R (>= 3.1.0)
 License: What license is it under?
 LazyData: TRUE
 LinkingTo: Rcpp, RcppArmadillo, RcppParallel, RcppEigen, RcppProgress
 Imports:
     Rcpp,
+    RcppEigen,
     RcppArmadillo,
     RcppParallel,
-    RcppEigen,
     RcppProgress,
     foreach,
     doParallel,
     parallel,
+    iterators,
     boot
 SystemRequirements: GNU make
 RoxygenNote: 5.0.1

@@ -5,8 +5,7 @@ import(RcppProgress)
 import(foreach)
 import(doParallel)
 import(parallel)
+import(iterators)
 importFrom(boot,tsboot)
 importFrom(RcppParallel, RcppParallelLibs)
 useDynLib(mlRFinance)
-
-
