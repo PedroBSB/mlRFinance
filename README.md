@@ -25,9 +25,16 @@ No Linux, instale o R development package, normalmente chamado de r-devel ou r-b
 -----
 
 É preciso fazer a importação do LAPACK and BLAS
+
 1. Rode a biblioteca library(RcppArmadillo)
+
 2. Execute RcppArmadillo.package.skeleton("Pacote")
+
 3. Copie os arquivos Makevars para a pasta src do seu pacote
+
+**CASTING:** 
+//      arma::mat Xmat = as<arma::mat>(wrap(matDesign));
+//      arma::vec bVec = as<arma::vec>(wrap(logistic));
 
 **Olhar aqui**: http://stackoverflow.com/questions/28754573/c-compiling-error-while-compiling-r-package-on-winbuild
 _____
