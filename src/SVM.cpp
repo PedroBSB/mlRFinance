@@ -333,6 +333,143 @@ Eigen::VectorXd PredictedCSVML1(Rcpp::List CSVML1,Eigen::VectorXd y, Eigen::Matr
 }
 
 
+//' @name Pseudo R2 - Predicted CSVRL1
+//' @title C-SVR L1 - Support Vector Regression with C cost and L1 regularization.
+//' @description Prediction for the C-SVR L1:
+//'
+//' f(x)=Sum_{i=1}^{N}(lambda*-lambda)K(x_{i},x)
+//' @param CSVRL1 List of Results of the CSVRL1
+//' @param X Numeric matrix with the explanatory variables. Dimension equal NxP
+//' @param kernel Name of the kernel that will be used.
+//' @param parms Parameters associated with chosen kenel.
+//' @return Eigen::VectorXd with the Pseudo R2 for each variable.
+//' @examples
+//'
+//' A<-matrix(c(1,2,5,6,
+//' 2,4,1,2),nrow=4,ncol=2)
+//' d<-c(-1,-1,+1,-1)
+//' svm1<- CSVML1(d, A, 1, 0.1, "Gaussian", c(0.5))
+//'
+//' @seealso See \code{\link{.CallOctave}}, \code{\link{o_source}}, \code{\link{o_help}}
+// @cite soman2009machine
+// @bibliography ~/vignettes/bibliography.bib
+// [[Rcpp::export]]
+Eigen::VectorXd R2PredictedCSVML1(Rcpp::List CSVML1,Eigen::VectorXd y, Eigen::MatrixXd X, int typePredict){
+  //Results
+  Eigen::VectorXd R2vec(X.cols());
+
+  //Get the SV
+  Eigen::VectorXd SV = as<Eigen::VectorXd> (CSVML1["SupportVectors"]);
+
+  //Get the kernel
+  std::string kernel = as<std::string> (CSVML1["Kernel"]);
+
+  //Get the parameters
+  arma::vec parms = as<arma::vec> (CSVML1["Parameters"]);
+
+  //Prediction for the full model
+  //Total number of observations
+  int size = X.rows();
+  Eigen::VectorXd predVec(size);
+  if(typePredict==1){
+    for(int i=0;i<size;i++){
+      //Create the Kernel Matrix
+      Eigen::VectorXd K = KernelMatrixComputationPred(X,X.row(i),kernel,parms);
+      Eigen::VectorXd F = y.array()*SV.array() *K.array();
+      double res = F.sum();
+      predVec(i)=res;
+    }
+    //Return the probability
+    Eigen::VectorXd parms = predictProbability(predVec, y, SV);
+    double A=parms(0);
+    double B=parms(1);
+    //Normalize the predVec;
+    for(int i=0;i<size;i++){
+      predVec(i)=1.0/(1+std::exp(A*predVec(i)+B));
+    }
+  }
+  else{
+    for(int i=0;i<size;i++){
+      //Create the Kernel Matrix
+      Eigen::VectorXd K = KernelMatrixComputationPred(X,X.row(i),kernel,parms);
+      Eigen::VectorXd F = y.array()*SV.array() *K.array();
+      double res = F.sum();
+      if(typePredict==0){
+        //Return the signal
+        if(res<0){
+          predVec(i)=-1.0;
+        }
+        else{
+          predVec(i)=+1.0;
+        }
+      }
+      else{
+        //Return the raw forecast
+        predVec(i)=res;
+      }
+    }
+  }
+
+  //Sum of squared errors
+  double SSE = predVec.squaredNorm();
+
+  //For each variable:
+  for(int v=0;v<X.cols();v++){
+    //Zero columns
+    Eigen::MatrixXd Xprev = X;
+
+    //Zero the variable
+    Xprev.col(v).fill(0.0);
+
+    //Total number of observations
+    int size = X.rows();
+    Eigen::VectorXd predVec2(size);
+    if(typePredict==1){
+      for(int i=0;i<size;i++){
+        //Create the Kernel Matrix
+        Eigen::VectorXd K = KernelMatrixComputationPred(X,Xprev.row(i),kernel,parms);
+        Eigen::VectorXd F = y.array()*SV.array() *K.array();
+        double res = F.sum();
+        predVec2(i)=res;
+      }
+      //Return the probability
+      Eigen::VectorXd parms = predictProbability(predVec2, y, SV);
+      double A=parms(0);
+      double B=parms(1);
+      //Normalize the predVec;
+      for(int i=0;i<size;i++){
+        predVec2(i)=1.0/(1+std::exp(A*predVec2(i)+B));
+      }
+    }
+    else{
+      for(int i=0;i<size;i++){
+        //Create the Kernel Matrix
+        Eigen::VectorXd K = KernelMatrixComputationPred(X,Xprev.row(i),kernel,parms);
+        Eigen::VectorXd F = y.array()*SV.array() *K.array();
+        double res = F.sum();
+        if(typePredict==0){
+          //Return the signal
+          if(res<0){
+            predVec2(i)=-1.0;
+          }
+          else{
+            predVec2(i)=+1.0;
+          }
+        }
+        else{
+          //Return the raw forecast
+          predVec2(i)=res;
+        }
+      }
+    }
+
+    double SSEvar = predVec2.squaredNorm();
+    R2vec(v) = SSEvar/SSE;
+  }
+  return(R2vec);
+}
+
+
 /************************************ C-SVM L2 *************************************************/
 
 //' @name CSVML2
