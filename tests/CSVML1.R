@@ -6,6 +6,7 @@ d<-c(-1,-1,+1,-1)
 svm2<- CSVML1(d, A, 50, "Polynomial", c(2,1))
 svm2
 
+R2PredictedCSVML1(svm2,d, A, 2)
 
 
 K<-as.matrix(Matrix::nearPD(svm2$K)$mat)
