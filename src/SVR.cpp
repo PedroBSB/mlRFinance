@@ -177,6 +177,81 @@ return(predVec);
 }
 
 
+
+//' @name Pseudo R2 - Predicted CSVRL1
+//' @title C-SVR L1 - Support Vector Regression with C cost and L1 regularization.
+//' @description Prediction for the C-SVR L1:
+//'
+//' f(x)=Sum_{i=1}^{N}(lambda*-lambda)K(x_{i},x)
+//' @param CSVRL1 List of Results of the CSVRL1
+//' @param X Numeric matrix with the explanatory variables. Dimension equal NxP
+//' @param kernel Name of the kernel that will be used.
+//' @param parms Parameters associated with chosen kenel.
+//' @return Eigen::VectorXd with the Pseudo R2 for each variable.
+//' @examples
+//'
+//' A<-matrix(c(1,2,5,6,
+//' 2,4,1,2),nrow=4,ncol=2)
+//' d<-c(-1,-1,+1,-1)
+//' svm1<- CSVML1(d, A, 1, 0.1, "Gaussian", c(0.5))
+//'
+//' @seealso See \code{\link{.CallOctave}}, \code{\link{o_source}}, \code{\link{o_help}}
+// @cite soman2009machine
+// @bibliography ~/vignettes/bibliography.bib
+// [[Rcpp::export]]
+Eigen::VectorXd R2PredictedCSVRL1(Rcpp::List CSVRL1, Eigen::MatrixXd X){
+  //Results
+  Eigen::VectorXd R2vec(X.cols());
+  //Get the SV
+  Eigen::VectorXd SV = as<Eigen::VectorXd> (CSVRL1["SupportVectors"]);
+
+  //Get the kernel
+  std::string kernel = as<std::string> (CSVRL1["Kernel"]);
+
+  //Get the parameters
+  arma::vec parms = as<arma::vec> (CSVRL1["Parameters"]);
+
+  //Prediction for the full model
+  //Total number of observations
+  int size = X.rows();
+  Eigen::VectorXd predVec(size);
+  //Separating the SV
+  Eigen::VectorXd diffLambda = SV.head(X.rows()) - SV.tail(X.rows());
+
+  for(int i=0;i<size;i++){
+    //Create the Kernel Matrix
+    Eigen::VectorXd K = KernelMatrixComputationPred(X,X.row(i),kernel,parms);
+    Eigen::VectorXd F = diffLambda.array() *K.array();
+    predVec(i) = F.sum();
+  }
+  //Sum of squared errors
+  double SSE = predVec.squaredNorm();
+
+  //For each variable:
+  for(int v=0;v<X.cols();v++){
+    //Zero columns
+    Eigen::MatrixXd Xprev = X;
+    //Zero the variable
+    Xprev.col(v).fill(0.0);
+    //Total number of observations
+    int size = Xprev.rows();
+    Eigen::VectorXd predVec2(size);
+    //Separating the SV
+    Eigen::VectorXd diffLambda = SV.head(X.rows()) - SV.tail(X.rows());
+
+    for(int i=0;i<size;i++){
+      //Create the Kernel Matrix
+      Eigen::VectorXd K = KernelMatrixComputationPred(X,Xprev.row(i),kernel,parms);
+      Eigen::VectorXd F = diffLambda.array() *K.array();
+      predVec2(i) = F.sum();
+    }
+    double SSEvar = predVec2.squaredNorm();
+    R2vec(v) = SSEvar/SSE;
+  }
+  return(R2vec);
+}
+
+
 //' @param y Vector with dependent variables. Dimension equal Nx1.
 //' @param X Numeric matrix with the explanatory variables. Dimension equal NxP
 //' @param epsilon Insentitive band. Should be epsilon>0.
