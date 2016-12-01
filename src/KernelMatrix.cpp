@@ -8,27 +8,6 @@
 
 using namespace Rcpp;
 
-//TODO: Reescrever os kernels usando Eigen ao invés de arma e remover esse casting da linha 32
-//Typecasting between Eigen::MatrixXd datMat and arma::mat
-arma::mat convertEigenToArma(Eigen::MatrixXd datMat){
-  arma::mat res(datMat.rows(), datMat.cols());
-  for(int i=0;i<datMat.rows();i++){
-    for(int j=0;j<datMat.cols();j++){
-      res(i,j)=datMat(i,j);
-    }
-  }
-  return(res);
-}
-
-//Typecasting between Eigen::MatrixXd datMat and arma::mat
-arma::vec convertEigenToArma(Eigen::RowVectorXd datMat){
-  arma::vec res(datMat.size());
-  for(int i=0;i<datMat.size();i++){
-      res(i)=datMat(i);
-  }
-  return(res);
-}
-
 // Create the Kernel matrix
 // @param datMat  Matrix with the data
 // @param function Kernel Function
@@ -38,8 +17,8 @@ Eigen::VectorXd KernelMatrix(Eigen::MatrixXd datMat, Eigen::RowVectorXd predMat,
   //Get the number of rows
   int rows=datMat.rows();
   //Typecasting
-  arma::mat datMat2 = convertEigenToArma(datMat);
-  arma::vec datPred2 = convertEigenToArma(predMat);
+  arma::mat datMat2 = as<arma::mat>(wrap(datMat));
+  arma::vec datPred2 = as<arma::vec>(wrap(predMat));
   //Initialize the matriz
   Eigen::VectorXd matKernel = Eigen::VectorXd::Zero(rows);
   for(unsigned int c1=0;c1<rows;c1++){
@@ -63,7 +42,7 @@ Eigen::MatrixXd KernelMatrix(Eigen::MatrixXd datMat,const std::function<double (
   //Get the number of rows
   int rows=datMat.rows();
   //Typecasting
-  arma::mat datMat2 = convertEigenToArma(datMat);
+  arma::mat datMat2 = as<arma::mat>(wrap(datMat));
   //Initialize the matriz
   Eigen::MatrixXd matKernel = Eigen::MatrixXd::Zero(rows,rows);
   for(unsigned int c1=0;c1<rows;c1++){
