@@ -7,8 +7,8 @@ svm2<- CSVRL1(d, A, 50,0.5, "Polynomial", c(2,1))
 svm2
 
 Apred<-matrix(c(1.8,3,6,5),nrow=4,ncol=1)
-PredictedCSVRL1(svm2, A, A, "Polynomial", c(2,1))
-
+PredictedCSVRL1(svm2, A, A)
+R2PredictedCSVRL1(svm2, A)
 
 minimumCSVRL1(d, A, 0.5,"Polynomial", c(2,1))
 
