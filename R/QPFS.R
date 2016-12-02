@@ -1,15 +1,39 @@
 #Rodriguez-Lujan, Irene, et al. "Quadratic programming feature selection."
 #Journal of Machine Learning Research 11.Apr (2010): 1491-1516.
-QPFS<-function(y,X,alpha,type){
-  #Compute the Similarity Matrix
-  if(type="Pearson"){
+#Only for binary problems
+QPFS.binary<-function(y,X,alpha,type){
+  ##### Compute the Similarity Matrix #####
+  if(type=="Pearson"){
     Q <- cor(X)
     Q <- abs(Q)
   }
-  #Compute the Relevance (binary problem)
+  ##### Compute the Relevance (binary problem) #####
   prob <- mean(y==+1)
-  f <- diag(Q)*prob
-  #Compute the weights
+  #First case (Case Y=+1)
+  dummy <- rep(0,length(y))
+  dummy[y==+1] <- +1
+  #Estimate the correlation
+  X.temp <- cbind(dummy,X)
+  if(type=="Pearson"){
+    Q.temp <- cor(X.temp)
+    Q.temp <- abs(Q.temp)
+  }
+  f <- Q.temp[1,2:ncol(Q.temp)]*prob
+  #Second case (Case Y=-1)
+  prob <- mean(y==-1)
+  #Dummy vector
+  dummy <- rep(0,length(y))
+  dummy[y==-1] <- +1
+  #Estimate the correlation
+  X.temp <- cbind(dummy,X)
+  if(type=="Pearson"){
+    Q.temp <- cor(X.temp)
+    Q.temp <- abs(Q.temp)
+  }
+  f <- f + Q.temp[1,2:ncol(Q.temp)]*prob
+
+
+  ##### Compute the weights #####
   weights <- QPFS(Q,f,alpha)
   #Return the results
   return(weights)
@@ -19,3 +43,4 @@ QPFS<-function(y,X,alpha,type){
 # y<-rbinom(1000,1,0.2)
 # y[y==0]<- -1
 # alpha<-NA
+# QPFS.binary(y,X,alpha,"Pearson")
