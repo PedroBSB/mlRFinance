@@ -7,6 +7,9 @@ rank<-order(d)
 svm2<- CSVWQR(d,rank, A, 50,0.5 ,0.5, "Polynomial", c(2,1))
 svm2
 
+PredictedCSVRL1(svm2, A, A)
+R2PredictedCSVRL1(svm2, A)
+
 #Habilita o pacote quantmod
 library(quantmod)
 
@@ -31,5 +34,12 @@ y<-train[2:length(train)]
 X<-matrix(train[1:(length(train)-1)],ncol=1)
 
 #SVR
-rank<-order(y)
-svm2<- CSVWQR(y, rank, X, 1, 0.5, 1.0, "Gaussian", c(0.5))
+svm2<- CSVWQR(y, X, 1, 0.5, 1.0, "Gaussian", c(0.5))
+svm2
+
+PredictedCSVRL1(svm2, X, X)
+R2PredictedCSVRL1(svm2, X)
+
+
+
+
