@@ -11,6 +11,15 @@ using namespace Rcpp;
 //http://crsouza.com/2010/03/17/kernel-functions-for-machine-learning-applications/
 //http://cseweb.ucsd.edu/~yoc002/arccos.html
 
+double ANOVAKernel(arma::vec x,arma::vec y,arma::vec parms)
+{
+  double sigma=parms(0);
+  double d=parms(1);
+  arma::vec diff=arma::exp(-sigma*arma::square(x-y));
+  double res=std::pow(arma::sum(diff),d);
+  return(res);
+}
+
 
 double ArccosKernel(arma::vec x,arma::vec y,arma::vec parms)
 {
@@ -34,6 +43,7 @@ double ArccosKernel(arma::vec x,arma::vec y,arma::vec parms)
   return k_xy_l;
 }
 
+
 double BesselKernel(arma::vec x,arma::vec y,arma::vec parms)
 {
   double res;
@@ -53,62 +63,190 @@ double BesselKernel(arma::vec x,arma::vec y,arma::vec parms)
 }
 
 
-double ThinSplinePlateKernel(arma::vec x,arma::vec y,arma::vec parms)
+double CauchyKernel(arma::vec x,arma::vec y,arma::vec parms)
+{
+  double sigma = parms(0);
+  double den=1+((arma::sum(arma::square(x-y)))/(std::pow(sigma,2)));
+  double res=1/den;
+  return(res);
+}
+
+
+double ChiSquareKernel(arma::vec x,arma::vec y,arma::vec parms)
+{
+  arma::vec num=arma::square(x-y);
+  arma::vec den= 0.5*(x+y);
+  double res=1.0-arma::sum(num/den);
+  return(res);
+}
+
+
+double CircularKernel(arma::vec x,arma::vec y,arma::vec parms)
 {
   double sigma=parms(0);
+  double norm = arma::norm(x-y);
+  double res=0;
+  if(norm>=sigma){
+    res=(2.0/M_PI)*std::acos(-norm/sigma)-(2.0/M_PI)*(norm/sigma)*std::sqrt(1-std::pow((norm/sigma),2));
+  }
+  return(res);
+}
+
+
+double DirichletKernel(arma::vec x,arma::vec y,arma::vec parms)
+{
+  double N=parms(0);//Dimension
+  double delta=parms(1);
+  double prod = 1;
+  for (int i=0;i<x.n_elem;i++)
+  {
+    double delta = x(i) - y(i);
+    double num = std::sin((N + 0.5) * (delta));
+    double den = 2.0 * std::sin(delta / 2.0);
+    prod *= num / den;
+  }
+
+  return prod;
+}
+
+
+double ExponentialKernel(arma::vec x,arma::vec y,arma::vec parms)
+{
+  double sigma = parms(0);
+  double num = std::sqrt(arma::sum(arma::square(x-y)));
+  double den=2*(std::pow(sigma,2));
+  double res=(-(num/den));
+  return(res);
+}
+
+
+double GaussianKernel(arma::vec x,arma::vec y, arma::vec parms)
+{
+  double sigma = parms(0);
+  double num = -1.0*std::pow(arma::norm(x-y),2);
+  double den=2*(std::pow(sigma,2));
+  double res=std::exp((num/den));
+  return(res);
+}
+
+
+double GeneralizedHistogramIntersectionKernel(arma::vec x,arma::vec y,arma::vec parms)
+{
+  double a=parms(0);
+  double b=parms(1);
+  double sum=0;
+  for(int i=0;i<x.n_elem;i++){
+    sum=sum+std::min(std::pow(std::abs(x(i)),a),std::pow(std::abs(y(i)),b));
+  }
+  return(sum);
+}
+
+
+double GeneralizedTStudentKernel(arma::vec x,arma::vec y,arma::vec parms)
+{
+  double d = parms(0);
+  double res=1.0/(1.0+(std::pow(std::sqrt(arma::sum(arma::square(x-y))),d)));
+  return(res);
+}
+
+
+double HellingerKernel(arma::vec x,arma::vec y,arma::vec parms)
+{
   double r = 0;
-  for (int i=0;i<x.n_elem;i++)
-  {
-    double dxy = x(i) - y(i);
-    r += dxy * dxy;
-  }
-
-  return r / (sigma * sigma) * std::log(std::sqrt(r) / sigma);
+  r=arma::sum(arma::sqrt(x*y));
+  return r;
 }
 
-double SymmetricTriangleKernel(arma::vec x,arma::vec y,arma::vec parms)
+
+//Only for positive values in X and Y
+double HistogramIntersectionKernel(arma::vec x,arma::vec y,arma::vec parms)
 {
-  double gamma=parms(0);
-  double norm = 0.0;
-  for (int i=0;i<x.n_elem;i++)
-  {
-    double d = x(i) - y(i);
-    norm += d * d;
+  double sum=0;
+  for(int i=0;i<x.n_elem;i++){
+    sum=sum+std::min(x(i),y(i));
   }
-
-  double z = 1.0 - gamma * std::sqrt(norm);
-
-  return (z > 0) ? z : 0;
+  return(sum);
 }
 
-double SquaredSincKernel(arma::vec x,arma::vec y,arma::vec parms)
+
+double HyperbolicTangentKernel(arma::vec x,arma::vec y,arma::vec parms)
 {
-  double norm = 0.0;
-  double gamma=parms(0);
-
-  for (int i=0;i<x.n_elem;i++)
-  {
-    double d = x(i) - y(i);
-    norm += d * d;
-  }
-
-  double num = gamma * std::sqrt(norm);
-  double den = gamma * gamma * norm;
-
-  return std::sin(num) / den;
+  double n=parms(0);
+  double cc=parms(1);
+  double cross = arma::sum(x % y);
+  double res=tanh(((1.0/n)*cross)+cc);
+  return(res);
 }
 
-double SigmoidKernel(arma::vec x,arma::vec y,arma::vec parms)
+
+double InverseMultiquadraticKernel(arma::vec x,arma::vec y,arma::vec parms)
 {
-  double alpha=parms(0);
-  double constant=parms(1);
-  double sum = 0.0;
-  for (int i=0;i<x.n_elem;i++)
-    sum += x(i) * y(i);
-  double value = std::tanh(alpha * sum + constant);
-
-  return value;
+  double cc=parms(0);
+  double res=1.0/(std::sqrt(arma::sum(arma::square(x-y))+(std::pow(cc,2))));
+  return(res);
 }
+
+
+double LaplacianoKernel(arma::vec x,arma::vec y,arma::vec parms)
+{
+  double sigma=parms(0);
+  double num=std::sqrt(arma::sum(arma::square(x-y)));
+  double den=sigma;
+  double res = std::exp(-1.0*(num/den));
+  return(res);
+}
+
+
+double LinearKernel(arma::vec x,arma::vec y,arma::vec parms)
+{
+  double cc=parms(0);
+  double cross = arma::sum(x % y);
+  double res = cross+cc;
+  return(res);
+}
+
+
+double LogKernel(arma::vec x,arma::vec y,arma::vec parms)
+{
+  double a=parms(0);
+  double b=parms(1);
+  double norm = arma::norm(x-y);
+  double res=-1.0*std::log(std::pow(norm,a)+b);
+  return(res);
+}
+
+
+double LogLinearKernel(arma::vec x,arma::vec y,arma::vec parms)
+{
+  double d=parms(0);
+  double res = (-1.0*std::log(std::pow(std::sqrt(arma::sum(arma::square(x-y))),d)+1.0));
+  return(res);
+}
+
+
+double MexicanHatKernel(arma::vec x,arma::vec y,arma::vec parms)
+{
+  double a=parms(0);
+  double res2 = arma::prod((1.0-arma::square(x-y)/std::pow(a,2))*arma::exp(-arma::square(x-y)/(2.0*std::pow(a,2))));
+  return(res2);
+}
+
+
+double MorletKernel(arma::vec x,arma::vec y,arma::vec parms)
+{
+  double a=parms(0);
+  double res2 = arma::prod(arma::cos(5.0*(x-y)/a)*arma::exp(-arma::square(x-y)/(2.0*std::pow(a,2))));
+  return(res2);
+}
+
+
+double MultiquadraticKernel(arma::vec x,arma::vec y,arma::vec parms)
+{
+  double cc=parms(0);
+  double res = std::sqrt(arma::sum(arma::square(x-y))+(std::pow(cc,2)));
+  return(res);
+}
+
 
 double PearsonKernel(arma::vec x,arma::vec y,arma::vec parms)
 {
@@ -133,99 +271,6 @@ double PearsonKernel(arma::vec x,arma::vec y,arma::vec parms)
   return 1.0 / std::pow(1.0 + m * m, omega);
 }
 
-double DirichletKernel(arma::vec x,arma::vec y,arma::vec parms)
-{
-  double N=parms(0);//Dimension
-  double delta=parms(1);
-  double prod = 1;
-  for (int i=0;i<x.n_elem;i++)
-  {
-    double delta = x(i) - y(i);
-    double num = std::sin((N + 0.5) * (delta));
-    double den = 2.0 * std::sin(delta / 2.0);
-    prod *= num / den;
-  }
-
-  return prod;
-}
-
-double HellingerKernel(arma::vec x,arma::vec y,arma::vec parms)
-{
-  double r = 0;
-  r=arma::sum(arma::sqrt(x*y));
-  return r;
-}
-
-double WaveKernel(arma::vec x,arma::vec y,arma::vec parms)
-{
-  double norm = arma::norm(x-y);
-  double sigma=parms(0);
-
-  if (sigma == 0 || norm == 0)
-    return 0;
-
-  return (sigma / norm) * std::sin(norm / sigma);
-}
-
-double LogKernel(arma::vec x,arma::vec y,arma::vec parms)
-{
-  double a=parms(0);
-  double b=parms(1);
-  double norm = arma::norm(x-y);
-  double res=-1.0*std::log(std::pow(norm,a)+b);
-  return(res);
-}
-
-double SphericalKernel(arma::vec x,arma::vec y,arma::vec parms)
-{
-  double sigma=parms(0);
-  double norm = arma::norm(x-y);
-  double res=0;
-  if(norm>=sigma){
-    res=1.0-1.5*(norm/sigma)+0.5*std::pow(norm/sigma,3);
-  }
-  return(res);
-}
-
-double CircularKernel(arma::vec x,arma::vec y,arma::vec parms)
-{
-  double sigma=parms(0);
-  double norm = arma::norm(x-y);
-  double res=0;
-  if(norm>=sigma){
-    res=(2.0/M_PI)*std::acos(-norm/sigma)-(2.0/M_PI)*(norm/sigma)*std::sqrt(1-std::pow((norm/sigma),2));
-  }
-  return(res);
-}
-
-//Only for positive values in X and Y
-double HistogramIntersectionKernel(arma::vec x,arma::vec y,arma::vec parms)
-{
-  double sum=0;
-  for(int i=0;i<x.n_elem;i++){
-    sum=sum+std::min(x(i),y(i));
-  }
-  return(sum);
-}
-
-double GeneralizedHistogramIntersectionKernel(arma::vec x,arma::vec y,arma::vec parms)
-{
-  double a=parms(0);
-  double b=parms(1);
-  double sum=0;
-  for(int i=0;i<x.n_elem;i++){
-    sum=sum+std::min(std::pow(std::abs(x(i)),a),std::pow(std::abs(y(i)),b));
-  }
-  return(sum);
-}
-
-double CauchyKernel(arma::vec x,arma::vec y,arma::vec parms)
-{
-  double sigma = parms(0);
-  double den=1+((arma::sum(arma::square(x-y)))/(std::pow(sigma,2)));
-  double res=1/den;
-  return(res);
-}
 
 double PolynomialKernel(arma::vec x,arma::vec y,arma::vec parms)
 {
@@ -236,107 +281,6 @@ double PolynomialKernel(arma::vec x,arma::vec y,arma::vec parms)
   return(res);
 }
 
-
-
-double ChiSquareKernel(arma::vec x,arma::vec y,arma::vec parms)
-{
-  arma::vec num=arma::square(x-y);
-  arma::vec den= 0.5*(x+y);
-  double res=1.0-arma::sum(num/den);
-  return(res);
-}
-
-double ExponentialKernel(arma::vec x,arma::vec y,arma::vec parms)
-{
-  double sigma = parms(0);
-  double num = std::sqrt(arma::sum(arma::square(x-y)));
-  double den=2*(std::pow(sigma,2));
-  double res=(-(num/den));
-  return(res);
-}
-
-
-double GaussianKernel(arma::vec x,arma::vec y, arma::vec parms)
-{
-  double sigma = parms(0);
-  double num = -1.0*std::pow(arma::norm(x-y),2);
-  double den=2*(std::pow(sigma,2));
-  double res=std::exp((num/den));
-  return(res);
-}
-
-double GeneralizedTStudentKernel(arma::vec x,arma::vec y,arma::vec parms)
-{
-  double d = parms(0);
-  double res=1.0/(1.0+(std::pow(std::sqrt(arma::sum(arma::square(x-y))),d)));
-  return(res);
-}
-
-double HyperbolicTangentKernel(arma::vec x,arma::vec y,arma::vec parms)
-{
-  double n=parms(0);
-  double cc=parms(1);
-  double cross = arma::sum(x % y);
-  double res=tanh(((1.0/n)*cross)+cc);
-  return(res);
-}
-
-double SplineKernel(arma::vec x,arma::vec y,arma::vec parms)
-{
-  double prod=1;
-  for(int i=0;i<x.size();i++){
-    double res=1+(x(i)*y(i)*std::min(x(i),y(i)))-((x(i)+y(i))/2.0)*(std::pow(std::min(x(i),y(i)),2)+(std::pow(std::min(x(i),y(i)),3)/3.0));
-    prod=prod*res;
-  }
-  return(prod);
-}
-
-double ANOVAKernel(arma::vec x,arma::vec y,arma::vec parms)
-{
-  double sigma=parms(0);
-  double d=parms(1);
-  arma::vec diff=arma::exp(-sigma*arma::square(x-y));
-  double res=std::pow(arma::sum(diff),d);
-  return(res);
-}
-
-double InverseMultiquadraticKernel(arma::vec x,arma::vec y,arma::vec parms)
-{
-  double cc=parms(0);
-  double res=1.0/(std::sqrt(arma::sum(arma::square(x-y))+(std::pow(cc,2))));
-  return(res);
-}
-
-double LaplacianoKernel(arma::vec x,arma::vec y,arma::vec parms)
-{
-  double sigma=parms(0);
-  double num=std::sqrt(arma::sum(arma::square(x-y)));
-  double den=sigma;
-  double res = std::exp(-1.0*(num/den));
-  return(res);
-}
-
-double LinearKernel(arma::vec x,arma::vec y,arma::vec parms)
-{
-  double cc=parms(0);
-  double cross = arma::sum(x % y);
-  double res = cross+cc;
-  return(res);
-}
-
-double LogLinearKernel(arma::vec x,arma::vec y,arma::vec parms)
-{
-  double d=parms(0);
-  double res = (-1.0*std::log(std::pow(std::sqrt(arma::sum(arma::square(x-y))),d)+1.0));
-  return(res);
-}
-
-double MultiquadraticKernel(arma::vec x,arma::vec y,arma::vec parms)
-{
-  double cc=parms(0);
-  double res = std::sqrt(arma::sum(arma::square(x-y))+(std::pow(cc,2)));
-  return(res);
-}
 
 double PowerKernel(arma::vec x,arma::vec y,arma::vec parms)
 {
@@ -355,28 +299,112 @@ double RationalQuadraticKernel(arma::vec x,arma::vec y,arma::vec parms)
   return(res);
 }
 
+
+double SigmoidKernel(arma::vec x,arma::vec y,arma::vec parms)
+{
+  double alpha=parms(0);
+  double constant=parms(1);
+  double sum = 0.0;
+  for (int i=0;i<x.n_elem;i++)
+    sum += x(i) * y(i);
+  double value = std::tanh(alpha * sum + constant);
+
+  return value;
+}
+
+
+double SphericalKernel(arma::vec x,arma::vec y,arma::vec parms)
+{
+  double sigma=parms(0);
+  double norm = arma::norm(x-y);
+  double res=0;
+  if(norm>=sigma){
+    res=1.0-1.5*(norm/sigma)+0.5*std::pow(norm/sigma,3);
+  }
+  return(res);
+}
+
+
+double SplineKernel(arma::vec x,arma::vec y,arma::vec parms)
+{
+  double prod=1;
+  for(int i=0;i<x.size();i++){
+    double res=1+(x(i)*y(i)*std::min(x(i),y(i)))-((x(i)+y(i))/2.0)*(std::pow(std::min(x(i),y(i)),2)+(std::pow(std::min(x(i),y(i)),3)/3.0));
+    prod=prod*res;
+  }
+  return(prod);
+}
+
+
+double SquaredSincKernel(arma::vec x,arma::vec y,arma::vec parms)
+{
+  double norm = 0.0;
+  double gamma=parms(0);
+
+  for (int i=0;i<x.n_elem;i++)
+  {
+    double d = x(i) - y(i);
+    norm += d * d;
+  }
+
+  double num = gamma * std::sqrt(norm);
+  double den = gamma * gamma * norm;
+
+  return std::sin(num) / den;
+}
+
+
+double SymmetricTriangleKernel(arma::vec x,arma::vec y,arma::vec parms)
+{
+  double gamma=parms(0);
+  double norm = 0.0;
+  for (int i=0;i<x.n_elem;i++)
+  {
+    double d = x(i) - y(i);
+    norm += d * d;
+  }
+
+  double z = 1.0 - gamma * std::sqrt(norm);
+
+  return (z > 0) ? z : 0;
+}
+
+
+double ThinSplinePlateKernel(arma::vec x,arma::vec y,arma::vec parms)
+{
+  double sigma=parms(0);
+  double r = 0;
+  for (int i=0;i<x.n_elem;i++)
+  {
+    double dxy = x(i) - y(i);
+    r += dxy * dxy;
+  }
+
+  return r / (sigma * sigma) * std::log(std::sqrt(r) / sigma);
+}
+
+
+double WaveKernel(arma::vec x,arma::vec y,arma::vec parms)
+{
+  double norm = arma::norm(x-y);
+  double sigma=parms(0);
+
+  if (sigma == 0 || norm == 0)
+    return 0;
+
+  return (sigma / norm) * std::sin(norm / sigma);
+}
+
+
 double WaveletKernel(arma::vec x,arma::vec y,arma::vec parms)
 {
   double a=parms(0);
   arma::vec hx1=((x-y)/a);
   arma::vec res = arma::cos(1.75*hx1)*arma::exp(-1.0*((arma::square(hx1)/2.0)));
   double res2=1;
-    for(int i=0;i<res.n_elem;i++){
-      res2=res2*res(i);
-    }
+  for(int i=0;i<res.n_elem;i++){
+    res2=res2*res(i);
+  }
   return(res2);
 }
 
-double MexicanHatKernel(arma::vec x,arma::vec y,arma::vec parms)
-{
-  double a=parms(0);
-  double res2 = arma::prod((1.0-arma::square(x-y)/std::pow(a,2))*arma::exp(-arma::square(x-y)/(2.0*std::pow(a,2))));
-  return(res2);
-}
-
-double MorletKernel(arma::vec x,arma::vec y,arma::vec parms)
-{
-  double a=parms(0);
-  double res2 = arma::prod(arma::cos(5.0*(x-y)/a)*arma::exp(-arma::square(x-y)/(2.0*std::pow(a,2))));
-  return(res2);
-}
