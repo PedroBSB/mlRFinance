@@ -64,20 +64,20 @@ double BesselKernel(Eigen::RowVectorXd x,Eigen::RowVectorXd y,Eigen::RowVectorXd
 }
 
 
-double CauchyKernel(arma::vec x,arma::vec y,arma::vec parms)
+double CauchyKernel(Eigen::RowVectorXd x, Eigen::RowVectorXd y, Eigen::RowVectorXd parms)
 {
   double sigma = parms(0);
-  double den=1+((arma::sum(arma::square(x-y)))/(std::pow(sigma,2)));
+  double den=1+((((x-y).array().pow(2)).sum())/(std::pow(sigma,2)));
   double res=1/den;
   return(res);
 }
 
 
-double ChiSquareKernel(arma::vec x,arma::vec y,arma::vec parms)
+double ChiSquareKernel(Eigen::RowVectorXd x, Eigen::RowVectorXd y, Eigen::RowVectorXd parms)
 {
-  arma::vec num=arma::square(x-y);
-  arma::vec den= 0.5*(x+y);
-  double res=1.0-arma::sum(num/den);
+  Eigen::RowVectorXd num=(x-y).array().pow(2);
+  Eigen::RowVectorXd den= 0.5*(x+y);
+  double res=1.0 - (num.cwiseQuotient(den)).sum();
   return(res);
 }
 
