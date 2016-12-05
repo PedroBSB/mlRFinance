@@ -45,20 +45,20 @@ double ArccosKernel(arma::vec x,arma::vec y,arma::vec parms)
 }
 
 
-double BesselKernel(arma::vec x,arma::vec y,arma::vec parms)
+double BesselKernel(Eigen::RowVectorXd x,Eigen::RowVectorXd y,Eigen::RowVectorXd parms)
 {
   double res;
   double order = parms(0);
   double degree= parms(1);
-  double sigma = parms(3);
+  double sigma = parms(2);
   double lim = 1.0/(R::gammafn(order+1.0)*std::pow(2.0,order));
-  double comp = -1.0*(2*arma::sum(x % y) - arma::sum(x % x) - arma::sum(y % y));
+  double comp = -1.0*(2* (x.cwiseProduct(y)).sum() - (x.cwiseProduct(x)).sum() - (y.cwiseProduct(y)).sum());
   double bkt =  sigma*std::sqrt(comp);
   if(bkt < 10e-5){
     res = lim;
   }
   else{
-      res = R::bessel_j(bkt,order)*(std::pow(bkt,(-order)));
+    res = R::bessel_j(bkt,order)*(std::pow(bkt,(-order)));
   }
   return res;
 }
