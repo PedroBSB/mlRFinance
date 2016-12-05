@@ -1,8 +1,9 @@
 #include <RcppArmadillo.h>
+#include <RcppEigen.h>
 // [[Rcpp::depends(RcppArmadillo)]]
+// [[Rcpp::depends(RcppEigen)]]
 #include <cmath>
 using namespace Rcpp;
-
 
 /********************************************************************************************************/
 /***********************************         KERNEL FUNCTIONS      **************************************/
@@ -11,12 +12,12 @@ using namespace Rcpp;
 //http://crsouza.com/2010/03/17/kernel-functions-for-machine-learning-applications/
 //http://cseweb.ucsd.edu/~yoc002/arccos.html
 
-double ANOVAKernel(arma::vec x,arma::vec y,arma::vec parms)
+double ANOVAKernel(Eigen::RowVectorXd x, Eigen::RowVectorXd y, Eigen::RowVectorXd parms)
 {
   double sigma=parms(0);
   double d=parms(1);
-  arma::vec diff=arma::exp(-sigma*arma::square(x-y));
-  double res=std::pow(arma::sum(diff),d);
+  Eigen::RowVectorXd diff=(-sigma * (x-y).array().pow(2)).exp();
+  double res=std::pow (diff.sum(), d) ;
   return(res);
 }
 
@@ -120,10 +121,10 @@ double ExponentialKernel(arma::vec x,arma::vec y,arma::vec parms)
 }
 
 
-double GaussianKernel(arma::vec x,arma::vec y, arma::vec parms)
+double GaussianKernel(Eigen::RowVectorXd x, Eigen::RowVectorXd y, Eigen::RowVectorXd parms)
 {
   double sigma = parms(0);
-  double num = -1.0*std::pow(arma::norm(x-y),2);
+  double num = -1.0*std::pow((x-y).norm(),2);
   double den=2*(std::pow(sigma,2));
   double res=std::exp((num/den));
   return(res);
