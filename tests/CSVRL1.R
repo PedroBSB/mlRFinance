@@ -41,6 +41,9 @@ X<-matrix(train[1:(length(train)-1)],ncol=1)
 #SVR
 svm2<- CSVRL1(y, X, 50,0.5, "Polynomial", c(2,1))
 
+svm3<- CSVRL1(y, X, 50,0.5, "Gaussian", c(1))
+
+
 #Faz analise de sensibilidade
 Q<-minimumCSVRL1(y, X, 0.5, "Gaussian", 1)
 Q2<-Matrix::nearPD(Q)
