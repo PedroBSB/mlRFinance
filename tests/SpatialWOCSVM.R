@@ -16,9 +16,7 @@ wMat <- spdep::nb2mat(nb, style="W", zero.policy =TRUE)
 A<-as.matrix(scale(Crime[,c(2:4)]))
 
 #Run the SpatialWOCSCM
-#svc<-SpatialWOCSCM(A, wMat, 0.5, 2, 1, 1, 100, "Gaussian", c(0.5))
-#svc<-SpatialWOCSCM(A, wMat, 0.1, 2, 1, 10, 100, "Gaussian", c(0.5))
-#svc<-SpatialWOCSCM(A, wMat, 0.9, 2, 10, 1, 100, "Gaussian", c(0.5))
+svc<-SpatialWOCSCM(A, wMat, 0.5, 2, 1, 1, 100, "Gaussian", c(0.5))
 
 #Plot the log-likelihood
 plot(svc$LogLikelihood, type="l")
