@@ -5,9 +5,6 @@ library(ggplot2)
 #Read the data frame
 data("Crime")
 
-Crime<-read.csv("C:\\Users\\p.albuquerque\\Dropbox\\mlRFinance\\data\\Crime.csv")
-Crime$ID<-seq(1,nrow(Crime))
-Crime<-Crime[,c(17,seq(1,16))]
 #Read the shapefile
 shp <- maptools::readShapePoly("data/columbus.shp", IDvar="POLYID")
 
