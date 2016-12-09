@@ -9,8 +9,8 @@ data("Crime")
 shp <- maptools::readShapePoly("data/columbus.shp", IDvar="POLYID")
 
 #Create the weight matrix
-nb <- spdep::poly2nb(shp)
-wMat <- spdep::nb2mat(nb, style="W", zero.policy =TRUE)
+wMat <- McSpatial::makew(shp, method="kernel")$wmat
+#wMat <- McSpatial::makew(shp, method="queen")$wmat
 
 #Data matrix
 A<-as.matrix(scale(Crime[,c(2:8)]))
