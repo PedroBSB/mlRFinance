@@ -111,10 +111,10 @@ double DirichletKernel(Eigen::RowVectorXd x,Eigen::RowVectorXd y,Eigen::RowVecto
 }
 
 
-double ExponentialKernel(arma::vec x,arma::vec y,arma::vec parms)
+double ExponentialKernel(Eigen::RowVectorXd x,Eigen::RowVectorXd y,Eigen::RowVectorXd parms)
 {
   double sigma = parms(0);
-  double num = std::sqrt(arma::sum(arma::square(x-y)));
+  double num = std::sqrt(((x-y).array().pow(2)).sum());
   double den=2*(std::pow(sigma,2));
   double res=(-(num/den));
   return(res);
@@ -136,7 +136,7 @@ double GeneralizedHistogramIntersectionKernel(arma::vec x,arma::vec y,arma::vec 
   double a=parms(0);
   double b=parms(1);
   double sum=0;
-  for(int i=0;i<x.n_elem;i++){
+  for(int i=0;i<x.size();i++){
     sum=sum+std::min(std::pow(std::abs(x(i)),a),std::pow(std::abs(y(i)),b));
   }
   return(sum);
