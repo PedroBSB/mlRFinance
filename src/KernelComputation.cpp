@@ -82,10 +82,10 @@ double ChiSquareKernel(Eigen::RowVectorXd x, Eigen::RowVectorXd y, Eigen::RowVec
 }
 
 
-double CircularKernel(arma::vec x,arma::vec y,arma::vec parms)
+double CircularKernel(Eigen::RowVectorXd x, Eigen::RowVectorXd y,Eigen::RowVectorXd parms)
 {
   double sigma=parms(0);
-  double norm = arma::norm(x-y);
+  double norm = (x-y).norm();
   double res=0;
   if(norm>=sigma){
     res=(2.0/M_PI)*std::acos(-norm/sigma)-(2.0/M_PI)*(norm/sigma)*std::sqrt(1-std::pow((norm/sigma),2));
