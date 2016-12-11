@@ -94,12 +94,12 @@ double CircularKernel(Eigen::RowVectorXd x, Eigen::RowVectorXd y,Eigen::RowVecto
 }
 
 
-double DirichletKernel(arma::vec x,arma::vec y,arma::vec parms)
+double DirichletKernel(Eigen::RowVectorXd x,Eigen::RowVectorXd y,Eigen::RowVectorXd parms)
 {
   double N=parms(0);//Dimension
   double delta=parms(1);
   double prod = 1;
-  for (int i=0;i<x.n_elem;i++)
+  for (int i=0;i<x.size();i++)
   {
     double delta = x(i) - y(i);
     double num = std::sin((N + 0.5) * (delta));
