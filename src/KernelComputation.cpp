@@ -180,18 +180,18 @@ double HyperbolicTangentKernel(Eigen::RowVectorXd x,Eigen::RowVectorXd y,Eigen::
 }
 
 
-double InverseMultiquadraticKernel(arma::vec x,arma::vec y,arma::vec parms)
+double InverseMultiquadraticKernel(Eigen::RowVectorXd x,Eigen::RowVectorXd y,Eigen::RowVectorXd parms)
 {
   double cc=parms(0);
-  double res=1.0/(std::sqrt(arma::sum(arma::square(x-y))+(std::pow(cc,2))));
+  double res=1.0/(std::sqrt(((x-y).array().pow(2)).sum() + (std::pow(cc,2))));
   return(res);
 }
 
 
-double LaplacianoKernel(arma::vec x,arma::vec y,arma::vec parms)
+double LaplacianoKernel(Eigen::RowVectorXd x,Eigen::RowVectorXd y,Eigen::RowVectorXd parms)
 {
   double sigma=parms(0);
-  double num=std::sqrt(arma::sum(arma::square(x-y)));
+  double num=std::sqrt(((x-y).array().pow(2)).sum());
   double den=sigma;
   double res = std::exp(-1.0*(num/den));
   return(res);
