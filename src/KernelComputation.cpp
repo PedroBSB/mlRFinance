@@ -160,21 +160,21 @@ double HellingerKernel(Eigen::RowVectorXd x, Eigen::RowVectorXd y, Eigen::RowVec
 
 
 //Only for positive values in X and Y
-double HistogramIntersectionKernel(arma::vec x,arma::vec y,arma::vec parms)
+double HistogramIntersectionKernel(Eigen::RowVectorXd x,Eigen::RowVectorXd y,Eigen::RowVectorXd parms)
 {
   double sum=0;
-  for(int i=0;i<x.n_elem;i++){
+  for(int i=0;i<x.size();i++){
     sum=sum+std::min(x(i),y(i));
   }
   return(sum);
 }
 
 
-double HyperbolicTangentKernel(arma::vec x,arma::vec y,arma::vec parms)
+double HyperbolicTangentKernel(Eigen::RowVectorXd x,Eigen::RowVectorXd y,Eigen::RowVectorXd parms)
 {
   double n=parms(0);
   double cc=parms(1);
-  double cross = arma::sum(x % y);
+  double cross = (x.cwiseProduct(y)).sum();
   double res=tanh(((1.0/n)*cross)+cc);
   return(res);
 }
