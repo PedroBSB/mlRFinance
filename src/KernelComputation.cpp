@@ -131,7 +131,7 @@ double GaussianKernel(Eigen::RowVectorXd x, Eigen::RowVectorXd y, Eigen::RowVect
 }
 
 
-double GeneralizedHistogramIntersectionKernel(arma::vec x,arma::vec y,arma::vec parms)
+double GeneralizedHistogramIntersectionKernel(Eigen::RowVectorXd x,Eigen::RowVectorXd y, Eigen::RowVectorXd parms)
 {
   double a=parms(0);
   double b=parms(1);
@@ -143,10 +143,10 @@ double GeneralizedHistogramIntersectionKernel(arma::vec x,arma::vec y,arma::vec 
 }
 
 
-double GeneralizedTStudentKernel(arma::vec x,arma::vec y,arma::vec parms)
+double GeneralizedTStudentKernel(Eigen::RowVectorXd x, Eigen::RowVectorXd y, Eigen::RowVectorXd parms)
 {
   double d = parms(0);
-  double res=1.0/(1.0+(std::pow(std::sqrt(arma::sum(arma::square(x-y))),d)));
+  double res=1.0/(1.0+(std::pow(std::sqrt(((x-y).array().pow(2)).sum()),d)));
   return(res);
 }
 
