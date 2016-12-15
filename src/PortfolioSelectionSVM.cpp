@@ -18,8 +18,8 @@ void PrintObject(Eigen::MatrixXd mat);
 void PrintObject(Eigen::VectorXd vec);
 
 //C-SVM L1
-Rcpp::List CSVML1(Eigen::VectorXd y, Eigen::MatrixXd X, double C, std::string kernel, arma::vec parms);
-Eigen::VectorXd PredictedCSVML1(Rcpp::List CSVML1, Eigen::VectorXd y, Eigen::MatrixXd X, Eigen::MatrixXd Xprev, int typePredict);
+Rcpp::List CSVML1(Eigen::VectorXd y, Eigen::MatrixXd X, double C, std::string kernel, arma::vec parms, bool biasTerm);
+Eigen::VectorXd PredictedCSVML1(Rcpp::List CSVML1, Eigen::VectorXd y, Eigen::MatrixXd X, Eigen::MatrixXd Xprev, int typePredict, bool biasTerm);
 
 //C-SVR L1
 Rcpp::List CSVRL1(Eigen::VectorXd y, Eigen::MatrixXd X, double C, double epsilon, std::string kernel, arma::vec parms);
@@ -70,11 +70,11 @@ Rcpp::List PortfolioSelectionCSVML1(Eigen::VectorXd y_train, Eigen::MatrixXd X_t
                                     std::string kernel, arma::vec parms,int typePredict){
 
   //Step 1: Training and validating MEAN
-  Rcpp::List SVMport = CSVML1(y_train, X_train, C, kernel, parms);
+  Rcpp::List SVMport = CSVML1(y_train, X_train, C, kernel, parms, true);
 
   //Forecasting the results
-  Eigen::VectorXd yPred = PredictedCSVML1(SVMport,y_train, X_train, X_train,typePredict);
-  Eigen::VectorXd yValidPred = PredictedCSVML1(SVMport,y_train, X_train, X_valid,typePredict);
+  Eigen::VectorXd yPred = PredictedCSVML1(SVMport,y_train, X_train, X_train,typePredict, true);
+  Eigen::VectorXd yValidPred = PredictedCSVML1(SVMport,y_train, X_train, X_valid,typePredict, true);
 
   //Calculate the error measure
   Rcpp::List yPredError;

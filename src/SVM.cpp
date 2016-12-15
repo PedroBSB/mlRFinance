@@ -204,7 +204,7 @@ Eigen::VectorXd predictProbability(Eigen::VectorXd predVec,Eigen::VectorXd y, Ei
 // @cite soman2009machine
 // @bibliography ~/vignettes/bibliography.bib
 // [[Rcpp::export]]
-Rcpp::List CSVML1(Eigen::VectorXd y, Eigen::MatrixXd X, double C, std::string kernel, arma::vec parms){
+Rcpp::List CSVML1(Eigen::VectorXd y, Eigen::MatrixXd X, double C, std::string kernel, arma::vec parms, bool biasTerm){
   //Support Vectors
   Eigen::VectorXd SV(y.size());
   //Create the one vector Nx1
@@ -214,6 +214,12 @@ Rcpp::List CSVML1(Eigen::VectorXd y, Eigen::MatrixXd X, double C, std::string ke
   Eigen::VectorXd ce0;
   //LHS equality
   Eigen::MatrixXd CE;
+  if(biasTerm==true){
+    //RHS equality
+    ce0 = Eigen::VectorXd::Zero(1);
+    //LHS equality
+    CE = Eigen::MatrixXd::Ones(1,y.size());
+  }
   //RHS: Inequality 1
   Eigen::VectorXd ci1 = Eigen::VectorXd::Zero(y.size());
   //LHS: Inequality 1
@@ -275,7 +281,7 @@ Rcpp::List CSVML1(Eigen::VectorXd y, Eigen::MatrixXd X, double C, std::string ke
 // @cite soman2009machine
 // @bibliography ~/vignettes/bibliography.bib
 // [[Rcpp::export]]
-Eigen::VectorXd PredictedCSVML1(Rcpp::List CSVML1,Eigen::VectorXd y, Eigen::MatrixXd X, Eigen::MatrixXd Xprev, int typePredict){
+Eigen::VectorXd PredictedCSVML1(Rcpp::List CSVML1,Eigen::VectorXd y, Eigen::MatrixXd X, Eigen::MatrixXd Xprev, int typePredict, bool biasTerm){
 
   //Get the SV
   Eigen::VectorXd SV = as<Eigen::VectorXd> (CSVML1["SupportVectors"]);
@@ -286,6 +292,19 @@ Eigen::VectorXd PredictedCSVML1(Rcpp::List CSVML1,Eigen::VectorXd y, Eigen::Matr
   //Get the parameters
   arma::vec parms = as<arma::vec> (CSVML1["Parameters"]);
 
+  //Bias Term
+  double gamma=0.0;
+  if(biasTerm==true){
+    for(int i=0;i<X.rows();i++){
+      //Create the Kernel Matrix
+      Eigen::VectorXd K = KernelMatrixComputationPred(X,X.row(i),kernel,parms);
+      Eigen::VectorXd F = y.array()*SV.array() *K.array();
+      double res = F.sum();
+      gamma=gamma+(y(i)-res);
+    }
+  }
+  gamma = gamma / X.rows();
+
   //Total number of observations
   int size = Xprev.rows();
   Eigen::VectorXd predVec(size);
@@ -295,7 +314,7 @@ Eigen::VectorXd PredictedCSVML1(Rcpp::List CSVML1,Eigen::VectorXd y, Eigen::Matr
       Eigen::VectorXd K = KernelMatrixComputationPred(X,Xprev.row(i),kernel,parms);
       Eigen::VectorXd F = y.array()*SV.array() *K.array();
       double res = F.sum();
-      predVec(i)=res;
+      predVec(i)=res-gamma;
     }
       //Return the probability
     Eigen::VectorXd parms = predictProbability(predVec, y, SV);
@@ -312,6 +331,7 @@ Eigen::VectorXd PredictedCSVML1(Rcpp::List CSVML1,Eigen::VectorXd y, Eigen::Matr
       Eigen::VectorXd K = KernelMatrixComputationPred(X,Xprev.row(i),kernel,parms);
       Eigen::VectorXd F = y.array()*SV.array() *K.array();
       double res = F.sum();
+      res = res - gamma;
       if(typePredict==0){
         //Return the signal
         if(res<0){
@@ -323,12 +343,11 @@ Eigen::VectorXd PredictedCSVML1(Rcpp::List CSVML1,Eigen::VectorXd y, Eigen::Matr
       }
       else{
         //Return the raw forecast
+        res = res - gamma;
         predVec(i)=res;
       }
     }
   }
-
-
   return(predVec);
 }
 
@@ -354,7 +373,7 @@ Eigen::VectorXd PredictedCSVML1(Rcpp::List CSVML1,Eigen::VectorXd y, Eigen::Matr
 // @cite soman2009machine
 // @bibliography ~/vignettes/bibliography.bib
 // [[Rcpp::export]]
-Eigen::VectorXd R2PredictedCSVML1(Rcpp::List CSVML1,Eigen::VectorXd y, Eigen::MatrixXd X, int typePredict){
+Eigen::VectorXd R2PredictedCSVML1(Rcpp::List CSVML1,Eigen::VectorXd y, Eigen::MatrixXd X, int typePredict, bool biasTerm){
   //Results
   Eigen::VectorXd R2vec(X.cols());
 
@@ -367,6 +386,19 @@ Eigen::VectorXd R2PredictedCSVML1(Rcpp::List CSVML1,Eigen::VectorXd y, Eigen::Ma
   //Get the parameters
   arma::vec parms = as<arma::vec> (CSVML1["Parameters"]);
 
+  //Bias Term
+  double gamma=0.0;
+  if(biasTerm==true){
+    for(int i=0;i<X.rows();i++){
+      //Create the Kernel Matrix
+      Eigen::VectorXd K = KernelMatrixComputationPred(X,X.row(i),kernel,parms);
+      Eigen::VectorXd F = y.array()*SV.array() *K.array();
+      double res = F.sum();
+      gamma=gamma+(y(i)-res);
+    }
+  }
+  gamma = gamma / X.rows();
+
   //Prediction for the full model
   //Total number of observations
   int size = X.rows();
@@ -377,7 +409,7 @@ Eigen::VectorXd R2PredictedCSVML1(Rcpp::List CSVML1,Eigen::VectorXd y, Eigen::Ma
       Eigen::VectorXd K = KernelMatrixComputationPred(X,X.row(i),kernel,parms);
       Eigen::VectorXd F = y.array()*SV.array() *K.array();
       double res = F.sum();
-      predVec(i)=res;
+      predVec(i)=res - gamma;
     }
     //Return the probability
     Eigen::VectorXd parms = predictProbability(predVec, y, SV);
@@ -394,6 +426,7 @@ Eigen::VectorXd R2PredictedCSVML1(Rcpp::List CSVML1,Eigen::VectorXd y, Eigen::Ma
       Eigen::VectorXd K = KernelMatrixComputationPred(X,X.row(i),kernel,parms);
       Eigen::VectorXd F = y.array()*SV.array() *K.array();
       double res = F.sum();
+      res = res - gamma;
       if(typePredict==0){
         //Return the signal
         if(res<0){
@@ -405,7 +438,7 @@ Eigen::VectorXd R2PredictedCSVML1(Rcpp::List CSVML1,Eigen::VectorXd y, Eigen::Ma
       }
       else{
         //Return the raw forecast
-        predVec(i)=res;
+        predVec(i)=res-gamma;
       }
     }
   }
@@ -421,6 +454,19 @@ Eigen::VectorXd R2PredictedCSVML1(Rcpp::List CSVML1,Eigen::VectorXd y, Eigen::Ma
     //Zero the variable
     Xprev.col(v).fill(0.0);
 
+    //Bias Term
+    gamma=0.0;
+    if(biasTerm==true){
+      for(int i=0;i<X.rows();i++){
+        //Create the Kernel Matrix
+        Eigen::VectorXd K = KernelMatrixComputationPred(X,X.row(i),kernel,parms);
+        Eigen::VectorXd F = y.array()*SV.array() *K.array();
+        double res = F.sum();
+        gamma=gamma+(y(i)-res);
+      }
+    }
+    gamma = gamma / X.rows();
+
     //Total number of observations
     int size = X.rows();
     Eigen::VectorXd predVec2(size);
@@ -430,7 +476,7 @@ Eigen::VectorXd R2PredictedCSVML1(Rcpp::List CSVML1,Eigen::VectorXd y, Eigen::Ma
         Eigen::VectorXd K = KernelMatrixComputationPred(X,Xprev.row(i),kernel,parms);
         Eigen::VectorXd F = y.array()*SV.array() *K.array();
         double res = F.sum();
-        predVec2(i)=res;
+        predVec2(i)=res-gamma;
       }
       //Return the probability
       Eigen::VectorXd parms = predictProbability(predVec2, y, SV);
@@ -447,6 +493,7 @@ Eigen::VectorXd R2PredictedCSVML1(Rcpp::List CSVML1,Eigen::VectorXd y, Eigen::Ma
         Eigen::VectorXd K = KernelMatrixComputationPred(X,Xprev.row(i),kernel,parms);
         Eigen::VectorXd F = y.array()*SV.array() *K.array();
         double res = F.sum();
+        res = res - gamma;
         if(typePredict==0){
           //Return the signal
           if(res<0){
@@ -458,7 +505,7 @@ Eigen::VectorXd R2PredictedCSVML1(Rcpp::List CSVML1,Eigen::VectorXd y, Eigen::Ma
         }
         else{
           //Return the raw forecast
-          predVec2(i)=res;
+          predVec2(i)=res-gamma;
         }
       }
     }
