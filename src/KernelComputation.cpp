@@ -151,10 +151,10 @@ double GeneralizedTStudentKernel(Eigen::RowVectorXd x, Eigen::RowVectorXd y, Eig
 }
 
 
-double HellingerKernel(arma::vec x,arma::vec y,arma::vec parms)
+double HellingerKernel(Eigen::RowVectorXd x, Eigen::RowVectorXd y, Eigen::RowVectorXd parms)
 {
   double r = 0;
-  r=arma::sum(arma::sqrt(x*y));
+  r=((x.cwiseProduct(y)).array().sqrt()).sum();
   return r;
 }
 
