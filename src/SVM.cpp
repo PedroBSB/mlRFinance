@@ -550,7 +550,7 @@ Eigen::VectorXd R2PredictedCSVML1(Rcpp::List CSVML1,Eigen::VectorXd y, Eigen::Ma
 // @cite soman2009machine
 // @bibliography ~/vignettes/bibliography.bib
 // [[Rcpp::export]]
-Rcpp::List CSVML2(Eigen::VectorXd y, Eigen::MatrixXd X, double C, std::string kernel, arma::vec parms){
+Rcpp::List CSVML2(Eigen::VectorXd y, Eigen::MatrixXd X, double C, std::string kernel, arma::vec parms, bool biasTerm){
   //Support Vectors
   Eigen::VectorXd SV(y.size());
   //Create the one vector Nx1
@@ -560,6 +560,13 @@ Rcpp::List CSVML2(Eigen::VectorXd y, Eigen::MatrixXd X, double C, std::string ke
   Eigen::VectorXd ce0;
   //LHS equality
   Eigen::MatrixXd CE;
+  if(biasTerm==true){
+    //RHS equality
+    ce0 = Eigen::VectorXd::Zero(1);
+    //LHS equality
+    CE = Eigen::MatrixXd::Zero(1,y.size());
+    CE.row(0) = y;
+  }
   //RHS: Inequality 1
   Eigen::VectorXd ci0 = Eigen::VectorXd::Zero(y.size());
   //LHS: Inequality 1
@@ -575,7 +582,7 @@ Rcpp::List CSVML2(Eigen::VectorXd y, Eigen::MatrixXd X, double C, std::string ke
   //nearPositiveDefinite(Q,1e-10);
   Q = nearPDefinite(Q, 1e+6, 1e-06, 1e-07, 1e-08, true);
   //Get the solution Support Vectors
-  SV = rcppeigen_quadratic_solve(Q,e, CE,ce0, CI.transpose(), ci0);
+  SV = rcppeigen_quadratic_solve(Q,e, CE.transpose(),ce0, CI.transpose(), ci0);
   //Return the results
   return Rcpp::List::create(Rcpp::Named("SupportVectors") = SV,
                             Rcpp::Named("Kernel") = kernel,
