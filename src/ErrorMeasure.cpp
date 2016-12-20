@@ -12,12 +12,23 @@ double MSEfunction(Eigen::VectorXd y, Eigen::VectorXd yPred){
   return(res);
 }
 
+//Mean Absolute Percentage Error
+double MAPEfunction(Eigen::VectorXd y, Eigen::VectorXd yPred){
+  Eigen::VectorXd res = (y-yPred).cwiseAbs();
+  res = res.array()/y.array();
+  return(res.mean());
+}
+
 // [[Rcpp::export]]
 Rcpp::List ErrorMeasures(Eigen::VectorXd y, Eigen::VectorXd yPred){
   //Calculate Mean Square Error
   double mse = MSEfunction(y, yPred);
+  //Calculate Mean Absolute Percentage Error
+  double mape = MAPEfunction(y, yPred);
   //Return the results
-  return Rcpp::List::create(Rcpp::Named("MSE") = mse);
+  return Rcpp::List::create(Rcpp::Named("MSE") = mse,
+                            Rcpp::Named("MAPE") = mape
+  );
 }
 
 
