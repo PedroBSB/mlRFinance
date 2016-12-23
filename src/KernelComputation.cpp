@@ -287,8 +287,10 @@ double HyperbolicTangentKernel(arma::vec x,arma::vec y,arma::vec parms)
 double SplineKernel(arma::vec x,arma::vec y,arma::vec parms)
 {
   double prod = 1;
+  double minxy;
   for(int i = 0;i < x.size();i++){
-    double res = 1 + (x(i)*y(i)*std::min(x(i),y(i))) - ((x(i) + y(i)) / 2.0) * (std::pow(std::min(x(i),y(i)),2) + (std::pow(std::min(x(i),y(i)),3) / 3.0));
+    minxy = std::min(x(i),y(i));
+    double res = 1 + (x(i) * y(i) * minxy) - ((x(i) + y(i)) / 2.0) * (minxy*minxy + (minxy*minxy*minxy / 3.0));
     prod = prod * res;
   }
   return(prod);
