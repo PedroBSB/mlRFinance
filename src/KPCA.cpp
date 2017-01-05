@@ -47,7 +47,7 @@ Eigen::MatrixXd nearPDefinite(Eigen::MatrixXd mat, int maxit, double eigtol, dou
 // @cite soman2009machine
 // @bibliography ~/vignettes/bibliography.bib
 // [[Rcpp::export]]
-Rcpp::List KPCA(Eigen::MatrixXd X, std::string kernel, arma::vec parms){
+Eigen::MatrixXd KPCAMatrix(Eigen::MatrixXd X, std::string kernel, arma::vec parms){
   //Compute the Kernel Matrix
   Eigen::MatrixXd K = KernelMatrixComputation(X,kernel,parms);
   //Identity
@@ -62,30 +62,7 @@ Rcpp::List KPCA(Eigen::MatrixXd X, std::string kernel, arma::vec parms){
   Eigen::MatrixXd Kmod(X.rows(),X.rows());
   Kmod = M*K*M;
 
-  //Compute the Singular Value Decomposition
-  Eigen::JacobiSVD<Eigen::MatrixXd> svd(Kmod, Eigen::ComputeThinU | Eigen::ComputeThinV);
-  Eigen::VectorXd EigenVector = svd.singularValues();
-
-  //Compute the Total Variability
-  double totalVar =  EigenVector.sum();
-  Eigen::VectorXd exp(K.rows());
-  exp = EigenVector.array()/totalVar;
-
-  //Components
-  int comp = K.cols();
-  Eigen::MatrixXd ONB =  svd.matrixV().block(0, 0, K.cols(), comp);
-
-  //Compute the projection
-  Eigen::MatrixXd proj = ONB.transpose() * Kmod;
-
   //Return the results
-  return Rcpp::List::create(Rcpp::Named("Componentes") = proj,
-                            Rcpp::Named("TotalVariability") = totalVar,
-                            Rcpp::Named("VariabilityExplained") = exp,
-                            Rcpp::Named("Kernel") = kernel,
-                            Rcpp::Named("Parameters") = parms);
+  return Kmod;
 }
-
-
-
 
