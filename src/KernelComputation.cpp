@@ -218,19 +218,19 @@ double LogKernel(Eigen::RowVectorXd x, Eigen::RowVectorXd y, Eigen::RowVectorXd 
 
 
 
-double LogLinearKernel(arma::vec x,arma::vec y,arma::vec parms)
+double LogLinearKernel(Eigen::RowVectorXd x, Eigen::RowVectorXd y, Eigen::RowVectorXd parms)
 {
-  double d=parms(0);
-  double res = (-1.0*std::log(std::pow(std::sqrt(arma::sum(arma::square(x-y))),d)+1.0));
-  return(res);
+    double d=parms(0);
+    double res = (-1.0*std::log(std::pow(std::sqrt(((x-y).array().pow(2)).sum()),d)+1.0));
+    return(res);
 }
 
 
-double MexicanHatKernel(arma::vec x,arma::vec y,arma::vec parms)
+double MexicanHatKernel(Eigen::RowVectorXd x,Eigen::RowVectorXd y,Eigen::RowVectorXd parms)
 {
-  double a=parms(0);
-  double res2 = arma::prod((1.0-arma::square(x-y)/std::pow(a,2))*arma::exp(-arma::square(x-y)/(2.0*std::pow(a,2))));
-  return(res2);
+    double a=parms(0);
+    double res2 = ((1.0 - (x-y).array().pow(2) / std::pow(a,2)) * (-(x-y).array().pow(2) / (2.0*std::pow(a,2))).exp() ).prod();
+    return(res2);
 }
 
 
