@@ -198,23 +198,24 @@ double LaplacianoKernel(Eigen::RowVectorXd x,Eigen::RowVectorXd y,Eigen::RowVect
 }
 
 
-double LinearKernel(arma::vec x,arma::vec y,arma::vec parms)
+double LinearKernel(Eigen::RowVectorXd x,Eigen::RowVectorXd y,Eigen::RowVectorXd parms)
 {
-  double cc=parms(0);
-  double cross = arma::sum(x % y);
-  double res = cross+cc;
-  return(res);
+    double cc=parms(0);
+    double cross = (x.cwiseProduct(y)).sum();
+    double res = cross+cc;
+    return(res);
 }
 
 
-double LogKernel(arma::vec x,arma::vec y,arma::vec parms)
+double LogKernel(Eigen::RowVectorXd x, Eigen::RowVectorXd y, Eigen::RowVectorXd parms)
 {
-  double a=parms(0);
-  double b=parms(1);
-  double norm = arma::norm(x-y);
-  double res=-1.0*std::log(std::pow(norm,a)+b);
-  return(res);
+    double a=parms(0);
+    double b=parms(1);
+    double norm = (x-y).norm();
+    double res=-1.0*std::log(std::pow(norm,a)+b);
+    return(res);
 }
+
 
 
 double LogLinearKernel(arma::vec x,arma::vec y,arma::vec parms)
