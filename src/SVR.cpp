@@ -83,9 +83,9 @@ Rcpp::List CSVRL1(Eigen::VectorXd y, Eigen::MatrixXd X, double C, double epsilon
   Eigen::VectorXd SV(2*y.size());
   //Create the one vector 2Nx1
   Eigen::VectorXd yfull = Eigen::VectorXd(2*y.size());
-  yfull<< (-1.0)*y, (+1.0)*y;
+  yfull<< (+1.0)*y, (-1.0)*y;
   Eigen::VectorXd evec = Eigen::VectorXd(2*y.size());
-  evec.fill(epsilon);
+  evec.fill((-1.0)*epsilon);
   Eigen::VectorXd g = Eigen::VectorXd(2*y.size());
   g = evec+yfull;
   //RHS equality
