@@ -242,35 +242,35 @@ double MorletKernel(Eigen::RowVectorXd x,Eigen::RowVectorXd y,Eigen::RowVectorXd
 }
 
 
-double MultiquadraticKernel(arma::vec x,arma::vec y,arma::vec parms)
+double MultiquadraticKernel(Eigen::RowVectorXd x, Eigen::RowVectorXd y, Eigen::RowVectorXd parms)
 {
-  double cc=parms(0);
-  double res = std::sqrt(arma::sum(arma::square(x-y))+(std::pow(cc,2)));
-  return(res);
+    double cc=parms(0);
+    double res = std::sqrt(((x-y).array().pow(2)).sum()+(std::pow(cc,2)));
+    return(res);
 }
 
 
-double PearsonKernel(arma::vec x,arma::vec y,arma::vec parms)
+double PearsonKernel(Eigen::RowVectorXd x, Eigen::RowVectorXd y, Eigen::RowVectorXd parms)
 {
-  double constant=parms(0);
-  double omega=parms(1);
-
-  //Inner product
-  double xx = 0;
-  double yy = 0;
-  double xy = 0;
-  for (int i=0;i<x.n_elem;i++)
-  {
-    double u = x(i) * x(i);
-    double v = y(i) * y(i);
-    double uv = x(i) * y(i);
-    xx += u;
-    yy += v;
-    xy += uv;
-  }
-
-  double m = constant * std::sqrt(-2.0 * xy + xx + yy);
-  return 1.0 / std::pow(1.0 + m * m, omega);
+    double constant=parms(0);
+    double omega=parms(1);
+    
+    //Inner product
+    double xx = 0;
+    double yy = 0;
+    double xy = 0;
+    for (int i=0;i<x.size();i++)
+    {
+        double u = x(i) * x(i);
+        double v = y(i) * y(i);
+        double uv = x(i) * y(i);
+        xx += u;
+        yy += v;
+        xy += uv;
+    }
+    
+    double m = constant * std::sqrt(-2.0 * xy + xx + yy);
+    return 1.0 / std::pow(1.0 + m * m, omega);
 }
 
 
