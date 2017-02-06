@@ -229,7 +229,7 @@ double LogLinearKernel(Eigen::RowVectorXd x, Eigen::RowVectorXd y, Eigen::RowVec
 double MexicanHatKernel(Eigen::RowVectorXd x,Eigen::RowVectorXd y,Eigen::RowVectorXd parms)
 {
     double a=parms(0);
-    double res2 = ((1.0 - (x-y).array().pow(2) / std::pow(a,2)) * (-(x-y).array().pow(2) / (2.0*std::pow(a,2))).exp() ).prod();
+    double res2 = ((1.0 -(x-y).array().pow(2)/std::pow(a,2)).cwiseProduct((-(x-y).array().pow(2)/(2.0*std::pow(a,2))).exp())).prod();
     return(res2);
 }
 
