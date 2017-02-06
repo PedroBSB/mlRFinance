@@ -234,11 +234,11 @@ double MexicanHatKernel(Eigen::RowVectorXd x,Eigen::RowVectorXd y,Eigen::RowVect
 }
 
 
-double MorletKernel(arma::vec x,arma::vec y,arma::vec parms)
+double MorletKernel(Eigen::RowVectorXd x,Eigen::RowVectorXd y,Eigen::RowVectorXd parms)
 {
-  double a=parms(0);
-  double res2 = arma::prod(arma::cos(5.0*(x-y)/a)*arma::exp(-arma::square(x-y)/(2.0*std::pow(a,2))));
-  return(res2);
+    double a=parms(0);
+    double res2 = ((5.0*(x-y)/a).array().cos()*(-(x-y).array().pow(2)/(2.0*std::pow(a,2))).exp()).prod();
+    return(res2);
 }
 
 
