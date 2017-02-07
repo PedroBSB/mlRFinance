@@ -292,26 +292,26 @@ double PowerKernel(Eigen::RowVectorXd x,Eigen::RowVectorXd y,Eigen::RowVectorXd 
 }
 
 
-double RationalQuadraticKernel(arma::vec x,arma::vec y,arma::vec parms)
+double RationalQuadraticKernel(Eigen::RowVectorXd x, Eigen::RowVectorXd y, Eigen::RowVectorXd parms)
 {
-  double cc=parms(0);
-  double num=arma::sum(arma::square(x-y));
-  double den=arma::sum(arma::square(x-y))+cc;
-  double res = 1.0-(num/den);
-  return(res);
+    double cc=parms(0);
+    double num=((x-y).array().pow(2)).sum();
+    double den=((x-y).array().pow(2)).sum()+cc;
+    double res = 1.0-(num/den);
+    return(res);
 }
 
 
-double SigmoidKernel(arma::vec x,arma::vec y,arma::vec parms)
+double SigmoidKernel(Eigen::RowVectorXd x, Eigen::RowVectorXd y, Eigen::RowVectorXd parms)
 {
-  double alpha=parms(0);
-  double constant=parms(1);
-  double sum = 0.0;
-  for (int i=0;i<x.n_elem;i++)
-    sum += x(i) * y(i);
-  double value = std::tanh(alpha * sum + constant);
-
-  return value;
+    double alpha=parms(0);
+    double constant=parms(1);
+    double sum = 0.0;
+    for (int i=0;i<x.size();i++)
+        sum += x(i) * y(i);
+    double value = std::tanh(alpha * sum + constant);
+    
+    return value;
 }
 
 
