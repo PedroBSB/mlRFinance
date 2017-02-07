@@ -274,21 +274,21 @@ double PearsonKernel(Eigen::RowVectorXd x, Eigen::RowVectorXd y, Eigen::RowVecto
 }
 
 
-double PolynomialKernel(arma::vec x,arma::vec y,arma::vec parms)
+double PolynomialKernel(Eigen::RowVectorXd x, Eigen::RowVectorXd y,Eigen::RowVectorXd parms)
 {
-  double a=parms(0);
-  double b=parms(1);
-  double num=arma::dot(x,y);
-  double res=std::pow(num+b,a);
-  return(res);
+    double a=parms(0);
+    double b=parms(1);
+    double num=x.dot(y);
+    double res=std::pow(num+b,a);
+    return(res);
 }
 
 
-double PowerKernel(arma::vec x,arma::vec y,arma::vec parms)
+double PowerKernel(Eigen::RowVectorXd x,Eigen::RowVectorXd y,Eigen::RowVectorXd parms)
 {
-  double d=parms(0);
-  double res = (-1.0*std::pow(std::sqrt(arma::sum(arma::square(x-y))),d));
-  return(res);
+    double d=parms(0);
+    double res = (-1.0*std::pow(std::sqrt(((x-y).array().pow(2)).sum()),d));
+    return(res);
 }
 
 
