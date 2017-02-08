@@ -583,6 +583,7 @@ Rcpp::List CSVML2(Eigen::VectorXd y, Eigen::MatrixXd X, double C, std::string ke
   Q = nearPDefinite(Q, 1e+6, 1e-06, 1e-07, 1e-08, true);
   //Get the solution Support Vectors
   SV = rcppeigen_quadratic_solve(Q,e, CE.transpose(),ce0, CI.transpose(), ci0);
+
   //Return the results
   return Rcpp::List::create(Rcpp::Named("SupportVectors") = SV,
                             Rcpp::Named("Kernel") = kernel,
@@ -679,6 +680,29 @@ Eigen::VectorXd solveTest(Eigen::MatrixXd Dmat, Eigen::VectorXd dvec, Eigen::Mat
   Eigen::VectorXd d0=-dvec;
   Eigen::VectorXd b0=-bvec;
   Eigen::VectorXd ce0=-ce;
+
+  std::cout<<"Matriz Q:" << std::endl;
+  std::cout<< Dmat << std::endl;
+  std::cout<< std::endl;
+  std::cout<<"Vetor g:" << std::endl;
+  std::cout<< d0 << std::endl;
+  std::cout<< std::endl;
+  std::cout<<"Matriz CE:" << std::endl;
+  std::cout<< CE.transpose() << std::endl;
+  std::cout<< std::endl;
+  std::cout<<"Vetor ce0:" << std::endl;
+  std::cout<< ce0 << std::endl;
+  std::cout<< std::endl;
+  std::cout<<"Matriz CI:" << std::endl;
+  std::cout<< Amat.transpose() << std::endl;
+  std::cout<< std::endl;
+  std::cout<<"Vetor ci0:" << std::endl;
+  std::cout<< b0 << std::endl;
+  std::cout<< std::endl;
+
+
+
+
   //Get the solution
   Eigen::VectorXd x = rcppeigen_quadratic_solve(Dmat,d0, CE,ce0, Amat, b0);
   return(x);
