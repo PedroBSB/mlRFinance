@@ -338,37 +338,37 @@ double SplineKernel(Eigen::RowVectorXd x,Eigen::RowVectorXd y,Eigen::RowVectorXd
 }
 
 
-double SquaredSincKernel(arma::vec x,arma::vec y,arma::vec parms)
+double SquaredSincKernel(Eigen::RowVectorXd x,Eigen::RowVectorXd y,Eigen::RowVectorXd parms)
 {
-  double norm = 0.0;
-  double gamma=parms(0);
-
-  for (int i=0;i<x.n_elem;i++)
-  {
-    double d = x(i) - y(i);
-    norm += d * d;
-  }
-
-  double num = gamma * std::sqrt(norm);
-  double den = gamma * gamma * norm;
-
-  return std::sin(num) / den;
+    double norm = 0.0;
+    double gamma=parms(0);
+    
+    for (int i=0;i<x.size();i++)
+    {
+        double d = x(i) - y(i);
+        norm += d * d;
+    }
+    
+    double num = gamma * std::sqrt(norm);
+    double den = gamma * gamma * norm;
+    
+    return std::sin(num) / den;
 }
 
 
-double SymmetricTriangleKernel(arma::vec x,arma::vec y,arma::vec parms)
+double SymmetricTriangleKernel(Eigen::RowVectorXd x,Eigen::RowVectorXd y,Eigen::RowVectorXd parms)
 {
-  double gamma=parms(0);
-  double norm = 0.0;
-  for (int i=0;i<x.n_elem;i++)
-  {
-    double d = x(i) - y(i);
-    norm += d * d;
-  }
-
-  double z = 1.0 - gamma * std::sqrt(norm);
-
-  return (z > 0) ? z : 0;
+    double gamma=parms(0);
+    double norm = 0.0;
+    for (int i=0;i<x.size();i++)
+    {
+        double d = x(i) - y(i);
+        norm += d * d;
+    }
+    
+    double z = 1.0 - gamma * std::sqrt(norm);
+    
+    return (z > 0) ? z : 0;
 }
 
 
