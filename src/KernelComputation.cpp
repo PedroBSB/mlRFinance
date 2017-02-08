@@ -315,26 +315,26 @@ double SigmoidKernel(Eigen::RowVectorXd x, Eigen::RowVectorXd y, Eigen::RowVecto
 }
 
 
-double SphericalKernel(arma::vec x,arma::vec y,arma::vec parms)
+double SphericalKernel(Eigen::RowVectorXd x,Eigen::RowVectorXd y,Eigen::RowVectorXd parms)
 {
-  double sigma=parms(0);
-  double norm = arma::norm(x-y);
-  double res=0;
-  if(norm>=sigma){
-    res=1.0-1.5*(norm/sigma)+0.5*std::pow(norm/sigma,3);
-  }
-  return(res);
+    double sigma=parms(0);
+    double norm = (x-y).norm();
+    double res=0;
+    if(norm>=sigma){
+        res=1.0-1.5*(norm/sigma)+0.5*std::pow(norm/sigma,3);
+    }
+    return(res);
 }
 
 
-double SplineKernel(arma::vec x,arma::vec y,arma::vec parms)
+double SplineKernel(Eigen::RowVectorXd x,Eigen::RowVectorXd y,Eigen::RowVectorXd parms)
 {
-  double prod=1;
-  for(int i=0;i<x.size();i++){
-    double res=1+(x(i)*y(i)*std::min(x(i),y(i)))-((x(i)+y(i))/2.0)*(std::pow(std::min(x(i),y(i)),2)+(std::pow(std::min(x(i),y(i)),3)/3.0));
-    prod=prod*res;
-  }
-  return(prod);
+    double prod=1;
+    for(int i=0;i<x.size();i++){
+        double res=1+(x(i)*y(i)*std::min(x(i),y(i)))-((x(i)+y(i))/2.0)*(std::pow(std::min(x(i),y(i)),2)+(std::pow(std::min(x(i),y(i)),3)/3.0));
+        prod=prod*res;
+    }
+    return(prod);
 }
 
 
