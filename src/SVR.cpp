@@ -83,15 +83,18 @@ Rcpp::List CSVRL1(Eigen::VectorXd y, Eigen::MatrixXd X, double C, double epsilon
   Eigen::VectorXd SV(2*y.size());
   //Create the one vector 2Nx1
   Eigen::VectorXd yfull = Eigen::VectorXd(2*y.size());
-  yfull<< (+1.0)*y, (-1.0)*y;
+  yfull<< (-1.0)*y, (+1.0)*y;
   Eigen::VectorXd evec = Eigen::VectorXd(2*y.size());
-  evec.fill((-1.0)*epsilon);
+  evec.fill((+1.0)*epsilon);
   Eigen::VectorXd g = Eigen::VectorXd(2*y.size());
-  g = evec+yfull;
+  g = yfull+evec;
   //RHS equality
-  Eigen::VectorXd ce0;
+  Eigen::VectorXd ce0(1);
+  ce0.fill(-0.0);
   //LHS equality
-  Eigen::MatrixXd CE;
+  Eigen::MatrixXd Ones = Eigen::MatrixXd::Ones(1, y.size());
+  Eigen::MatrixXd CE(1,2*y.size());
+  CE <<   Ones, -Ones;
   //RHS: Inequality 1
   Eigen::VectorXd ci1 = Eigen::VectorXd::Zero(2*y.size());
   //LHS: Inequality 1
@@ -101,27 +104,27 @@ Rcpp::List CSVRL1(Eigen::VectorXd y, Eigen::MatrixXd X, double C, double epsilon
   ci2.fill(C);
   //Append RHS
   Eigen::VectorXd ci0(4.0*y.size());
-  ci0 << ci1, ci2;
+  ci0 << -ci1, ci2;
   //Append LHS
-  Eigen::MatrixXd CI(CI1.rows()+CI1.rows(), CI1.cols());
-  //Diagonal matrix
-  Eigen::VectorXd me(2*y.size());
-  me.fill(-1.0);
-  Eigen::MatrixXd mI = me.asDiagonal();
-  //Vertical concatenation
-  CI << CI1,
-        mI;
+  Eigen::MatrixXd CI(2*CI1.rows(), CI1.cols());
+  CI <<  CI1,
+        -CI1;
+
   //Create the Kernel Matrix
   Eigen::MatrixXd K = KernelMatrixComputation(X,kernel,parms);
+
   //Create matrix Q
   Eigen::MatrixXd Q = Eigen::MatrixXd(2*y.size(),2*y.size());
   Q<< K,-K,
      -K, K;
+
   //Nearest positive semidefinite
-  //nearPositiveDefinite(Q,1e-10);
-  Q = nearPDefinite(Q, 1e+6, 1e-06, 1e-07, 1e-08, true);
+  //nearPositiveDefinite(Q,1e-5);
+  Q = nearPDefinite(Q, 1e+5, 1e-06, 1e-07, 1e-08, true);
+
   //Get the solution Support Vectors
   SV = rcppeigen_quadratic_solve(Q,g, CE.transpose(),ce0, CI.transpose(), ci0);
+
   //Return the results
   return Rcpp::List::create(Rcpp::Named("SupportVectors") = SV,
                             Rcpp::Named("Kernel") = kernel,
