@@ -15,10 +15,13 @@ train <- train[order(train[,1]),]
 valid <- as.matrix(sinc[-ids,])
 
 #Order the dataset
-valid <- valid[order(train[,1]),]
+valid <- valid[order(valid[,1]),]
 
 #Do the SVR
-svm2<- CSVRL1(train[,2], as.matrix(train[,1]), 50,0.5, "Polynomial", c(2,1))
+ptm <- proc.time()
+svm2<- CSVRL1(train[,2], as.matrix(train[,1]), 1, 0.5, "Gaussian", c(0.5))
+proc.time()-ptm
+
 svm2
 
 #Do the forecast

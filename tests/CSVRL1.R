@@ -57,6 +57,80 @@ svm2
 svm2<- CSVRL1(d, A, 50,0.5, "Polynomial", c(2,1))
 svm2
 
+#################################################################################################
+#################################################################################################
+#################################################################################################
+set.seed(3993)
+#Load the data
+data("sinc")
+
+#Plot the data
+plot(sinc[,1],sinc[,2],type="l")
+
+#Separate the data
+ids <-sample(1:nrow(sinc),30)
+train <- as.matrix(sinc[ids,])
+
+#Order the dataset
+train <- train[order(train[,1]),]
+
+#Validation
+valid <- as.matrix(sinc[-ids,])
+
+#Order the dataset
+valid <- valid[order(valid[,1]),]
+
+#Parameters
+n <- nrow(train)
+C <- 1.0
+epsilon <- 0.5
+d <- train[,2]
+A <- as.matrix(train[,1])
+
+#### Solve by hand
+K <- mlRFinance::KernelMatrixComputation(A,"Gaussian",0.5)
+# Q matrix
+Q <- rbind(cbind(K,-K),cbind(-K,+K))
+# Near Positive Definite
+Q <- Matrix::nearPD(Q, corr = FALSE, keepDiag = TRUE, do2eigen = TRUE,
+                    doSym = FALSE, doDykstra = FALSE, only.values = FALSE,
+                    ensureSymmetry = FALSE,
+                    eig.tol = 1e-06, conv.tol = 1e-07, posd.tol = 1e-8,
+                    maxit = 100, conv.norm.type = "I", trace = FALSE)
+Q <- Q$mat
+
+Q2 <- rbind(cbind(K,-K),cbind(-K,+K))
+Q2 <- nearPDefinite(Q2, 100, 1e-06, 1e-7, 1e-8, TRUE)
+
+
+#Dvec
+dvec <- c(+d-epsilon,-d-epsilon)
+#Constraints Equality
+Emat <- c(rep(1,n),rep(-1,n))
+#Constraints Inequality
+Amat <- cbind(Emat,diag(1,2*n),diag(-1,2*n))
+bvec <- c(0, rep(0,2*n),rep(-C,2*n))
+#Solve the Quadratic Problem
+quadprog::solve.QP(D= Q,dvec =dvec,Amat = Amat, bvec = bvec, meq= 1)
+
+#### Solve using mlRFinance functions
+#Dvec
+Q <- as.matrix(Q)
+dvec <- c(+d-epsilon,-d-epsilon)
+#Constraints Equality
+Emat <- matrix(c(rep(1,n),rep(-1,n)),ncol=1,nrow=2*n)
+ce <- 0
+#Constraints Inequality
+Amat <- as.matrix(cbind(diag(1,2*n),diag(-1,2*n)))
+bvec <- c(rep(0,2*n),rep(-C,2*n))
+mlRFinance::solveTest(Q2, dvec, Amat, bvec, Emat, ce)
+
+#### Solve using CSVRL1
+CSVRL1(d,A, C, epsilon, "Gaussian", c(0.5))
+
+#################################################################################################
+#################################################################################################
+#################################################################################################
 
 
 #Create a Linear regression
