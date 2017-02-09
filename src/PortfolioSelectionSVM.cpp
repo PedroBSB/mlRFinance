@@ -23,7 +23,7 @@ Eigen::VectorXd PredictedCSVML1(Rcpp::List CSVML1, Eigen::VectorXd y, Eigen::Mat
 
 //C-SVR L1
 Rcpp::List CSVRL1(Eigen::VectorXd y, Eigen::MatrixXd X, double C, double epsilon, std::string kernel, arma::vec parms);
-Eigen::VectorXd PredictedCSVRL1(Rcpp::List CSVRL1, Eigen::MatrixXd X, Eigen::MatrixXd Xprev);
+Eigen::VectorXd PredictedCSVRL1(Rcpp::List CSVRL1, Eigen::VectorXd y, Eigen::MatrixXd X, Eigen::MatrixXd Xprev);
 
 //Error Measure
 Rcpp::List ErrorMeasures(Eigen::VectorXd y, Eigen::VectorXd yPred);

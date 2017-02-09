@@ -120,7 +120,7 @@ Rcpp::List CSVRL1(Eigen::VectorXd y, Eigen::MatrixXd X, double C, double epsilon
 
   //Nearest positive semidefinite
   //nearPositiveDefinite(Q,1e-5);
-  Q = nearPDefinite(Q, 1e+5, 1e-06, 1e-07, 1e-08, true);
+  Q = nearPDefinite(Q, 1e+2, 1e-06, 1e-07, 1e-08, true);
 
   //Get the solution Support Vectors
   SV = rcppeigen_quadratic_solve(Q,g, CE.transpose(),ce0, CI.transpose(), ci0);
@@ -128,7 +128,8 @@ Rcpp::List CSVRL1(Eigen::VectorXd y, Eigen::MatrixXd X, double C, double epsilon
   //Return the results
   return Rcpp::List::create(Rcpp::Named("SupportVectors") = SV,
                             Rcpp::Named("Kernel") = kernel,
-                            Rcpp::Named("Parameters") = parms);
+                            Rcpp::Named("Parameters") = parms,
+                            Rcpp::Named("Epsilon") = epsilon);
 }
 
 
@@ -154,7 +155,7 @@ Rcpp::List CSVRL1(Eigen::VectorXd y, Eigen::MatrixXd X, double C, double epsilon
 // @cite soman2009machine
 // @bibliography ~/vignettes/bibliography.bib
 // [[Rcpp::export]]
-Eigen::VectorXd PredictedCSVRL1(Rcpp::List CSVRL1, Eigen::MatrixXd X, Eigen::MatrixXd Xprev){
+Eigen::VectorXd PredictedCSVRL1(Rcpp::List CSVRL1, Eigen::VectorXd y, Eigen::MatrixXd X, Eigen::MatrixXd Xprev){
   //Get the SV
   Eigen::VectorXd SV = as<Eigen::VectorXd> (CSVRL1["SupportVectors"]);
 
@@ -162,7 +163,10 @@ Eigen::VectorXd PredictedCSVRL1(Rcpp::List CSVRL1, Eigen::MatrixXd X, Eigen::Mat
   std::string kernel = as<std::string> (CSVRL1["Kernel"]);
 
   //Get the parameters
-  arma::vec parms = as<arma::vec> (CSVRL1["Parameters"]);
+  arma::vec parms = as<arma::vec> (CSVRL1["Epsilon"]);
+
+  //Get the epsilon band
+  double epsilon = as<double> (CSVRL1["Parameters"]);
 
   //Total number of observations
   int size = Xprev.rows();
@@ -176,7 +180,12 @@ Eigen::VectorXd PredictedCSVRL1(Rcpp::List CSVRL1, Eigen::MatrixXd X, Eigen::Mat
     Eigen::VectorXd F = diffLambda.array() *K.array();
     predVec(i) = F.sum();
   }
-return(predVec);
+
+  //Get the new bias term
+  Eigen::VectorXd gamma = y.array()-predVec.array()-epsilon;
+  double bGamma = gamma.mean();
+
+  return(predVec.array()-bGamma);
 }
 
 
@@ -202,7 +211,7 @@ return(predVec);
 // @cite soman2009machine
 // @bibliography ~/vignettes/bibliography.bib
 // [[Rcpp::export]]
-Eigen::VectorXd R2PredictedCSVRL1(Rcpp::List CSVRL1, Eigen::MatrixXd X){
+Eigen::VectorXd R2PredictedCSVRL1(Rcpp::List CSVRL1, Eigen::VectorXd y, Eigen::MatrixXd X){
   //Results
   Eigen::VectorXd R2vec(X.cols());
   //Get the SV
@@ -214,19 +223,13 @@ Eigen::VectorXd R2PredictedCSVRL1(Rcpp::List CSVRL1, Eigen::MatrixXd X){
   //Get the parameters
   arma::vec parms = as<arma::vec> (CSVRL1["Parameters"]);
 
+  //Get the epsilon band
+  double epsilon = as<double> (CSVRL1["Parameters"]);
+
   //Prediction for the full model
-  //Total number of observations
   int size = X.rows();
   Eigen::VectorXd predVec(size);
-  //Separating the SV
-  Eigen::VectorXd diffLambda = SV.head(X.rows()) - SV.tail(X.rows());
-
-  for(int i=0;i<size;i++){
-    //Create the Kernel Matrix
-    Eigen::VectorXd K = KernelMatrixComputationPred(X,X.row(i),kernel,parms);
-    Eigen::VectorXd F = diffLambda.array() *K.array();
-    predVec(i) = F.sum();
-  }
+  predVec = PredictedCSVRL1(CSVRL1, y,  X, X);
   //Sum of squared errors
   double SSE = predVec.squaredNorm();
 
@@ -239,15 +242,7 @@ Eigen::VectorXd R2PredictedCSVRL1(Rcpp::List CSVRL1, Eigen::MatrixXd X){
     //Total number of observations
     int size = Xprev.rows();
     Eigen::VectorXd predVec2(size);
-    //Separating the SV
-    Eigen::VectorXd diffLambda = SV.head(X.rows()) - SV.tail(X.rows());
-
-    for(int i=0;i<size;i++){
-      //Create the Kernel Matrix
-      Eigen::VectorXd K = KernelMatrixComputationPred(X,Xprev.row(i),kernel,parms);
-      Eigen::VectorXd F = diffLambda.array() *K.array();
-      predVec2(i) = F.sum();
-    }
+    predVec2 = PredictedCSVRL1(CSVRL1, y,  X, Xprev);
     double SSEvar = predVec2.squaredNorm();
     R2vec(v) = SSEvar/SSE;
   }
