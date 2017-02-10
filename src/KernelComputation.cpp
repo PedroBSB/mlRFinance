@@ -372,41 +372,41 @@ double SymmetricTriangleKernel(Eigen::RowVectorXd x,Eigen::RowVectorXd y,Eigen::
 }
 
 
-double ThinSplinePlateKernel(arma::vec x,arma::vec y,arma::vec parms)
+double ThinSplinePlateKernel(Eigen::RowVectorXd x,Eigen::RowVectorXd y,Eigen::RowVectorXd parms)
 {
-  double sigma=parms(0);
-  double r = 0;
-  for (int i=0;i<x.n_elem;i++)
-  {
-    double dxy = x(i) - y(i);
-    r += dxy * dxy;
-  }
-
-  return r / (sigma * sigma) * std::log(std::sqrt(r) / sigma);
+    double sigma=parms(0);
+    double r = 0;
+    for (int i=0;i<x.size();i++)
+    {
+        double dxy = x(i) - y(i);
+        r += dxy * dxy;
+    }
+    
+    return r / (sigma * sigma) * std::log(std::sqrt(r) / sigma);
 }
 
 
-double WaveKernel(arma::vec x,arma::vec y,arma::vec parms)
+double WaveKernel(Eigen::RowVectorXd x,Eigen::RowVectorXd y, Eigen::RowVectorXd parms)
 {
-  double norm = arma::norm(x-y);
-  double sigma=parms(0);
-
-  if (sigma == 0 || norm == 0)
-    return 0;
-
-  return (sigma / norm) * std::sin(norm / sigma);
+    double norm = (x-y).norm();
+    double sigma=parms(0);
+    
+    if (sigma == 0 || norm == 0)
+        return 0;
+    
+    return (sigma / norm) * std::sin(norm / sigma);
 }
 
 
-double WaveletKernel(arma::vec x,arma::vec y,arma::vec parms)
+double WaveletKernel(Eigen::RowVectorXd x,Eigen::RowVectorXd y,Eigen::RowVectorXd parms)
 {
-  double a=parms(0);
-  arma::vec hx1=((x-y)/a);
-  arma::vec res = arma::cos(1.75*hx1)*arma::exp(-1.0*((arma::square(hx1)/2.0)));
-  double res2=1;
-  for(int i=0;i<res.n_elem;i++){
-    res2=res2*res(i);
-  }
-  return(res2);
+    double a=parms(0);
+    Eigen::RowVectorXd hx1 = ((x-y)/a);
+    Eigen::RowVectorXd res = (1.75*hx1).array().cos() * (-1.0*(((hx1).array().pow(2)/2.0))).exp();
+    double res2=1;
+    for(int i=0;i<res.size();i++){
+        res2=res2*res(i);
+    }
+    return(res2);
 }
 
