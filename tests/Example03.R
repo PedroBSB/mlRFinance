@@ -1,6 +1,6 @@
 #Load the data
 data("sinc")
-
+set.seed(3838)
 #Plot the data
 plot(sinc[,1],sinc[,2],type="l")
 
@@ -18,14 +18,11 @@ valid <- as.matrix(sinc[-ids,])
 valid <- valid[order(valid[,1]),]
 
 #Do the SVR
-ptm <- proc.time()
-svm2<- CSVRL1(train[,2], as.matrix(train[,1]), 1, 0.5, "Gaussian", c(0.5))
-proc.time()-ptm
-
+svm2<- CSVRL1(train[,2], as.matrix(train[,1]), 0.5, 0.05, "Gaussian", c(0.5))
 svm2
 
 #Do the forecast
-pred<-PredictedCSVRL1(svm2, as.matrix(train[,1]), as.matrix(train[,1]))
+pred<-PredictedCSVRL1(svm2,train[,2], as.matrix(train[,1]), as.matrix(train[,1]))
 
 #Sort dataset
 plot(train[,1],train[,2],type="l",col="blue")
