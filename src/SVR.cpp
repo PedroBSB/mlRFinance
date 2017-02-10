@@ -15,11 +15,11 @@ using namespace Rcpp;
 //Define the KernelMatrix function
 Eigen::MatrixXd KernelMatrixComputation(Eigen::MatrixXd datMat,
                                         std::string stringValue,
-                                        arma::vec parms);
+                                        Eigen::RowVectorXd parms);
 Eigen::MatrixXd KernelMatrixComputationPred(Eigen::MatrixXd datMat,
                                         Eigen::RowVectorXd predMat,
                                         std::string stringValue,
-                                        arma::vec parms);
+                                        Eigen::RowVectorXd parms);
 //Define the Solver for Quadratic Programming
 Eigen::VectorXd rcppeigen_quadratic_solve(Eigen::MatrixXd & G,
                                           Eigen::VectorXd & g0,
@@ -78,7 +78,7 @@ void PrintObject(Eigen::VectorXd vec);
 // @cite soman2009machine
 // @bibliography ~/vignettes/bibliography.bib
 // [[Rcpp::export]]
-Rcpp::List CSVRL1(Eigen::VectorXd y, Eigen::MatrixXd X, double C, double epsilon, std::string kernel, arma::vec parms){
+Rcpp::List CSVRL1(Eigen::VectorXd y, Eigen::MatrixXd X, double C, double epsilon, std::string kernel, Eigen::RowVectorXd parms){
   //Support Vectors
   Eigen::VectorXd SV(2*y.size());
   //Create the one vector 2Nx1
@@ -162,7 +162,7 @@ Eigen::VectorXd PredictedCSVRL1(Rcpp::List CSVRL1, Eigen::VectorXd y, Eigen::Mat
   std::string kernel = as<std::string> (CSVRL1["Kernel"]);
 
   //Get the parameters
-  arma::vec parms = as<arma::vec> (CSVRL1["Parameters"]);
+  Eigen::RowVectorXd parms = as<Eigen::RowVectorXd> (CSVRL1["Parameters"]);
 
   //Get the epsilon band
   double epsilon = as<double> (CSVRL1["Epsilon"]);
@@ -220,7 +220,7 @@ Eigen::VectorXd R2PredictedCSVRL1(Rcpp::List CSVRL1, Eigen::VectorXd y, Eigen::M
   std::string kernel = as<std::string> (CSVRL1["Kernel"]);
 
   //Get the parameters
-  arma::vec parms = as<arma::vec> (CSVRL1["Parameters"]);
+  Eigen::RowVectorXd parms = as<Eigen::RowVectorXd> (CSVRL1["Parameters"]);
 
   //Get the epsilon band
   double epsilon = as<double> (CSVRL1["Parameters"]);
@@ -256,7 +256,7 @@ Eigen::VectorXd R2PredictedCSVRL1(Rcpp::List CSVRL1, Eigen::VectorXd y, Eigen::M
 //' @param parms Parameters associated with chosen kenel.
 
 // [[Rcpp::export]]
-Eigen::MatrixXd minimumCSVRL1(Eigen::VectorXd y, Eigen::MatrixXd X, double epsilon, std::string kernel, arma::vec parms){
+Eigen::MatrixXd minimumCSVRL1(Eigen::VectorXd y, Eigen::MatrixXd X, double epsilon, std::string kernel, Eigen::RowVectorXd parms){
   Eigen::VectorXd SV(2*y.size());
   //Create the one vector 2Nx1
   Eigen::VectorXd yfull = Eigen::VectorXd(2*y.size());

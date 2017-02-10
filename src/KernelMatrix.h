@@ -2,9 +2,9 @@
 #ifndef KERNELMATRIX_H
 #define KERNELMATRIX_H
 
-Eigen::MatrixXd KernelMatrixComputation(arma::mat datMat,std::string stringValue, arma::vec parms);
+Eigen::MatrixXd KernelMatrixComputation(Eigen::MatrixXd datMat,std::string stringValue, Eigen::RowVectorXd parms);
 
-Eigen::MatrixXd KernelMatrixComputationPred(Eigen::MatrixXd datMat, Eigen::RowVectorXd predMat,std::string stringValue, arma::vec parms);
+Eigen::MatrixXd KernelMatrixComputationPred(Eigen::MatrixXd datMat, Eigen::RowVectorXd predMat,std::string stringValue, Eigen::RowVectorXd parms);
 
 // This is the end of the header guard
 #endif

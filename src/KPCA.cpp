@@ -18,7 +18,7 @@ using namespace Rcpp;
 //Define the KernelMatrix function
 Eigen::MatrixXd KernelMatrixComputation(Eigen::MatrixXd datMat,
                                         std::string stringValue,
-                                        arma::vec parms);
+                                        Eigen::RowVectorXd parms);
 
 //Nearest positive semidefinite matrix (Matrix::nearPD)
 Eigen::MatrixXd nearPDefinite(Eigen::MatrixXd mat, int maxit, double eigtol, double conv_tol, double posd_tol, bool keepDiagonal);
@@ -47,7 +47,7 @@ Eigen::MatrixXd nearPDefinite(Eigen::MatrixXd mat, int maxit, double eigtol, dou
 // @cite soman2009machine
 // @bibliography ~/vignettes/bibliography.bib
 // [[Rcpp::export]]
-Eigen::MatrixXd KPCAMatrix(Eigen::MatrixXd X, std::string kernel, arma::vec parms){
+Eigen::MatrixXd KPCAMatrix(Eigen::MatrixXd X, std::string kernel, Eigen::RowVectorXd parms){
   //Compute the Kernel Matrix
   Eigen::MatrixXd K = KernelMatrixComputation(X,kernel,parms);
   //Identity

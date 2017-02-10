@@ -15,7 +15,7 @@ using namespace Rcpp;
 //Define the KernelMatrix function
 Eigen::MatrixXd KernelMatrixComputation(Eigen::MatrixXd datMat,
                                         std::string stringValue,
-                                        arma::vec parms);
+                                        Eigen::RowVectorXd parms);
 //Define the Solver for Quadratic Programming
 Eigen::VectorXd rcppeigen_quadratic_solve(Eigen::MatrixXd & G,
                                           Eigen::VectorXd & g0,
@@ -204,7 +204,7 @@ Eigen::VectorXd predictProbability(Eigen::VectorXd predVec,Eigen::VectorXd y, Ei
 // @cite soman2009machine
 // @bibliography ~/vignettes/bibliography.bib
 // [[Rcpp::export]]
-Rcpp::List CSVML1(Eigen::VectorXd y, Eigen::MatrixXd X, double C, std::string kernel, arma::vec parms, bool biasTerm){
+Rcpp::List CSVML1(Eigen::VectorXd y, Eigen::MatrixXd X, double C, std::string kernel, Eigen::RowVectorXd parms, bool biasTerm){
   //Support Vectors
   Eigen::VectorXd SV(y.size());
   //Create the one vector Nx1
@@ -290,7 +290,7 @@ Eigen::VectorXd PredictedCSVML1(Rcpp::List CSVML1,Eigen::VectorXd y, Eigen::Matr
   std::string kernel = as<std::string> (CSVML1["Kernel"]);
 
   //Get the parameters
-  arma::vec parms = as<arma::vec> (CSVML1["Parameters"]);
+  Eigen::RowVectorXd parms = as<Eigen::RowVectorXd> (CSVML1["Parameters"]);
 
   //Bias Term
   double gamma=0.0;
@@ -384,7 +384,7 @@ Eigen::VectorXd R2PredictedCSVML1(Rcpp::List CSVML1,Eigen::VectorXd y, Eigen::Ma
   std::string kernel = as<std::string> (CSVML1["Kernel"]);
 
   //Get the parameters
-  arma::vec parms = as<arma::vec> (CSVML1["Parameters"]);
+  Eigen::RowVectorXd parms = as<Eigen::RowVectorXd> (CSVML1["Parameters"]);
 
   //Bias Term
   double gamma=0.0;
@@ -550,7 +550,7 @@ Eigen::VectorXd R2PredictedCSVML1(Rcpp::List CSVML1,Eigen::VectorXd y, Eigen::Ma
 // @cite soman2009machine
 // @bibliography ~/vignettes/bibliography.bib
 // [[Rcpp::export]]
-Rcpp::List CSVML2(Eigen::VectorXd y, Eigen::MatrixXd X, double C, std::string kernel, arma::vec parms, bool biasTerm){
+Rcpp::List CSVML2(Eigen::VectorXd y, Eigen::MatrixXd X, double C, std::string kernel, Eigen::RowVectorXd parms, bool biasTerm){
   //Support Vectors
   Eigen::VectorXd SV(y.size());
   //Create the one vector Nx1
@@ -628,7 +628,7 @@ Rcpp::List CSVML2(Eigen::VectorXd y, Eigen::MatrixXd X, double C, std::string ke
 // @cite soman2009machine @chang2001training
 // @bibliography ~/vignettes/bibliography.bib
 // [[Rcpp::export]]
-Rcpp::List nuSVM(Eigen::VectorXd y, Eigen::MatrixXd X, double nu, std::string kernel, arma::vec parms){
+Rcpp::List nuSVM(Eigen::VectorXd y, Eigen::MatrixXd X, double nu, std::string kernel, Eigen::RowVectorXd parms){
   //Support Vectors
   Eigen::VectorXd SV(y.size());
   //Create the one vector Nx1

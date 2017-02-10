@@ -17,7 +17,7 @@ using namespace Rcpp;
 //Define the KernelMatrix function
 Eigen::MatrixXd KernelMatrixComputation(Eigen::MatrixXd datMat,
                                         std::string stringValue,
-                                        arma::vec parms);
+                                        Eigen::RowVectorXd parms);
 //Define the Solver for Quadratic Programming
 Eigen::VectorXd rcppeigen_quadratic_solve(Eigen::MatrixXd & G,
                                           Eigen::VectorXd & g0,
@@ -137,7 +137,7 @@ std::cout<<std::endl;
 //        Pattern Recognition 42.1 (2009): 27-32.
 // @bibliography ~/vignettes/bibliography.bib
 // [[Rcpp::export]]
-Rcpp::List WOCSCM(Eigen::MatrixXd X, double C, int k,double sigma,int inter, std::string kernel, arma::vec parms){
+Rcpp::List WOCSCM(Eigen::MatrixXd X, double C, int k,double sigma,int inter, std::string kernel, Eigen::RowVectorXd parms){
   //Cluster weights
   Eigen::VectorXd gammaWeight(k);
   gammaWeight.fill(1.0/(double)k);
@@ -282,7 +282,7 @@ Rcpp::List WOCSCM(Eigen::MatrixXd X, double C, int k,double sigma,int inter, std
 //        Pattern Recognition 42.1 (2009): 27-32.
 // @bibliography ~/vignettes/bibliography.bib
 // [[Rcpp::export]]
-Rcpp::List SpatialWOCSCM(Eigen::MatrixXd X,Eigen::MatrixXd wMat, double C, int k,double gamma1, double gamma2,int inter, std::string kernel, arma::vec parms){
+Rcpp::List SpatialWOCSCM(Eigen::MatrixXd X,Eigen::MatrixXd wMat, double C, int k,double gamma1, double gamma2,int inter, std::string kernel, Eigen::RowVectorXd parms){
   //Cluster weights
   Eigen::VectorXd gammaWeight(k);
   gammaWeight.fill(1.0/(double)k);

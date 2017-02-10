@@ -13,19 +13,16 @@ using namespace Rcpp;
 // @param function Kernel Function
 // @param parms vector of parameters fot the kernel
 // @return Kernel Matrix
-Eigen::VectorXd KernelMatrix(Eigen::MatrixXd datMat, Eigen::RowVectorXd predMat,const std::function<double (arma::vec, arma::vec, arma::vec)> kernel, arma::vec parms){
+Eigen::VectorXd KernelMatrix(Eigen::MatrixXd datMat, Eigen::RowVectorXd predMat,const std::function<double (Eigen::RowVectorXd, Eigen::RowVectorXd, Eigen::RowVectorXd)> kernel, Eigen::RowVectorXd parms){
   //Get the number of rows
   int rows=datMat.rows();
-  //Typecasting
-  arma::mat datMat2 = as<arma::mat>(wrap(datMat));
-  arma::vec datPred2 = as<arma::vec>(wrap(predMat));
   //Initialize the matriz
   Eigen::VectorXd matKernel = Eigen::VectorXd::Zero(rows);
   for(unsigned int c1=0;c1<rows;c1++){
       //First column with variables
-      arma::vec vec1 = datMat2.row(c1).t();
+      Eigen::RowVectorXd vec1 = datMat.row(c1);
       //Calculate the kernel value
-      double val= kernel(vec1,datPred2,parms);
+      double val= kernel(vec1,predMat,parms);
       //Store the kernel value
       matKernel(c1)=val;
   }
@@ -38,19 +35,17 @@ Eigen::VectorXd KernelMatrix(Eigen::MatrixXd datMat, Eigen::RowVectorXd predMat,
 // @param function Kernel Function
 // @param parms vector of parameters fot the kernel
 // @return Kernel Matrix
-Eigen::MatrixXd KernelMatrix(Eigen::MatrixXd datMat,const std::function<double (arma::vec, arma::vec, arma::vec)> kernel, arma::vec parms){
+Eigen::MatrixXd KernelMatrix(Eigen::MatrixXd datMat,const std::function<double (Eigen::RowVectorXd, Eigen::RowVectorXd, Eigen::RowVectorXd )> kernel, Eigen::RowVectorXd parms){
   //Get the number of rows
   int rows=datMat.rows();
-  //Typecasting
-  arma::mat datMat2 = as<arma::mat>(wrap(datMat));
   //Initialize the matriz
   Eigen::MatrixXd matKernel = Eigen::MatrixXd::Zero(rows,rows);
   for(unsigned int c1=0;c1<rows;c1++){
     for(unsigned int c2=c1;c2<rows;c2++){
       //First column with variables
-      arma::vec vec1 = datMat2.row(c1).t();
+      Eigen::RowVectorXd vec1 = datMat.row(c1);
       //Second column with variables
-      arma::vec vec2 = datMat2.row(c2).t();
+      Eigen::RowVectorXd vec2 = datMat.row(c2);
       //Calculate the kernel value
       double val= kernel(vec1,vec2,parms);
       //Store the kernel value
@@ -62,47 +57,47 @@ Eigen::MatrixXd KernelMatrix(Eigen::MatrixXd datMat,const std::function<double (
 }
 
 //Define the Kernel functions
-double CauchyKernel(arma::vec x,arma::vec y,arma::vec parms);
-double PolynomialKernel(arma::vec x,arma::vec y,arma::vec parms);
-double ChiSquareKernel(arma::vec x,arma::vec y,arma::vec parms);
-double ExponentialKernel(arma::vec x,arma::vec y,arma::vec parms);
-double GaussianKernel(arma::vec x,arma::vec y,arma::vec parms);
-double GeneralizedTStudentKernel(arma::vec x,arma::vec y,arma::vec parms);
-double HyperbolicTangentKernel(arma::vec x,arma::vec y,arma::vec parms);
-double InverseMultiquadraticKernel(arma::vec x,arma::vec y,arma::vec parms);
-double LaplacianoKernel(arma::vec x,arma::vec y,arma::vec parms);
-double LinearKernel(arma::vec x,arma::vec y,arma::vec parms);
-double LogLinearKernel(arma::vec x,arma::vec y,arma::vec parms);
-double MultiquadraticKernel(arma::vec x,arma::vec y,arma::vec parms);
-double PowerKernel(arma::vec x,arma::vec y,arma::vec parms);
-double RationalQuadraticKernel(arma::vec x,arma::vec y,arma::vec parms);
-double WaveletKernel(arma::vec x,arma::vec y,arma::vec parms);
-double HistogramIntersectionKernel(arma::vec x,arma::vec y,arma::vec parms);
-double WaveletKernel(arma::vec x,arma::vec y,arma::vec parms);
-double MexicanHatKernel(arma::vec x,arma::vec y,arma::vec parms);
-double MorletKernel(arma::vec x,arma::vec y,arma::vec parms);
-double GeneralizedHistogramIntersectionKernel(arma::vec x,arma::vec y,arma::vec parms);
-double CircularKernel(arma::vec x,arma::vec y,arma::vec parms);
-double SphericalKernel(arma::vec x,arma::vec y,arma::vec parms);
-double LogKernel(arma::vec x,arma::vec y,arma::vec parms);
-double WaveKernel(arma::vec x,arma::vec y,arma::vec parms);
-double HellingerKernel(arma::vec x,arma::vec y,arma::vec parms);
-double DirichletKernel(arma::vec x,arma::vec y,arma::vec parms);
-double PearsonKernel(arma::vec x,arma::vec y,arma::vec parms);
-double SigmoidKernel(arma::vec x,arma::vec y,arma::vec parms);
-double SquaredSincKernel(arma::vec x,arma::vec y,arma::vec parms);
-double SymmetricTriangleKernel(arma::vec x,arma::vec y,arma::vec parms);
-double ThinSplinePlateKernel(arma::vec x,arma::vec y,arma::vec parms);
-double ANOVAKernel(arma::vec x,arma::vec y,arma::vec parms);
-double SplineKernel(arma::vec x,arma::vec y,arma::vec parms);
-double BesselKernel(arma::vec x,arma::vec y,arma::vec parms);
-double ArccosKernel(arma::vec x,arma::vec y,arma::vec parms);
+double CauchyKernel(Eigen::RowVectorXd x,Eigen::RowVectorXd y,Eigen::RowVectorXd parms);
+double PolynomialKernel(Eigen::RowVectorXd x,Eigen::RowVectorXd y,Eigen::RowVectorXd parms);
+double ChiSquareKernel(Eigen::RowVectorXd x,Eigen::RowVectorXd y,Eigen::RowVectorXd parms);
+double ExponentialKernel(Eigen::RowVectorXd x,Eigen::RowVectorXd y,Eigen::RowVectorXd parms);
+double GaussianKernel(Eigen::RowVectorXd x,Eigen::RowVectorXd y,Eigen::RowVectorXd parms);
+double GeneralizedTStudentKernel(Eigen::RowVectorXd x,Eigen::RowVectorXd y,Eigen::RowVectorXd parms);
+double HyperbolicTangentKernel(Eigen::RowVectorXd x,Eigen::RowVectorXd y,Eigen::RowVectorXd parms);
+double InverseMultiquadraticKernel(Eigen::RowVectorXd x,Eigen::RowVectorXd y,Eigen::RowVectorXd parms);
+double LaplacianoKernel(Eigen::RowVectorXd x,Eigen::RowVectorXd y,Eigen::RowVectorXd parms);
+double LinearKernel(Eigen::RowVectorXd x,Eigen::RowVectorXd y,Eigen::RowVectorXd parms);
+double LogLinearKernel(Eigen::RowVectorXd x,Eigen::RowVectorXd y,Eigen::RowVectorXd parms);
+double MultiquadraticKernel(Eigen::RowVectorXd x,Eigen::RowVectorXd y,Eigen::RowVectorXd parms);
+double PowerKernel(Eigen::RowVectorXd x,Eigen::RowVectorXd y,Eigen::RowVectorXd parms);
+double RationalQuadraticKernel(Eigen::RowVectorXd x,Eigen::RowVectorXd y,Eigen::RowVectorXd parms);
+double WaveletKernel(Eigen::RowVectorXd x,Eigen::RowVectorXd y,Eigen::RowVectorXd parms);
+double HistogramIntersectionKernel(Eigen::RowVectorXd x,Eigen::RowVectorXd y,Eigen::RowVectorXd parms);
+double WaveletKernel(Eigen::RowVectorXd x,Eigen::RowVectorXd y,Eigen::RowVectorXd parms);
+double MexicanHatKernel(Eigen::RowVectorXd x,Eigen::RowVectorXd y,Eigen::RowVectorXd parms);
+double MorletKernel(Eigen::RowVectorXd x,Eigen::RowVectorXd y,Eigen::RowVectorXd parms);
+double GeneralizedHistogramIntersectionKernel(Eigen::RowVectorXd x,Eigen::RowVectorXd y,Eigen::RowVectorXd parms);
+double CircularKernel(Eigen::RowVectorXd x,Eigen::RowVectorXd y,Eigen::RowVectorXd parms);
+double SphericalKernel(Eigen::RowVectorXd x,Eigen::RowVectorXd y,Eigen::RowVectorXd parms);
+double LogKernel(Eigen::RowVectorXd x,Eigen::RowVectorXd y,Eigen::RowVectorXd parms);
+double WaveKernel(Eigen::RowVectorXd x,Eigen::RowVectorXd y,Eigen::RowVectorXd parms);
+double HellingerKernel(Eigen::RowVectorXd x,Eigen::RowVectorXd y,Eigen::RowVectorXd parms);
+double DirichletKernel(Eigen::RowVectorXd x,Eigen::RowVectorXd y,Eigen::RowVectorXd parms);
+double PearsonKernel(Eigen::RowVectorXd x,Eigen::RowVectorXd y,Eigen::RowVectorXd parms);
+double SigmoidKernel(Eigen::RowVectorXd x,Eigen::RowVectorXd y,Eigen::RowVectorXd parms);
+double SquaredSincKernel(Eigen::RowVectorXd x,Eigen::RowVectorXd y,Eigen::RowVectorXd parms);
+double SymmetricTriangleKernel(Eigen::RowVectorXd x,Eigen::RowVectorXd y,Eigen::RowVectorXd parms);
+double ThinSplinePlateKernel(Eigen::RowVectorXd x,Eigen::RowVectorXd y,Eigen::RowVectorXd parms);
+double ANOVAKernel(Eigen::RowVectorXd x,Eigen::RowVectorXd y,Eigen::RowVectorXd parms);
+double SplineKernel(Eigen::RowVectorXd x,Eigen::RowVectorXd y,Eigen::RowVectorXd parms);
+double BesselKernel(Eigen::RowVectorXd x,Eigen::RowVectorXd y,Eigen::RowVectorXd parms);
+double ArccosKernel(Eigen::RowVectorXd x,Eigen::RowVectorXd y,Eigen::RowVectorXd parms);
 
 //TODO: Testar se o Kernel construido eh semi-positivo definido e caso nao seja, trocar os autovalores negativos por zero.
 //TODO: http://scicomp.stackexchange.com/questions/10450/how-to-implement-the-spectral-decomposition-of-a-symmetric-dense-matrix-via-eige
 //TOOD: https://eigen.tuxfamily.org/dox/classEigen_1_1EigenSolver.html
 // [[Rcpp::export]]
-Eigen::MatrixXd KernelMatrixComputation(Eigen::MatrixXd datMat,std::string stringValue, arma::vec parms){
+Eigen::MatrixXd KernelMatrixComputation(Eigen::MatrixXd datMat,std::string stringValue, Eigen::RowVectorXd parms){
   //Get the number of columns
   int rows=datMat.rows();
   //Initialize the matrix
@@ -212,12 +207,11 @@ Eigen::MatrixXd KernelMatrixComputation(Eigen::MatrixXd datMat,std::string strin
 
 
 // [[Rcpp::export]]
-Eigen::MatrixXd KernelMatrixComputationPred(Eigen::MatrixXd datMat, Eigen::RowVectorXd predMat,std::string stringValue, arma::vec parms){
+Eigen::MatrixXd KernelMatrixComputationPred(Eigen::MatrixXd datMat, Eigen::RowVectorXd predMat,std::string stringValue, Eigen::RowVectorXd parms){
   //Get the number of columns
   int rows=datMat.rows();
   //Initialize the matrix
   Eigen::VectorXd Kernel = Eigen::VectorXd::Zero(rows);
-
 
   if(stringValue=="Cauchy"){
     Kernel = KernelMatrix(datMat, predMat, CauchyKernel ,parms);

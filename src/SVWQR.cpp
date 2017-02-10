@@ -15,11 +15,11 @@ using namespace Rcpp;
 //Define the KernelMatrix function
 Eigen::MatrixXd KernelMatrixComputation(Eigen::MatrixXd datMat,
                                         std::string stringValue,
-                                        arma::vec parms);
+                                        Eigen::RowVectorXd parms);
 Eigen::MatrixXd KernelMatrixComputationPred(Eigen::MatrixXd datMat,
                                         Eigen::RowVectorXd predMat,
                                         std::string stringValue,
-                                        arma::vec parms);
+                                        Eigen::RowVectorXd parms);
 //Define the Solver for Quadratic Programming
 Eigen::VectorXd rcppeigen_quadratic_solve(Eigen::MatrixXd & G,
                                           Eigen::VectorXd & g0,
@@ -102,7 +102,7 @@ NumericVector cpp_order(const NumericVector & x, bool desc = false) {
 // @cite soman2009machine
 // @bibliography ~/vignettes/bibliography.bib
 // [[Rcpp::export]]
-Rcpp::List CSVWQR(Eigen::VectorXd y, Eigen::MatrixXd X, double C, double tau, double gamma, std::string kernel, arma::vec parms){
+Rcpp::List CSVWQR(Eigen::VectorXd y, Eigen::MatrixXd X, double C, double tau, double gamma, std::string kernel, Eigen::RowVectorXd parms){
   //Support Vectors
   Eigen::VectorXd SV(2*y.size());
   //Create the one vector 2Nx1
@@ -200,7 +200,7 @@ Eigen::VectorXd PredictedCSVWQR(Rcpp::List CSVWQR, Eigen::MatrixXd X, Eigen::Mat
   std::string kernel = as<std::string> (CSVWQR["Kernel"]);
 
   //Get the parameters
-  arma::vec parms = as<arma::vec> (CSVWQR["Parameters"]);
+  Eigen::RowVectorXd parms = as<Eigen::RowVectorXd> (CSVWQR["Parameters"]);
 
   //Total number of observations
   int size = Xprev.rows();
@@ -250,7 +250,7 @@ Eigen::VectorXd R2PredictedCSVWQR(Rcpp::List CSVWQR, Eigen::MatrixXd X){
   std::string kernel = as<std::string> (CSVWQR["Kernel"]);
 
   //Get the parameters
-  arma::vec parms = as<arma::vec> (CSVWQR["Parameters"]);
+  Eigen::RowVectorXd parms = as<Eigen::RowVectorXd> (CSVWQR["Parameters"]);
 
   //Prediction for the full model
   //Total number of observations
