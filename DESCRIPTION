@@ -19,6 +19,7 @@ Imports:
     doParallel,
     parallel,
     iterators,
+    Matrix,
     boot
 SystemRequirements: GNU make
 RoxygenNote: 5.0.1
