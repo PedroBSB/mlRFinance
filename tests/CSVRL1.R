@@ -111,7 +111,7 @@ Emat <- c(rep(1,n),rep(-1,n))
 Amat <- cbind(Emat,diag(1,2*n),diag(-1,2*n))
 bvec <- c(0, rep(0,2*n),rep(-C,2*n))
 #Solve the Quadratic Problem
-quadprog::solve.QP(D= Q,dvec =dvec,Amat = Amat, bvec = bvec, meq= 1)
+quadprog::solve.QP(D= Q2,dvec =dvec,Amat = Amat, bvec = bvec, meq= 1)
 
 #### Solve using mlRFinance functions
 #Dvec
@@ -125,8 +125,10 @@ Amat <- as.matrix(cbind(diag(1,2*n),diag(-1,2*n)))
 bvec <- c(rep(0,2*n),rep(-C,2*n))
 mlRFinance::solveTest(Q2, dvec, Amat, bvec, Emat, ce)
 
+testeCSVRL1(d,Q, A, C, epsilon, "Gaussian", c(0.5))
+
 #### Solve using CSVRL1
-CSVRL1(d,A, C, epsilon, "Gaussian", c(0.5))
+CSVRL1(d, A, C, epsilon, "Gaussian", c(0.5))
 
 #################################################################################################
 #################################################################################################
