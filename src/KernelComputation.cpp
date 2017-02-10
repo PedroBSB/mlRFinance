@@ -28,9 +28,9 @@ double ArccosKernel(Eigen::RowVectorXd x,Eigen::RowVectorXd y,Eigen::RowVectorXd
     double k_yy_l = (y.cwiseProduct(y)).sum();
     double k_xy_l = (x.cwiseProduct(y)).sum();
     double theta_l;
-    
+
     int L = parms.size();
-    
+
     for (int l=1; l<=L; l++)
     {
         theta_l = std::acos(std::max(std::min(k_xy_l / std::sqrt(k_xx_l * k_yy_l),  1.0), -1.0));
@@ -98,8 +98,8 @@ double CircularKernel(Eigen::RowVectorXd x, Eigen::RowVectorXd y,Eigen::RowVecto
 
 double DirichletKernel(Eigen::RowVectorXd x,Eigen::RowVectorXd y,Eigen::RowVectorXd parms)
 {
-  double N=parms(0);//Dimension
-  double delta=parms(1);
+  double N = parms(0);//Dimension
+  double delta = parms(1);
   double prod = 1;
   for (int i=0;i<x.size();i++)
   {
@@ -256,7 +256,7 @@ double PearsonKernel(Eigen::RowVectorXd x, Eigen::RowVectorXd y, Eigen::RowVecto
 {
     double constant=parms(0);
     double omega=parms(1);
-    
+
     //Inner product
     double xx = 0;
     double yy = 0;
@@ -270,7 +270,7 @@ double PearsonKernel(Eigen::RowVectorXd x, Eigen::RowVectorXd y, Eigen::RowVecto
         yy += v;
         xy += uv;
     }
-    
+
     double m = constant * std::sqrt(-2.0 * xy + xx + yy);
     return 1.0 / std::pow(1.0 + m * m, omega);
 }
@@ -312,7 +312,7 @@ double SigmoidKernel(Eigen::RowVectorXd x, Eigen::RowVectorXd y, Eigen::RowVecto
     for (int i=0;i<x.size();i++)
         sum += x(i) * y(i);
     double value = std::tanh(alpha * sum + constant);
-    
+
     return value;
 }
 
@@ -344,16 +344,16 @@ double SquaredSincKernel(Eigen::RowVectorXd x,Eigen::RowVectorXd y,Eigen::RowVec
 {
     double norm = 0.0;
     double gamma=parms(0);
-    
+
     for (int i=0;i<x.size();i++)
     {
         double d = x(i) - y(i);
         norm += d * d;
     }
-    
+
     double num = gamma * std::sqrt(norm);
     double den = gamma * gamma * norm;
-    
+
     return std::sin(num) / den;
 }
 
@@ -367,9 +367,9 @@ double SymmetricTriangleKernel(Eigen::RowVectorXd x,Eigen::RowVectorXd y,Eigen::
         double d = x(i) - y(i);
         norm += d * d;
     }
-    
+
     double z = 1.0 - gamma * std::sqrt(norm);
-    
+
     return (z > 0) ? z : 0;
 }
 
@@ -383,7 +383,7 @@ double ThinSplinePlateKernel(Eigen::RowVectorXd x,Eigen::RowVectorXd y,Eigen::Ro
         double dxy = x(i) - y(i);
         r += dxy * dxy;
     }
-    
+
     return r / (sigma * sigma) * std::log(std::sqrt(r) / sigma);
 }
 
@@ -392,10 +392,10 @@ double WaveKernel(Eigen::RowVectorXd x,Eigen::RowVectorXd y, Eigen::RowVectorXd 
 {
     double norm = (x-y).norm();
     double sigma=parms(0);
-    
+
     if (sigma == 0 || norm == 0)
         return 0;
-    
+
     return (sigma / norm) * std::sin(norm / sigma);
 }
 

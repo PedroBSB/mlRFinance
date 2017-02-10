@@ -3,9 +3,10 @@ library(mlRFinance)
 A<-matrix(c(1,2,5,6),nrow=4,ncol=1)
 d<-c(-1,-1,+1,-1)
 
-svm2<- CSVML1(d, A, 50, "Polynomial", c(2,1))
+svm2<- CSVML1(d, A, 50, "Polynomial", c(2,1), FALSE)
 svm2
 
+R2PredictedCSVML1(svm2,d, A, 2, FALSE)
 
 
 K<-as.matrix(Matrix::nearPD(svm2$K)$mat)
@@ -42,7 +43,7 @@ svm2<-rep(0,length(y))
 # Start the clock!
 ptm <- proc.time()
 
-svm2<- CSVML1(y, X, 50, "Polynomial", c(2,1))
+svm2<- CSVML1(y, X, 50, "Polynomial", c(2,1), FALSE)
 
 # Stop the clock
 proc.time() - ptm
@@ -83,7 +84,7 @@ kernlab::ipop(c,H,A,b,l,u,r)
 
 
 
-#svm1<- CSVML1(d, A, 1, "Gaussian", c(0.5))
+#svm1<- CSVML1(d, A, 1, "Gaussian", c(0.5), FALSE)
 #svm1
 
 #Quadprog

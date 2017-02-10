@@ -2,37 +2,37 @@
 #ifndef KERNELCOMPUTATION_H
 #define KERNELCOMPUTATION_H
 
-double CauchyKernel(arma::vec x,arma::vec y,arma::vec parms);
+double CauchyKernel(Eigen::RowVectorXd x,Eigen::RowVectorXd y,Eigen::RowVectorXd parms);
 
-double ChiSquareKernel(arma::vec x,arma::vec y,arma::vec parms);
+double ChiSquareKernel(Eigen::RowVectorXd x,Eigen::RowVectorXd y,Eigen::RowVectorXd parms);
 
-double ExponentialKernel(arma::vec x,arma::vec y,arma::vec parms);
+double ExponentialKernel(Eigen::RowVectorXd x,Eigen::RowVectorXd y,Eigen::RowVectorXd parms);
 
-double GaussianKernel(arma::vec x,arma::vec y,arma::vec parms);
+double GaussianKernel(Eigen::RowVectorXd x,Eigen::RowVectorXd y,Eigen::RowVectorXd parms);
 
-double GeneralizedTStudentKernel(arma::vec x,arma::vec y,arma::vec parms);
+double GeneralizedTStudentKernel(Eigen::RowVectorXd x,Eigen::RowVectorXd y,Eigen::RowVectorXd parms);
 
-double HyperbolicTangentKernel(arma::vec x,arma::vec y,arma::vec parms);
+double HyperbolicTangentKernel(Eigen::RowVectorXd x,Eigen::RowVectorXd y,Eigen::RowVectorXd parms);
 
-double InverseMultiquadraticKernel(arma::vec x,arma::vec y,arma::vec parms);
+double InverseMultiquadraticKernel(Eigen::RowVectorXd x,Eigen::RowVectorXd y,Eigen::RowVectorXd parms);
 
-double LaplacianoKernel(arma::vec x,arma::vec y,arma::vec parms);
+double LaplacianoKernel(Eigen::RowVectorXd x,Eigen::RowVectorXd y,Eigen::RowVectorXd parms);
 
-double LinearKernel(arma::vec x,arma::vec y,arma::vec parms);
+double LinearKernel(Eigen::RowVectorXd x,Eigen::RowVectorXd y,Eigen::RowVectorXd parms);
 
-double LogLinearKernel(arma::vec x,arma::vec y,arma::vec parms);
+double LogLinearKernel(Eigen::RowVectorXd x,Eigen::RowVectorXd y,Eigen::RowVectorXd parms);
 
-double MultiquadraticKernel(arma::vec x,arma::vec y,arma::vec parms);
+double MultiquadraticKernel(Eigen::RowVectorXd x,Eigen::RowVectorXd y,Eigen::RowVectorXd parms);
 
-double PowerKernel(arma::vec x,arma::vec y,arma::vec parms);
+double PowerKernel(Eigen::RowVectorXd x,Eigen::RowVectorXd y,Eigen::RowVectorXd parms);
 
-double RationalQuadraticKernel(arma::vec x,arma::vec y,arma::vec parms);
+double RationalQuadraticKernel(Eigen::RowVectorXd x,Eigen::RowVectorXd y,Eigen::RowVectorXd parms);
 
-double WaveletKernel(arma::vec x,arma::vec y,arma::vec parms);
+double WaveletKernel(Eigen::RowVectorXd x,Eigen::RowVectorXd y,Eigen::RowVectorXd parms);
 
-double BesselKernel(arma::vec x,arma::vec y,arma::vec parms);
+double BesselKernel(Eigen::RowVectorXd x,Eigen::RowVectorXd y,Eigen::RowVectorXd parms);
 
-double ArccosKernel(arma::vec x,arma::vec y,arma::vec parms);
+double ArccosKernel(Eigen::RowVectorXd x,Eigen::RowVectorXd y,Eigen::RowVectorXd parms);
 
 // This is the end of the header guard
 #endif

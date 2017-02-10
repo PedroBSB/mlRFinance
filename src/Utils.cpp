@@ -3,6 +3,7 @@
 // [[Rcpp::depends(RcppArmadillo)]]
 // [[Rcpp::depends(RcppEigen)]]
 #include <cmath>
+#include "conversion.h"
 using namespace Rcpp;
 /***************************************************************************************************************************/
 /*********************************                      UTILS          *****************************************************/
@@ -160,9 +161,11 @@ Eigen::MatrixXd repetVector(Eigen::VectorXd d,double e1, int nrows){
 
 //Near Positive Definite matrix
 // [[Rcpp::export]]
-Eigen::MatrixXd nearPDefinite(Eigen::MatrixXd mat, int maxit=1e+6, double eigtol = 1e-06, double conv_tol = 1e-07, double posd_tol = 1e-08, bool keepDiagonal=false){
+Eigen::MatrixXd nearPDefiniteOld(Eigen::MatrixXd mat, int maxit=1e+6, double eigtol = 1e-06, double conv_tol = 1e-07, double posd_tol = 1e-08, bool keepDiagonal=false){
   //Number of columns
   int n = mat.cols();
+  //Store the diagonal
+  Eigen::ArrayXd diagX0 = mat.diagonal();
   //Dykstra matrix
   Eigen::MatrixXd D_S = Eigen::MatrixXd::Zero(mat.rows(),mat.cols());
   //Store the original matrix
@@ -201,6 +204,69 @@ Eigen::MatrixXd nearPDefinite(Eigen::MatrixXd mat, int maxit=1e+6, double eigtol
     //Update the convergence criteria
     converged = (conv <= conv_tol);
   }
+
+  //Eigen step applied to the result of the Higham (2002) algorithm.
+  //Get the eigenvalues
+  Eigen::EigenSolver<Eigen::MatrixXd> es(X,true);
+  Eigen::MatrixXcd Lambda = es.eigenvalues().asDiagonal();
+  //Real part
+  Eigen::MatrixXd rLambda = Lambda.real();
+  //Get the maximum
+  double d = rLambda.maxCoeff();
+  double Eps = posd_tol * std::abs(d);
+  if(rLambda.minCoeff()<Eps){
+    //Replace all eigenvalues lower than Eps
+    for(int i=0;i<rLambda.rows();i++){
+      if(rLambda(i,i)<Eps){
+        rLambda(i,i) = Eps;
+      }
+    }
+    //Eigen vectors
+    Eigen::MatrixXcd Q = es.eigenvectors();
+    Eigen::MatrixXd rQ = Q.real();
+    //Get the diagonal as an array
+    Eigen::ArrayXd o_diag = X.diagonal();
+    //Calculate the product
+    Eigen::MatrixXd rQtemp = rQ.transpose();
+    for(int i=0;i<rQtemp.rows();i++){
+      rQtemp.row(i) = rQtemp.row(i).array()*rLambda(i,i);
+    }
+    X = rQ*rQtemp;
+    //Reconstruct the Diagonal
+    Eigen::MatrixXd D = X.diagonal().asDiagonal();
+    //Parallel Maximum
+    Eigen::VectorXd vecD(o_diag.size());
+    for(int i=0;i< o_diag.size();i++){
+      if(o_diag(i)<Eps){
+        o_diag(i) = Eps ;
+      }
+      vecD(i) = std::sqrt(o_diag(i)/X(i,i));
+    }
+
+    for(int r=0;r<X.rows();r++){
+      for(int c=0;c<X.cols();c++){
+        X(r,c) = vecD(r)*X(r,c)*vecD(c);
+      }
+    }
+  }
+
+  if(keepDiagonal){
+    X.diagonal()=diagX0;
+  }
+
+  //Return X
 return(X);
 }
 
+
+
+// [[Rcpp::export]]
+Eigen::MatrixXd nearPDefinite(Eigen::MatrixXd X, int maxit=1e+6, double eigtol = 1e-06, double conv_tol = 1e-07, double posd_tol = 1e-08, bool keepDiagonal=false){
+  Rcpp::Environment G = Rcpp::Environment::global_env();
+  Rcpp::Environment Matrix("package:Matrix");
+  Function f = Matrix["nearPD"];
+  Rcpp::List res = f(X, false, keepDiagonal, true, false, true, false, false,  eigtol, conv_tol, posd_tol, 100, "I", false);
+  Rcpp::NumericMatrix mat = internal::convert_using_rfunction(wrap(res[0]), "as.matrix");
+  Eigen::MatrixXd Xpd=convertMatrix<Eigen::MatrixXd,Rcpp::NumericMatrix>(mat);
+  return(Xpd);
+}

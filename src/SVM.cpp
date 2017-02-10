@@ -15,7 +15,7 @@ using namespace Rcpp;
 //Define the KernelMatrix function
 Eigen::MatrixXd KernelMatrixComputation(Eigen::MatrixXd datMat,
                                         std::string stringValue,
-                                        arma::vec parms);
+                                        Eigen::RowVectorXd parms);
 //Define the Solver for Quadratic Programming
 Eigen::VectorXd rcppeigen_quadratic_solve(Eigen::MatrixXd & G,
                                           Eigen::VectorXd & g0,
@@ -204,7 +204,7 @@ Eigen::VectorXd predictProbability(Eigen::VectorXd predVec,Eigen::VectorXd y, Ei
 // @cite soman2009machine
 // @bibliography ~/vignettes/bibliography.bib
 // [[Rcpp::export]]
-Rcpp::List CSVML1(Eigen::VectorXd y, Eigen::MatrixXd X, double C, std::string kernel, arma::vec parms){
+Rcpp::List CSVML1(Eigen::VectorXd y, Eigen::MatrixXd X, double C, std::string kernel, Eigen::RowVectorXd parms, bool biasTerm){
   //Support Vectors
   Eigen::VectorXd SV(y.size());
   //Create the one vector Nx1
@@ -214,6 +214,12 @@ Rcpp::List CSVML1(Eigen::VectorXd y, Eigen::MatrixXd X, double C, std::string ke
   Eigen::VectorXd ce0;
   //LHS equality
   Eigen::MatrixXd CE;
+  if(biasTerm==true){
+    //RHS equality
+    ce0 = Eigen::VectorXd::Zero(1);
+    //LHS equality
+    CE = Eigen::MatrixXd::Ones(1,y.size());
+  }
   //RHS: Inequality 1
   Eigen::VectorXd ci1 = Eigen::VectorXd::Zero(y.size());
   //LHS: Inequality 1
@@ -275,10 +281,29 @@ Rcpp::List CSVML1(Eigen::VectorXd y, Eigen::MatrixXd X, double C, std::string ke
 // @cite soman2009machine
 // @bibliography ~/vignettes/bibliography.bib
 // [[Rcpp::export]]
-Eigen::VectorXd PredictedCSVML1(Rcpp::List CSVML1,Eigen::VectorXd y, Eigen::MatrixXd X, Eigen::MatrixXd Xprev, std::string kernel, arma::vec parms, int typePredict){
+Eigen::VectorXd PredictedCSVML1(Rcpp::List CSVML1,Eigen::VectorXd y, Eigen::MatrixXd X, Eigen::MatrixXd Xprev, int typePredict, bool biasTerm){
 
   //Get the SV
   Eigen::VectorXd SV = as<Eigen::VectorXd> (CSVML1["SupportVectors"]);
+
+  //Get the kernel
+  std::string kernel = as<std::string> (CSVML1["Kernel"]);
+
+  //Get the parameters
+  Eigen::RowVectorXd parms = as<Eigen::RowVectorXd> (CSVML1["Parameters"]);
+
+  //Bias Term
+  double gamma=0.0;
+  if(biasTerm==true){
+    for(int i=0;i<X.rows();i++){
+      //Create the Kernel Matrix
+      Eigen::VectorXd K = KernelMatrixComputationPred(X,X.row(i),kernel,parms);
+      Eigen::VectorXd F = y.array()*SV.array() *K.array();
+      double res = F.sum();
+      gamma=gamma+(y(i)-res);
+    }
+  }
+  gamma = gamma / X.rows();
 
   //Total number of observations
   int size = Xprev.rows();
@@ -289,7 +314,7 @@ Eigen::VectorXd PredictedCSVML1(Rcpp::List CSVML1,Eigen::VectorXd y, Eigen::Matr
       Eigen::VectorXd K = KernelMatrixComputationPred(X,Xprev.row(i),kernel,parms);
       Eigen::VectorXd F = y.array()*SV.array() *K.array();
       double res = F.sum();
-      predVec(i)=res;
+      predVec(i)=res-gamma;
     }
       //Return the probability
     Eigen::VectorXd parms = predictProbability(predVec, y, SV);
@@ -306,6 +331,7 @@ Eigen::VectorXd PredictedCSVML1(Rcpp::List CSVML1,Eigen::VectorXd y, Eigen::Matr
       Eigen::VectorXd K = KernelMatrixComputationPred(X,Xprev.row(i),kernel,parms);
       Eigen::VectorXd F = y.array()*SV.array() *K.array();
       double res = F.sum();
+      res = res - gamma;
       if(typePredict==0){
         //Return the signal
         if(res<0){
@@ -317,13 +343,177 @@ Eigen::VectorXd PredictedCSVML1(Rcpp::List CSVML1,Eigen::VectorXd y, Eigen::Matr
       }
       else{
         //Return the raw forecast
+        res = res - gamma;
         predVec(i)=res;
       }
     }
   }
-
-
   return(predVec);
+}
+
+
+//' @name Pseudo R2 - Predicted CSVRL1
+//' @title C-SVR L1 - Support Vector Regression with C cost and L1 regularization.
+//' @description Prediction for the C-SVR L1:
+//'
+//' f(x)=Sum_{i=1}^{N}(lambda*-lambda)K(x_{i},x)
+//' @param CSVRL1 List of Results of the CSVRL1
+//' @param X Numeric matrix with the explanatory variables. Dimension equal NxP
+//' @param kernel Name of the kernel that will be used.
+//' @param parms Parameters associated with chosen kenel.
+//' @return Eigen::VectorXd with the Pseudo R2 for each variable.
+//' @examples
+//'
+//' A<-matrix(c(1,2,5,6,
+//' 2,4,1,2),nrow=4,ncol=2)
+//' d<-c(-1,-1,+1,-1)
+//' svm1<- CSVML1(d, A, 1, 0.1, "Gaussian", c(0.5))
+//'
+//' @seealso See \code{\link{.CallOctave}}, \code{\link{o_source}}, \code{\link{o_help}}
+// @cite soman2009machine
+// @bibliography ~/vignettes/bibliography.bib
+// [[Rcpp::export]]
+Eigen::VectorXd R2PredictedCSVML1(Rcpp::List CSVML1,Eigen::VectorXd y, Eigen::MatrixXd X, int typePredict, bool biasTerm){
+  //Results
+  Eigen::VectorXd R2vec(X.cols());
+
+  //Get the SV
+  Eigen::VectorXd SV = as<Eigen::VectorXd> (CSVML1["SupportVectors"]);
+
+  //Get the kernel
+  std::string kernel = as<std::string> (CSVML1["Kernel"]);
+
+  //Get the parameters
+  Eigen::RowVectorXd parms = as<Eigen::RowVectorXd> (CSVML1["Parameters"]);
+
+  //Bias Term
+  double gamma=0.0;
+  if(biasTerm==true){
+    for(int i=0;i<X.rows();i++){
+      //Create the Kernel Matrix
+      Eigen::VectorXd K = KernelMatrixComputationPred(X,X.row(i),kernel,parms);
+      Eigen::VectorXd F = y.array()*SV.array() *K.array();
+      double res = F.sum();
+      gamma=gamma+(y(i)-res);
+    }
+  }
+  gamma = gamma / X.rows();
+
+  //Prediction for the full model
+  //Total number of observations
+  int size = X.rows();
+  Eigen::VectorXd predVec(size);
+  if(typePredict==1){
+    for(int i=0;i<size;i++){
+      //Create the Kernel Matrix
+      Eigen::VectorXd K = KernelMatrixComputationPred(X,X.row(i),kernel,parms);
+      Eigen::VectorXd F = y.array()*SV.array() *K.array();
+      double res = F.sum();
+      predVec(i)=res - gamma;
+    }
+    //Return the probability
+    Eigen::VectorXd parms = predictProbability(predVec, y, SV);
+    double A=parms(0);
+    double B=parms(1);
+    //Normalize the predVec;
+    for(int i=0;i<size;i++){
+      predVec(i)=1.0/(1+std::exp(A*predVec(i)+B));
+    }
+  }
+  else{
+    for(int i=0;i<size;i++){
+      //Create the Kernel Matrix
+      Eigen::VectorXd K = KernelMatrixComputationPred(X,X.row(i),kernel,parms);
+      Eigen::VectorXd F = y.array()*SV.array() *K.array();
+      double res = F.sum();
+      res = res - gamma;
+      if(typePredict==0){
+        //Return the signal
+        if(res<0){
+          predVec(i)=-1.0;
+        }
+        else{
+          predVec(i)=+1.0;
+        }
+      }
+      else{
+        //Return the raw forecast
+        predVec(i)=res-gamma;
+      }
+    }
+  }
+
+  //Sum of squared errors
+  double SSE = predVec.squaredNorm();
+
+  //For each variable:
+  for(int v=0;v<X.cols();v++){
+    //Zero columns
+    Eigen::MatrixXd Xprev = X;
+
+    //Zero the variable
+    Xprev.col(v).fill(0.0);
+
+    //Bias Term
+    gamma=0.0;
+    if(biasTerm==true){
+      for(int i=0;i<X.rows();i++){
+        //Create the Kernel Matrix
+        Eigen::VectorXd K = KernelMatrixComputationPred(X,X.row(i),kernel,parms);
+        Eigen::VectorXd F = y.array()*SV.array() *K.array();
+        double res = F.sum();
+        gamma=gamma+(y(i)-res);
+      }
+    }
+    gamma = gamma / X.rows();
+
+    //Total number of observations
+    int size = X.rows();
+    Eigen::VectorXd predVec2(size);
+    if(typePredict==1){
+      for(int i=0;i<size;i++){
+        //Create the Kernel Matrix
+        Eigen::VectorXd K = KernelMatrixComputationPred(X,Xprev.row(i),kernel,parms);
+        Eigen::VectorXd F = y.array()*SV.array() *K.array();
+        double res = F.sum();
+        predVec2(i)=res-gamma;
+      }
+      //Return the probability
+      Eigen::VectorXd parms = predictProbability(predVec2, y, SV);
+      double A=parms(0);
+      double B=parms(1);
+      //Normalize the predVec;
+      for(int i=0;i<size;i++){
+        predVec2(i)=1.0/(1+std::exp(A*predVec2(i)+B));
+      }
+    }
+    else{
+      for(int i=0;i<size;i++){
+        //Create the Kernel Matrix
+        Eigen::VectorXd K = KernelMatrixComputationPred(X,Xprev.row(i),kernel,parms);
+        Eigen::VectorXd F = y.array()*SV.array() *K.array();
+        double res = F.sum();
+        res = res - gamma;
+        if(typePredict==0){
+          //Return the signal
+          if(res<0){
+            predVec2(i)=-1.0;
+          }
+          else{
+            predVec2(i)=+1.0;
+          }
+        }
+        else{
+          //Return the raw forecast
+          predVec2(i)=res-gamma;
+        }
+      }
+    }
+
+    double SSEvar = predVec2.squaredNorm();
+    R2vec(v) = SSEvar/SSE;
+  }
+  return(R2vec);
 }
 
 
@@ -360,7 +550,7 @@ Eigen::VectorXd PredictedCSVML1(Rcpp::List CSVML1,Eigen::VectorXd y, Eigen::Matr
 // @cite soman2009machine
 // @bibliography ~/vignettes/bibliography.bib
 // [[Rcpp::export]]
-Rcpp::List CSVML2(Eigen::VectorXd y, Eigen::MatrixXd X, double C, std::string kernel, arma::vec parms){
+Rcpp::List CSVML2(Eigen::VectorXd y, Eigen::MatrixXd X, double C, std::string kernel, Eigen::RowVectorXd parms, bool biasTerm){
   //Support Vectors
   Eigen::VectorXd SV(y.size());
   //Create the one vector Nx1
@@ -370,6 +560,13 @@ Rcpp::List CSVML2(Eigen::VectorXd y, Eigen::MatrixXd X, double C, std::string ke
   Eigen::VectorXd ce0;
   //LHS equality
   Eigen::MatrixXd CE;
+  if(biasTerm==true){
+    //RHS equality
+    ce0 = Eigen::VectorXd::Zero(1);
+    //LHS equality
+    CE = Eigen::MatrixXd::Zero(1,y.size());
+    CE.row(0) = y;
+  }
   //RHS: Inequality 1
   Eigen::VectorXd ci0 = Eigen::VectorXd::Zero(y.size());
   //LHS: Inequality 1
@@ -385,7 +582,8 @@ Rcpp::List CSVML2(Eigen::VectorXd y, Eigen::MatrixXd X, double C, std::string ke
   //nearPositiveDefinite(Q,1e-10);
   Q = nearPDefinite(Q, 1e+6, 1e-06, 1e-07, 1e-08, true);
   //Get the solution Support Vectors
-  SV = rcppeigen_quadratic_solve(Q,e, CE,ce0, CI.transpose(), ci0);
+  SV = rcppeigen_quadratic_solve(Q,e, CE.transpose(),ce0, CI.transpose(), ci0);
+
   //Return the results
   return Rcpp::List::create(Rcpp::Named("SupportVectors") = SV,
                             Rcpp::Named("Kernel") = kernel,
@@ -430,7 +628,7 @@ Rcpp::List CSVML2(Eigen::VectorXd y, Eigen::MatrixXd X, double C, std::string ke
 // @cite soman2009machine @chang2001training
 // @bibliography ~/vignettes/bibliography.bib
 // [[Rcpp::export]]
-Rcpp::List nuSVM(Eigen::VectorXd y, Eigen::MatrixXd X, double nu, std::string kernel, arma::vec parms){
+Rcpp::List nuSVM(Eigen::VectorXd y, Eigen::MatrixXd X, double nu, std::string kernel, Eigen::RowVectorXd parms){
   //Support Vectors
   Eigen::VectorXd SV(y.size());
   //Create the one vector Nx1
@@ -482,6 +680,29 @@ Eigen::VectorXd solveTest(Eigen::MatrixXd Dmat, Eigen::VectorXd dvec, Eigen::Mat
   Eigen::VectorXd d0=-dvec;
   Eigen::VectorXd b0=-bvec;
   Eigen::VectorXd ce0=-ce;
+
+  std::cout<<"Matriz Q:" << std::endl;
+  std::cout<< Dmat << std::endl;
+  std::cout<< std::endl;
+  std::cout<<"Vetor g:" << std::endl;
+  std::cout<< d0 << std::endl;
+  std::cout<< std::endl;
+  std::cout<<"Matriz CE:" << std::endl;
+  std::cout<< CE.transpose() << std::endl;
+  std::cout<< std::endl;
+  std::cout<<"Vetor ce0:" << std::endl;
+  std::cout<< ce0 << std::endl;
+  std::cout<< std::endl;
+  std::cout<<"Matriz CI:" << std::endl;
+  std::cout<< Amat.transpose() << std::endl;
+  std::cout<< std::endl;
+  std::cout<<"Vetor ci0:" << std::endl;
+  std::cout<< b0 << std::endl;
+  std::cout<< std::endl;
+
+
+
+
   //Get the solution
   Eigen::VectorXd x = rcppeigen_quadratic_solve(Dmat,d0, CE,ce0, Amat, b0);
   return(x);
