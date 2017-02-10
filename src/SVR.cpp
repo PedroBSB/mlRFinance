@@ -132,7 +132,6 @@ Rcpp::List CSVRL1(Eigen::VectorXd y, Eigen::MatrixXd X, double C, double epsilon
                             Rcpp::Named("Epsilon") = epsilon);
 }
 
-
 //' @name Predicted CSVRL1
 //' @title C-SVR L1 - Support Vector Regression with C cost and L1 regularization.
 //' @description Prediction for the C-SVR L1:
