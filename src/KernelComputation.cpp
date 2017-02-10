@@ -22,27 +22,29 @@ double ANOVAKernel(Eigen::RowVectorXd x, Eigen::RowVectorXd y, Eigen::RowVectorX
 }
 
 
-double ArccosKernel(arma::vec x,arma::vec y,arma::vec parms)
+double ArccosKernel(Eigen::RowVectorXd x,Eigen::RowVectorXd y,Eigen::RowVectorXd parms)
 {
-  double k_xx_l = arma::sum(x % y);
-  double k_yy_l = arma::sum(y % y);
-  double k_xy_l = arma::sum(x % y);
-  double theta_l;
-
-  int L = parms.size();
-
-  for (int l=1; l<=L; l++)
-  {
-    theta_l = std::acos(std::max(std::min(k_xy_l / std::sqrt(k_xx_l * k_yy_l),  1.0), -1.0));
-    k_xy_l = std::pow(k_xx_l * k_yy_l, parms[l-1]/2) / M_PI * R::bessel_j(parms[l-1], theta_l);
-    if (l < L)
+    double k_xx_l = (x.cwiseProduct(y)).sum();
+    double k_yy_l = (y.cwiseProduct(y)).sum();
+    double k_xy_l = (x.cwiseProduct(y)).sum();
+    double theta_l;
+    
+    int L = parms.size();
+    
+    for (int l=1; l<=L; l++)
     {
-      k_xx_l  = std::pow(k_xx_l, parms[l-1]) / M_PI * R::bessel_j(parms[l-1], 0);
-      k_yy_l  = std::pow(k_yy_l, parms[l-1]) / M_PI * R::bessel_j(parms[l-1], 0);
+        theta_l = std::acos(std::max(std::min(k_xy_l / std::sqrt(k_xx_l * k_yy_l),  1.0), -1.0));
+        k_xy_l = std::pow(k_xx_l * k_yy_l, parms[l-1]/2) / M_PI * R::bessel_j(parms[l-1], theta_l);
+        if (l < L)
+        {
+            k_xx_l  = std::pow(k_xx_l, parms[l-1]) / M_PI * R::bessel_j(parms[l-1], 0);
+            k_yy_l  = std::pow(k_yy_l, parms[l-1]) / M_PI * R::bessel_j(parms[l-1], 0);
+        }
     }
-  }
-  return k_xy_l;
+    return k_xy_l;
 }
+
+
 
 
 double BesselKernel(Eigen::RowVectorXd x,Eigen::RowVectorXd y,Eigen::RowVectorXd parms)
