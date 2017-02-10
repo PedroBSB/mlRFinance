@@ -17,8 +17,11 @@ valid <- as.matrix(sinc[-ids,])
 #Order the dataset
 valid <- valid[order(valid[,1]),]
 
+
+parms<-matrix(rep(0.5,3),nrow=3)
+
 #Do the SVR
-svm2<- CSVRL1(train[,2], as.matrix(train[,1]), 0.5, 0.05, "Gaussian", c(0.5))
+svm2<- CSVRL1(train[,2], as.matrix(train[,1]), 0.5, 0.05, "Gaussian", parms[1,])
 #svm2<- CSVRL1(train[,2], as.matrix(train[,1]), 0.5,0.05, "Polynomial", c(2,1))
 svm2
 
