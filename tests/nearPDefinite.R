@@ -55,6 +55,11 @@ Qnear <- Matrix::nearPD(Q, corr = FALSE, keepDiag = TRUE, do2eigen = TRUE,
                         maxit = 100, conv.norm.type = "I", trace = FALSE)
 Qnear <- Qnear$mat
 
+##
+Q <- rbind(cbind(K,-K),cbind(-K,+K))
+Qnear2 <- nearPDefinite(Q,100,1e-06,1e-07,1e-08,TRUE)
+
+all(Qnear==Qnear2)
 
 #############################################
 n <- 3

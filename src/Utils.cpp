@@ -3,6 +3,7 @@
 // [[Rcpp::depends(RcppArmadillo)]]
 // [[Rcpp::depends(RcppEigen)]]
 #include <cmath>
+#include "conversion.h"
 using namespace Rcpp;
 /***************************************************************************************************************************/
 /*********************************                      UTILS          *****************************************************/
@@ -160,7 +161,7 @@ Eigen::MatrixXd repetVector(Eigen::VectorXd d,double e1, int nrows){
 
 //Near Positive Definite matrix
 // [[Rcpp::export]]
-Eigen::MatrixXd nearPDefinite(Eigen::MatrixXd mat, int maxit=1e+6, double eigtol = 1e-06, double conv_tol = 1e-07, double posd_tol = 1e-08, bool keepDiagonal=false){
+Eigen::MatrixXd nearPDefiniteOld(Eigen::MatrixXd mat, int maxit=1e+6, double eigtol = 1e-06, double conv_tol = 1e-07, double posd_tol = 1e-08, bool keepDiagonal=false){
   //Number of columns
   int n = mat.cols();
   //Store the diagonal
@@ -257,3 +258,15 @@ Eigen::MatrixXd nearPDefinite(Eigen::MatrixXd mat, int maxit=1e+6, double eigtol
 return(X);
 }
 
+
+
+// [[Rcpp::export]]
+Eigen::MatrixXd nearPDefinite(Eigen::MatrixXd X, int maxit=1e+6, double eigtol = 1e-06, double conv_tol = 1e-07, double posd_tol = 1e-08, bool keepDiagonal=false){
+  Rcpp::Environment G = Rcpp::Environment::global_env();
+  Rcpp::Environment Matrix("package:Matrix");
+  Function f = Matrix["nearPD"];
+  Rcpp::List res = f(X, false, keepDiagonal, true, false, true, false, false,  eigtol, conv_tol, posd_tol, 100, "I", false);
+  Rcpp::NumericMatrix mat = internal::convert_using_rfunction(wrap(res[0]), "as.matrix");
+  Eigen::MatrixXd Xpd=convertMatrix<Eigen::MatrixXd,Rcpp::NumericMatrix>(mat);
+  return(Xpd);
+}
