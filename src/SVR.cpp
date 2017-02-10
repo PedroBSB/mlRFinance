@@ -162,10 +162,10 @@ Eigen::VectorXd PredictedCSVRL1(Rcpp::List CSVRL1, Eigen::VectorXd y, Eigen::Mat
   std::string kernel = as<std::string> (CSVRL1["Kernel"]);
 
   //Get the parameters
-  arma::vec parms = as<arma::vec> (CSVRL1["Epsilon"]);
+  arma::vec parms = as<arma::vec> (CSVRL1["Parameters"]);
 
   //Get the epsilon band
-  double epsilon = as<double> (CSVRL1["Parameters"]);
+  double epsilon = as<double> (CSVRL1["Epsilon"]);
 
   //Total number of observations
   int size = Xprev.rows();
