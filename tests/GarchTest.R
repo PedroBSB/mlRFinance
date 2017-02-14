@@ -20,6 +20,23 @@ train <- as.numeric(retorno[1:180])
 valid <- as.numeric(retorno[181:216])
 
 
+Cmean <- 0.05
+epsilonMean <- 0.10
+kernelMean <- "Gaussian"
+parmsMean <- 1
+
+Cvola <- 0.7
+epsilonVola <- 0.1
+kernelVolat <- "Polynomial"
+parmsVola <- c(3,1)
+
+svm<-GARCHCSVRL1(train, valid, Cmean, epsilonMean, Cvola, epsilonVola, kernelMean, parmsMean, kernelVolat, parmsVola)
+svm$PredictedMeanTraining
+
+
+
+#############################################################
+
 
 #Cost parameter - Mean Equation
 Cmean<-seq(0.01,10)
@@ -46,17 +63,5 @@ parmsVola <- matrix(c(2,1,
 svm<-GARCHCSVRL1(train, valid, Cmean[1], epsilonMean[1], Cvola[1], epsilonVola[1],
                  kernelMean, parmsMean[1,], kernelVolat, parmsVola[1,])
 
-Cmean <- 0.05
-epsilonMean <- 0.10
-kernelMean <- "Gaussian"
-parmsMean <- 1
-
-Cvola <- 0.7
-epsilonVola <- 0.1
-kernelVolat <- "Polynomial"
-parmsVola <- c(3,1)
-
-svm<-GARCHCSVRL1(train, valid, Cmean, epsilonMean, Cvola, epsilonVola, kernelMean, parmsMean, kernelVolat, parmsVola)
-svm$PredictedMeanTraining
 
 

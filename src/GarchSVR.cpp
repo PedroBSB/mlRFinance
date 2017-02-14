@@ -88,7 +88,6 @@ Rcpp::List GARCHCSVRL1(Eigen::VectorXd train, Eigen::VectorXd valid, double Cmea
   Eigen::MatrixXd Xvalid(sizeValid-1,1);
   Xvalid.col(0)= valid.head(sizeValid-1).array();
 
-
   //Step 1: Training and validating MEAN
   Rcpp::List SVRmean = CSVRL1(y, X, Cmean, epsilonMean, kernelMean, parmsMean);
 
