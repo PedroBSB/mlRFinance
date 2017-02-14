@@ -147,7 +147,7 @@ Rcpp::List CSVRL1(Eigen::VectorXd y, Eigen::MatrixXd X, double C, double epsilon
     }
   }
   //Get the new bias term
-  bGamma = bGamma/(double)cont;
+  if(cont > 0) bGamma = bGamma/(double)cont;
 
   //Return the results
   return Rcpp::List::create(Rcpp::Named("SupportVectors") = SV,

@@ -13,9 +13,9 @@ using namespace Rcpp;
 // @param function Kernel Function
 // @param parms vector of parameters fot the kernel
 // @return Kernel Matrix
-Eigen::VectorXd KernelMatrix(Eigen::MatrixXd datMat, Eigen::RowVectorXd predMat,const std::function<double (Eigen::RowVectorXd, Eigen::RowVectorXd, Eigen::RowVectorXd)> kernel, Eigen::RowVectorXd parms){
+Eigen::VectorXd KernelMatrix(Eigen::MatrixXd datMat, Eigen::RowVectorXd predMat, const std::function<double (Eigen::RowVectorXd, Eigen::RowVectorXd, Eigen::RowVectorXd)> kernel, Eigen::RowVectorXd parms){
   //Get the number of rows
-  int rows=datMat.rows();
+  int rows = datMat.rows();
   //Initialize the matriz
   Eigen::VectorXd matKernel = Eigen::VectorXd::Zero(rows);
   for(unsigned int c1=0;c1<rows;c1++){
@@ -207,9 +207,10 @@ Eigen::MatrixXd KernelMatrixComputation(Eigen::MatrixXd datMat,std::string strin
 
 
 // [[Rcpp::export]]
-Eigen::MatrixXd KernelMatrixComputationPred(Eigen::MatrixXd datMat, Eigen::RowVectorXd predMat,std::string stringValue, Eigen::RowVectorXd parms){
+Eigen::MatrixXd KernelMatrixComputationPred(Eigen::MatrixXd datMat, Eigen::RowVectorXd predMat, std::string stringValue, Eigen::RowVectorXd parms){
   //Get the number of columns
   int rows=datMat.rows();
+
   //Initialize the matrix
   Eigen::VectorXd Kernel = Eigen::VectorXd::Zero(rows);
 
