@@ -125,11 +125,37 @@ Rcpp::List CSVRL1(Eigen::VectorXd y, Eigen::MatrixXd X, double C, double epsilon
   //Get the solution Support Vectors
   SV = rcppeigen_quadratic_solve(Q,g, CE.transpose(),ce0, CI.transpose(), ci0);
 
+  //Find the Bias Term
+
+  //Total number of observations
+  int size = X.rows();
+  Eigen::VectorXd predVec(size);
+  //Separating the SV
+  Eigen::VectorXd diffLambda = SV.head(X.rows()) - SV.tail(X.rows());
+  double bGamma = 0.0;
+  int cont =0;
+  for(int i=0;i<size;i++){
+    //Create the Kernel Matrix
+    Eigen::VectorXd K = KernelMatrixComputationPred(X, X.row(i), kernel, parms);
+    Eigen::VectorXd F = diffLambda.array() *K.array();
+    predVec(i) = F.sum();
+    //Acumulate bias term
+    if(diffLambda(i)>1e-6 & diffLambda(i)<C-1e-6){
+      std::cout << bGamma <<std::endl;
+      bGamma = bGamma + y(i)-predVec(i)-epsilon;
+      cont = cont + 1;
+    }
+  }
+  //Get the new bias term
+  bGamma = bGamma/(double)cont;
+
   //Return the results
   return Rcpp::List::create(Rcpp::Named("SupportVectors") = SV,
                             Rcpp::Named("Kernel") = kernel,
                             Rcpp::Named("Parameters") = parms,
-                            Rcpp::Named("Epsilon") = epsilon);
+                            Rcpp::Named("Epsilon") = epsilon,
+                            Rcpp::Named("C") = C,
+                            Rcpp::Named("gamma") = bGamma);
 }
 
 //' @name Predicted CSVRL1
@@ -164,6 +190,12 @@ Eigen::VectorXd PredictedCSVRL1(Rcpp::List CSVRL1, Eigen::VectorXd y, Eigen::Mat
   //Get the parameters
   Eigen::RowVectorXd parms = as<Eigen::RowVectorXd> (CSVRL1["Parameters"]);
 
+  //Get the parameters
+  double C = as<double> (CSVRL1["C"]);
+
+  //Get the parameters
+  double gamma = as<double> (CSVRL1["gamma"]);
+
   //Get the epsilon band
   double epsilon = as<double> (CSVRL1["Epsilon"]);
 
@@ -172,19 +204,13 @@ Eigen::VectorXd PredictedCSVRL1(Rcpp::List CSVRL1, Eigen::VectorXd y, Eigen::Mat
   Eigen::VectorXd predVec(size);
   //Separating the SV
   Eigen::VectorXd diffLambda = SV.head(X.rows()) - SV.tail(X.rows());
-
   for(int i=0;i<size;i++){
     //Create the Kernel Matrix
-    Eigen::VectorXd K = KernelMatrixComputationPred(X,Xprev.row(i),kernel,parms);
+    Eigen::VectorXd K = KernelMatrixComputationPred(X, Xprev.row(i), kernel, parms);
     Eigen::VectorXd F = diffLambda.array() *K.array();
     predVec(i) = F.sum();
   }
-
-  //Get the new bias term
-  Eigen::VectorXd gamma = y.array()-predVec.array()-epsilon;
-  double bGamma = gamma.mean();
-
-  return(predVec.array()-bGamma);
+  return(predVec.array()+gamma);
 }
 
 
