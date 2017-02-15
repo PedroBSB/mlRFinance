@@ -141,7 +141,6 @@ Rcpp::List CSVRL1(Eigen::VectorXd y, Eigen::MatrixXd X, double C, double epsilon
     predVec(i) = F.sum();
     //Acumulate bias term
     if(diffLambda(i)>1e-6 & diffLambda(i)<C-1e-6){
-      std::cout << bGamma <<std::endl;
       bGamma = bGamma + y(i)-predVec(i)-epsilon;
       cont = cont + 1;
     }
