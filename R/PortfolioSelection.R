@@ -10,7 +10,7 @@
 #' @examples
 #' add(1, 1)
 #' add(10, 1)
-PortfolioSVML1 <- function(train, valid, C, kernel, parmMat, typePredict) {
+LearningSVML1 <- function(train.y,train.X, valid.y, valid.X, C, kernel, parmMat, typePredict) {
   if (!requireNamespace("foreach", quietly = TRUE)) {
     stop("foreach needed for this function to work. Please install it.",
          call. = FALSE)
@@ -44,7 +44,7 @@ PortfolioSVML1 <- function(train, valid, C, kernel, parmMat, typePredict) {
     #Parms Mean
     parmsM<-as.numeric(matAll[i,2:ncol(matAll)])
     #Training the machine
-    svm<-PortfolioSelectionCSVML1(train, valid, C0,kernel, parmsM,typePredict )
+    svm<-PortfolioSelectionCSVML1(train.y,train.X, valid.y, valid.X, C0,kernel, parmsM,typePredict )
     if(typePredict==0){
       res<-data.frame(matAll[i,],
                       "Prevalence" = svm$ErrorMeasureValidation$Prevalence,
@@ -62,17 +62,63 @@ PortfolioSVML1 <- function(train, valid, C, kernel, parmMat, typePredict) {
                       "DiagnosticOddsRatio" = svm$ErrorMeasureValidation$DiagnosticOddsRatio)
 
     }
-    else if(typePredict==1){
+    else{
       res<-data.frame(matAll[i,],"MSE"=svm$ErrorMeasureValidation$MSE)
     }
-    else{
-
-    }
-
     res
   }
 
   #Stop clusters
   stopCluster(cl)
   return(svmPort)
+}
+
+
+LearningSVRL1 <- function(train.y,train.X, valid.y, valid.X, C, epsilon, kernel, parmMat, typePredict) {
+  if (!requireNamespace("foreach", quietly = TRUE)) {
+    stop("foreach needed for this function to work. Please install it.",
+         call. = FALSE)
+  }
+  if (!requireNamespace("doParallel", quietly = TRUE)) {
+    stop("doParallel needed for this function to work. Please install it.",
+         call. = FALSE)
+  }
+  if (!requireNamespace("parallel", quietly = TRUE)) {
+    stop("parallel needed for this function to work. Please install it.",
+         call. = FALSE)
+  }
+
+  #Combination with parms
+  matAll<-merge(C,epsilon)
+  matAll<-merge(matAll, parmMat)
+
+  #Insert names
+  colnames(matAll)<-c("C","epsilon", paste0("Parm",seq(0,ncol(parmMat)-1)))
+
+  #Get the total number of cores
+  ncl<- parallel::detectCores()
+
+  #Register the clusters
+  cl <- parallel::makeCluster(ncl)
+  doParallel::registerDoParallel(cl)
+
+  #Initialize the validation
+  svrPort <- foreach(i=1:nrow(matAll), .combine=rbind, .errorhandling='pass', .packages="mlRFinance") %dopar% {
+    #Cost
+    C0<-matAll$C[i]
+    #Epsilon
+    epsilon0<-matAll$epsilon[i]
+    #Parms Mean
+    parmsM<-as.numeric(matAll[i,3:ncol(matAll)])
+    #Training the machine
+    svr<-PortfolioSelectionCSVRL1(train.y,train.X, valid.y, valid.X, C0, epsilon0, kernel, parmsM)
+    res<-data.frame(matAll[i,],"MSE"=svr$ErrorMeasureValidation$MSE,
+                               "MAPE"=svr$ErrorMeasureValidation$MAPE)
+
+    res
+  }
+
+  #Stop clusters
+  stopCluster(cl)
+  return(svrPort)
 }

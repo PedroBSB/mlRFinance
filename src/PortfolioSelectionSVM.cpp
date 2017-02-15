@@ -73,7 +73,7 @@ Rcpp::List PortfolioSelectionCSVML1(Eigen::VectorXd y_train, Eigen::MatrixXd X_t
   Rcpp::List SVMport = CSVML1(y_train, X_train, C, kernel, parms, true);
 
   //Forecasting the results
-  Eigen::VectorXd yPred = PredictedCSVML1(SVMport,y_train, X_train, X_train,typePredict, true);
+  Eigen::VectorXd yPred = PredictedCSVML1(SVMport,y_train, X_train, X_train, typePredict, true);
   Eigen::VectorXd yValidPred = PredictedCSVML1(SVMport,y_train, X_train, X_valid,typePredict, true);
 
   //Calculate the error measure
@@ -102,8 +102,31 @@ Rcpp::List PortfolioSelectionCSVML1(Eigen::VectorXd y_train, Eigen::MatrixXd X_t
 
 
 
+// [[Rcpp::export]]
+Rcpp::List PortfolioSelectionCSVRL1(Eigen::VectorXd y_train, Eigen::MatrixXd X_train,
+                                    Eigen::VectorXd y_valid, Eigen::MatrixXd X_valid,
+                                    double C, double epsilon,
+                                    std::string kernel, Eigen::RowVectorXd parms){
 
+  //Step 1: Training and validating
+  Rcpp::List SVRport = CSVRL1(y_train, X_train, C, epsilon, kernel, parms);
 
+  //Forecasting the results
+  Eigen::VectorXd yPred = PredictedCSVRL1(SVRport,y_train, X_train, X_train);
+  Eigen::VectorXd yValidPred = PredictedCSVRL1(SVRport,y_train, X_train, X_valid);
+
+  //Calculate the error measure
+  Rcpp::List yPredError;
+  Rcpp::List yValidPredError;
+  yPredError = ErrorMeasures(y_train,yPred);
+  yValidPredError = ErrorMeasures(y_valid,yValidPred);
+
+  //Return the results
+  return Rcpp::List::create(Rcpp::Named("PredictedTraining") = yPred,
+                            Rcpp::Named("PredictedValidation") = yValidPred,
+                            Rcpp::Named("ErrorMeasureTraining") = yPredError,
+                            Rcpp::Named("ErrorMeasureValidation") = yValidPredError);
+}
 
 
 
