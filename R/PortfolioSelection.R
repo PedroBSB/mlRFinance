@@ -74,7 +74,7 @@ LearningSVML1 <- function(train.y,train.X, valid.y, valid.X, C, kernel, parmMat,
 }
 
 
-LearningSVRL1 <- function(train.y,train.X, valid.y, valid.X, C, epsilon, kernel, parmMat, typePredict) {
+LearningSVRL1 <- function(train.y,train.X, valid.y, valid.X, C, epsilon, kernel, parmMat) {
   if (!requireNamespace("foreach", quietly = TRUE)) {
     stop("foreach needed for this function to work. Please install it.",
          call. = FALSE)

@@ -49,3 +49,7 @@ parmMat<-matrix(c(0.1,0.2,0.3),nrow=3,ncol=1)
 
 
 res<-LearningSVRL1(train.y,train.X, valid.y, valid.X, C, epsilon, kernel, parmMat, typePredict)
+
+
+
+mlRFinance::LearningSVRL1()
