@@ -5,7 +5,7 @@ data("circle")
 plot(circle)
 
 #SVC
-svc<-WOCSCM(circle, 0.05, 2, 1.2, 100, "Gaussian", c(0.5))
+svc<-WOCSCM(circle, 1, 2, 1.2, 100, "Gaussian", c(0.5))
 svc
 
 #Plot the log-likelihood
