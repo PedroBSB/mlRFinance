@@ -317,3 +317,112 @@ Eigen::MatrixXd KernelMatrixComputationPred(Eigen::MatrixXd datMat, Eigen::RowVe
   return(Kernel);
 }
 
+
+// [[Rcpp::export]]
+double KernelMatrixComputationValue(Eigen::RowVectorXd datMat, Eigen::RowVectorXd predMat, std::string stringValue, Eigen::RowVectorXd parms){
+
+  //Initialize the matrix
+  double Kernel = 0.0;
+
+  if(stringValue=="Cauchy"){
+    Kernel = CauchyKernel(datMat, predMat, parms);
+  }
+  else if(stringValue=="Chi-Square"){
+    Kernel = ChiSquareKernel(datMat, predMat, parms);
+  }
+  else if(stringValue=="Exponential"){
+    Kernel = ExponentialKernel(datMat, predMat, parms);
+  }
+  else if(stringValue=="Gaussian"){
+    Kernel = GaussianKernel(datMat, predMat, parms);
+  }
+  else if(stringValue=="Generalized T-Student"){
+    Kernel = GeneralizedTStudentKernel(datMat, predMat, parms);
+  }
+  else if(stringValue=="Hyperbolic Tangent"){
+    Kernel = HyperbolicTangentKernel(datMat, predMat, parms);
+  }
+  else if(stringValue=="Inverse Multiquadratic"){
+    Kernel = InverseMultiquadraticKernel(datMat, predMat, parms);
+  }
+  else if(stringValue=="Laplacian"){
+    Kernel = LaplacianoKernel(datMat, predMat, parms);
+  }
+  else if(stringValue=="Linear"){
+    Kernel = LinearKernel(datMat, predMat, parms);
+  }
+  else if(stringValue=="Log-Linear"){
+    Kernel = LogLinearKernel(datMat, predMat, parms);
+  }
+  else if(stringValue=="Polynomial"){
+    Kernel = PolynomialKernel(datMat, predMat, parms);
+  }
+  else if(stringValue=="Multiquadratic"){
+    Kernel = MultiquadraticKernel(datMat, predMat, parms);
+  }
+  else if(stringValue=="Power"){
+    Kernel = PowerKernel(datMat, predMat, parms);
+  }
+  else if(stringValue=="Rational Quadratic"){
+    Kernel = RationalQuadraticKernel(datMat, predMat, parms);
+  }
+  else if(stringValue=="Wavelet"){
+    Kernel = WaveletKernel(datMat, predMat, parms);
+  }
+  else if(stringValue=="Histogram Intersection"){
+    Kernel = HistogramIntersectionKernel(datMat, predMat, parms);
+  }
+  else if(stringValue=="Mexican-Hat"){
+    Kernel = MexicanHatKernel(datMat, predMat, parms);
+  }
+  else if(stringValue=="Morlet"){
+    Kernel = MorletKernel(datMat, predMat, parms);
+  }
+  else if(stringValue=="Generalized Histogram Intersection"){
+    Kernel = GeneralizedHistogramIntersectionKernel(datMat, predMat, parms);
+  }
+  else if(stringValue=="Circular"){
+    Kernel = CircularKernel(datMat, predMat, parms);
+  }
+  else if(stringValue=="Spherical"){
+    Kernel = SphericalKernel(datMat, predMat, parms);
+  }
+  else if(stringValue=="Log-Kernel"){
+    Kernel = LogKernel(datMat, predMat, parms);
+  }
+  else if(stringValue=="Wave"){
+    Kernel = WaveKernel(datMat, predMat, parms);
+  }
+  else if(stringValue=="Hellinger"){
+    Kernel = HellingerKernel(datMat, predMat, parms);
+  }
+  else if(stringValue=="Dirichlet"){
+    Kernel = DirichletKernel(datMat, predMat, parms);
+  }
+  else if(stringValue=="Pearson"){
+    Kernel = PearsonKernel(datMat, predMat, parms);
+  }
+  else if(stringValue=="Sigmoid"){
+    Kernel = SigmoidKernel(datMat, predMat, parms);
+  }
+  else if(stringValue=="Symmetric Triangle"){
+    Kernel = SymmetricTriangleKernel(datMat, predMat, parms);
+  }
+  else if(stringValue=="Thin Spline Plate"){
+    Kernel = ThinSplinePlateKernel(datMat, predMat, parms);
+  }
+  else if(stringValue=="ANOVA"){
+    Kernel = ANOVAKernel(datMat, predMat, parms);
+  }
+  else if(stringValue=="Spline"){
+    Kernel = SplineKernel(datMat, predMat, parms);
+  }
+  else if(stringValue=="Bessel"){
+    Kernel = BesselKernel(datMat, predMat, parms);
+  }
+  else if(stringValue=="Arccos"){
+    Kernel = ArccosKernel(datMat, predMat, parms);
+  }
+
+  return(Kernel);
+}

@@ -6,6 +6,8 @@ Eigen::MatrixXd KernelMatrixComputation(Eigen::MatrixXd datMat,std::string strin
 
 Eigen::MatrixXd KernelMatrixComputationPred(Eigen::MatrixXd datMat, Eigen::RowVectorXd predMat,std::string stringValue, Eigen::RowVectorXd parms);
 
+double KernelMatrixComputationValue(Eigen::RowVectorXd datMat, Eigen::RowVectorXd predMat, std::string stringValue, Eigen::RowVectorXd parms);
+
 // This is the end of the header guard
 #endif
 
