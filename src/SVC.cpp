@@ -162,9 +162,9 @@ Rcpp::List WOCSCM(Eigen::MatrixXd X, double C, int k,double sigma,int inter, std
   K = nearPDefinite(K, 1e+6, 1e-06, 1e-07, 1e-08, true);
   //Training the WOC-SCM
   Eigen::VectorXd g(X.rows());
-  g = K.diagonal();
+  g = (+1.0)*K.diagonal();
   //Quadratic programming matrix
-  Eigen::MatrixXd Q = (-2.0)*K;
+  Eigen::MatrixXd Q = (-1.0)*K;
   //RHS equality
   Eigen::VectorXd ce0(1);
   ce0.fill(-1.0);
@@ -241,6 +241,117 @@ Rcpp::List WOCSCM(Eigen::MatrixXd X, double C, int k,double sigma,int inter, std
   //Return the results
   return Rcpp::List::create(Rcpp::Named("LogLikelihood") = llVec,
                             Rcpp::Named("Zmat") = zMat,
+                            Rcpp::Named("Kernel") = kernel,
+                            Rcpp::Named("Parameters") = parms);
+}
+
+
+double R2Distance(Eigen::MatrixXd K, Eigen::MatrixXd X, Eigen::VectorXd SV, Eigen::RowVectorXd x, std::string kernel, Eigen::RowVectorXd parms){
+  //Calculate the R2 distance.
+  double res=0;
+  double K1 = KernelMatrixComputationValue(x, x, kernel, parms);
+  Eigen::VectorXd Krow = KernelMatrixComputationPred(X,x,kernel,parms);
+  double K2 = SV.transpose()*Krow;
+  double K3 = SV.transpose()*K*SV;
+  res = K1-2*K2+K3;
+  return(res);
+}
+
+
+// [[Rcpp::export]]
+Rcpp::List CSVC(Eigen::MatrixXd X, double C, std::string kernel, Eigen::RowVectorXd parms){
+  //Support Vectors
+  Eigen::VectorXd SV(X.cols());
+  //Create the Kernel Matrix
+  Eigen::MatrixXd K = KernelMatrixComputation(X,kernel,parms);
+  //Nearest positive semidefinite matrix in terms of Frobenius norm
+  //nearPositiveDefinite(K,1e-10);
+  K = nearPDefinite(K, 1e+6, 1e-06, 1e-07, 1e-08, true);
+  //Training the WOC-SCM
+  Eigen::VectorXd g(X.rows());
+  g = (+1.0)*K.diagonal();
+  //Quadratic programming matrix
+  Eigen::MatrixXd Q = (-1.0)*K;
+  //RHS equality
+  Eigen::VectorXd ce0(1);
+  ce0.fill(-1.0);
+  //LHS equality
+  Eigen::MatrixXd CE = Eigen::MatrixXd::Ones(1,X.rows());
+  //RHS: Inequality 1
+  Eigen::VectorXd ci1 = Eigen::VectorXd::Zero(X.rows());
+  //LHS: Inequality 1
+  Eigen::MatrixXd CI1 = Eigen::MatrixXd::Identity(X.rows(),X.rows());
+  //RHS: Inequality 2
+  Eigen::VectorXd ci2(X.rows());
+  ci2.fill(C);
+  //Append RHS
+  Eigen::VectorXd ci0(2.0*X.rows());
+  ci0 << ci1, ci2;
+  //Append LHS
+  Eigen::MatrixXd CI(CI1.rows()+CI1.rows(), CI1.cols());
+  //Diagonal matrix
+  Eigen::VectorXd me(X.rows());
+  me.fill(-1.0);
+  Eigen::MatrixXd mI = me.asDiagonal();
+  //Vertical concatenation
+  CI << CI1,
+        mI;
+  //Get the solution Support Vectors
+  SV = rcppeigen_quadratic_solve(Q,g, CE.transpose(),ce0, CI.transpose(), ci0);
+
+  //Get the center of the Hypersphere
+  Eigen::RowVectorXd centerA(X.rows());
+  centerA = SV.transpose()*X;
+  //Find the Support Vectors
+  double R2 = 0.0;
+  double cont = 0 ;
+  for(int i=0;i<X.rows();i++){
+    //Support Vector 0 < lambda < C
+    if(SV(i)>1e-5 & SV(i)< C-1e-5){
+      R2 = R2 + R2Distance(K, X, SV, X.row(i), kernel, parms);
+      cont = cont+1.0;
+    }
+  }
+  R2 = R2/cont;
+
+  int inter = (X.rows()*(X.rows()-1)/2);
+  //Intialize the progressbar
+  Progress p(inter, true);
+  //Create the Adjancet Matrix
+  Eigen::MatrixXd A(X.rows(),X.rows());
+  A.fill(0.0);
+  for(int i=0;i<X.rows();i++){
+    Eigen::RowVectorXd x = X.row(i);
+    for(int j=(i+1);j<X.rows();j++){
+      Eigen::RowVectorXd y = X.row(i);
+      //Number of segments
+      int iSegments=10;
+      double k = 1.0/(double) iSegments;
+      //Boolean connected
+      int conect = 0;
+      //Check every point between them
+      for(int s=0;s<iSegments;s++){
+        //Calculate the distance
+        Eigen::RowVectorXd z = x+k*(y-x);
+        double dist = R2Distance(K, X, SV, z, kernel, parms);
+        //Increment k
+        k = k+(1.0/(double)iSegments);
+        if(dist <= R2){
+          conect=conect+1;
+        }
+      }
+      if(conect==iSegments){
+        A(i,j)=A(j,i)=1;
+      }
+      //Increment the progress bar
+      p.increment();
+    }
+  }
+
+
+  //Return the results
+  return Rcpp::List::create(Rcpp::Named("AdjacencyMatrix") = A,
+                            Rcpp::Named("SupportVectors") = SV,
                             Rcpp::Named("Kernel") = kernel,
                             Rcpp::Named("Parameters") = parms);
 }
