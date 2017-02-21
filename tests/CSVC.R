@@ -18,15 +18,17 @@ Xdata<- as.matrix(circle)
 #SVC
 svc<-CSVC(Xdata, 1.0, "Gaussian", c(0.5))
 
+A<-svc$AdjacencyMatrix
+image(A)
 
 
+#use igraph for example
+library(igraph)
 
 
-
-
-
-
-
+#plot it
+graph = graph.adjacency(A)
+plot(graph)
 
 
 

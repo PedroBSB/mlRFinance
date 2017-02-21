@@ -15,7 +15,7 @@ df<-as.matrix(iris[,1:4])
 
 
 #WOCSCM(X, C, k, sigma, inter, kernel, parms)
-svc<-WOCSCM(df, 0.05, 2, 1.2, 100, "Gaussian", c(0.5))
+svc<-WOCSCM(df, 1, 2, 1.2, 100, "Gaussian", c(0.5))
 svc
 
 head(iris)

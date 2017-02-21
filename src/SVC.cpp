@@ -162,9 +162,9 @@ Rcpp::List WOCSCM(Eigen::MatrixXd X, double C, int k,double sigma,int inter, std
   K = nearPDefinite(K, 1e+6, 1e-06, 1e-07, 1e-08, true);
   //Training the WOC-SCM
   Eigen::VectorXd g(X.rows());
-  g = (+1.0)*K.diagonal();
+  g = (-1.0)*K.diagonal();
   //Quadratic programming matrix
-  Eigen::MatrixXd Q = (-1.0)*K;
+  Eigen::MatrixXd Q = (+1.0)*K;
   //RHS equality
   Eigen::VectorXd ce0(1);
   ce0.fill(-1.0);
@@ -269,9 +269,9 @@ Rcpp::List CSVC(Eigen::MatrixXd X, double C, std::string kernel, Eigen::RowVecto
   K = nearPDefinite(K, 1e+6, 1e-06, 1e-07, 1e-08, true);
   //Training the WOC-SCM
   Eigen::VectorXd g(X.rows());
-  g = (+1.0)*K.diagonal();
+  g = (-1.0)*K.diagonal();
   //Quadratic programming matrix
-  Eigen::MatrixXd Q = (-1.0)*K;
+  Eigen::MatrixXd Q = (+1.0)*K;
   //RHS equality
   Eigen::VectorXd ce0(1);
   ce0.fill(-1.0);
@@ -420,9 +420,9 @@ Rcpp::List SpatialWOCSCM(Eigen::MatrixXd X,Eigen::MatrixXd wMat, double C, int k
 
     //Training the WOC-SCM
   Eigen::VectorXd g(X.rows());
-  g = K.diagonal();
+  g = (-1.0)*K.diagonal();
   //Quadratic programming matrix
-  Eigen::MatrixXd Q = (-2.0)*K;
+  Eigen::MatrixXd Q = (+1.0)*K;
   //RHS equality
   Eigen::VectorXd ce0(1);
   ce0.fill(-1.0);
