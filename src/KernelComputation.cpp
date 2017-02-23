@@ -44,9 +44,6 @@ double ArccosKernel(Eigen::RowVectorXd x,Eigen::RowVectorXd y,Eigen::RowVectorXd
     return k_xy_l;
 }
 
-
-
-
 double BesselKernel(Eigen::RowVectorXd x,Eigen::RowVectorXd y,Eigen::RowVectorXd parms)
 {
   double res;
