@@ -42,66 +42,6 @@ void PrintObject(Eigen::VectorXd vec);
 /*********************************     SVC FUNCTIONS    ****************************************/
 /***********************************************************************************************/
 
-/**
- *
- Eigen::MatrixXd m(2,4);
- Eigen::RowVectorXd v(2);
-
-  m << 1, 23, 6, 9,
-       3, 11, 7, 2;
-
-  Eigen::MatrixXd mT(4,2);
-  mT=m.transpose();
-
-  v << 2, 3;
-
-  Eigen::VectorXd zVec = ((mT.rowwise() - v).rowwise().squaredNorm());
-  std::cout<<zVec<<std::endl;
-
- Eigen::MatrixXd mat(3, 2);
-mat << 1, 2,
-       3, 4,
-5, 6;
-//    Eigen::VectorXf vec(2);
-//    vec << 2, 3;
-
-//Eigen::RowVectorXd vecSum = mat.array().rowwise().sum();
-//mat = mat.array().rowwise() / vecSum.array();
-
-Eigen::RowVectorXd mean = mat.colwise().mean();
-Eigen::RowVectorXd var = (mat.rowwise() - mean).array().square().colwise().mean();
-Eigen::MatrixXd mat0(3,2);
-mat0 = (X.rowwise() - mean).array().rowwise() / var.array();
-
-
- //std::cout<<vecSum.cwiseInverse()<<std::endl;
- //mat=mat.array()*vecSum.transpose().array();
- std::cout<<mat0<<std::endl;
- //    mat = mat.array().rowwise() / vec.transpose().array();
- //mat = mat.cwiseQuotient(vec);
- //std::cout << mat << std::endl;
-
- std::cout<<"SV "<<SV<<std::endl;
- std::cout<<std::endl;
-std::cout<<"Q "<<Q<<std::endl;
-std::cout<<std::endl;
-std::cout<<"g "<<g<<std::endl;
-std::cout<<std::endl;
-std::cout<<"CE "<<CE<<std::endl;
-std::cout<<std::endl;
-std::cout<<"ce0 "<<ce0<<std::endl;
-std::cout<<std::endl;
-std::cout<<"CI "<<CI<<std::endl;
-std::cout<<std::endl;
-std::cout<<"ci0 "<<ci0<<std::endl;
-std::cout<<std::endl;
-
-
- //    zMat=zMat.array().rowwise()/vecSum.transpose().array();
- //    zMat.array().rowwise()/=vecSum.array().eval();
-
-*/
-
 //TODO: Deixar mais eficiente a normalização zMat=zMat.array().rowwise()/vecSum.transpose().array();
 //' @name WOC-SCM
 //' @title WOC-SCM - Support Vector Clustering
