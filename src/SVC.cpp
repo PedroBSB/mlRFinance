@@ -104,7 +104,7 @@ Rcpp::List WOCSCM(Eigen::MatrixXd X, double C, int k,double sigma,int inter, std
   Eigen::VectorXd g(X.rows());
   g = (-1.0)*K.diagonal();
   //Quadratic programming matrix
-  Eigen::MatrixXd Q = (+1.0)*K;
+  Eigen::MatrixXd Q = (+2.0)*K;
   //RHS equality
   Eigen::VectorXd ce0(1);
   ce0.fill(-1.0);
@@ -211,7 +211,7 @@ Rcpp::List CSVC(Eigen::MatrixXd X, double C, std::string kernel, Eigen::RowVecto
   Eigen::VectorXd g(X.rows());
   g = (-1.0)*K.diagonal();
   //Quadratic programming matrix
-  Eigen::MatrixXd Q = (+1.0)*K;
+  Eigen::MatrixXd Q = (+2.0)*K;
   //RHS equality
   Eigen::VectorXd ce0(1);
   ce0.fill(-1.0);
