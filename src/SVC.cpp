@@ -254,12 +254,13 @@ Rcpp::List CSVC(Eigen::MatrixXd X, double C, std::string kernel, Eigen::RowVecto
   }
   R2 = R2/cont;
 
+  //Caculating adjacency matrix
+  R2 = R2+1e-7;
   int inter = (X.rows()*(X.rows()-1)/2);
   //Intialize the progressbar
   Progress p(inter, true);
   //Create the Adjancet Matrix
-  Eigen::MatrixXd A(X.rows(),X.rows());
-  A.fill(0.0);
+  Eigen::MatrixXd A = Eigen::MatrixXd::Zero(X.rows(),X.rows());
   for(int i=0;i<X.rows();i++){
     Eigen::RowVectorXd x = X.row(i);
     for(int j=(i+1);j<X.rows();j++){
