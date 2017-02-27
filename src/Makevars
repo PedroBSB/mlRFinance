@@ -2,7 +2,7 @@ PKG_LIBS = $(LAPACK_LIBS) $(BLAS_LIBS) $(FLIBS)
 CXX_STD = CXX11
 PKG_LIBS += $(shell ${R_HOME}/bin/Rscript -e "RcppParallel::RcppParallelLibs()")
 PKG_FFLAGS = $(F77_VISIBILITY)
-QP_FFLAGS = $(F77_VISIBILITY) $(FPICFLAGS) $(SAFE_FFLAGS) $(SHLIB_FFLAGS) 
+QP_FFLAGS = $(F77_VISIBILITY) $(FPICFLAGS) $(SAFE_FFLAGS) $(SHLIB_FFLAGS)
 all: $(SHLIB)
 solve.QP.o: solve.QP.f
 	$(F77) $(QP_FFLAGS) -c -o solve.QP.o solve.QP.f

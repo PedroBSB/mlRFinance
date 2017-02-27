@@ -168,7 +168,9 @@ white.spa <- function(Dmat,bVec,typeFunc=1,B=1000,geomMean=20,bandwidth=0.5, alp
 #' @examples
 #' add(1, 1)
 #' add(10, 1)
-DM.epa <- function(e.model,e.bench,M=ceiling(length(e.model)^(1/3))){
+DM.epa <- function(e.model,e.bench, M){
+  #If M is NA
+  if(is.na(M)) M=ceiling(length(e.model)^(1/3))
   #Size of the serie
   T <- length(e.model)
   #Calculate the difference
@@ -185,7 +187,7 @@ DM.epa <- function(e.model,e.bench,M=ceiling(length(e.model)^(1/3))){
   #Calculate p-value
   pvalue <- 2*pnorm(-abs(DM))
   #Return function
-  return(list("DM Statistic"=DM, "P-value"=p.value))
+  return(list("DM Statistic"=DM, "P-value"=pvalue))
 }
 
 #' Harvey, Leybourne, and Newbold (1997) Modification
@@ -201,7 +203,8 @@ DM.epa <- function(e.model,e.bench,M=ceiling(length(e.model)^(1/3))){
 #' add(1, 1)
 #' add(10, 1)
 #
-DM.epa.corrected <- function(e.model,e.bench,M=ceiling(length(e.model)^(1/3))){
+DM.epa.corrected <- function(e.model,e.bench, M){
+  if(is.na(M)) M=ceiling(length(e.model)^(1/3))
   #Size of the serie
   T <- length(e.model)
   #Calculate the difference
@@ -220,5 +223,5 @@ DM.epa.corrected <- function(e.model,e.bench,M=ceiling(length(e.model)^(1/3))){
   #Calculate p-value
   pvalue <-  2*pt(-abs(DM),df=T-1)
   #Return function
-  return(list("Corrected DM Statistic"=DM, "P-value"=p.value))
+  return(list("Corrected DM Statistic"=DM, "P-value"=pvalue))
 }

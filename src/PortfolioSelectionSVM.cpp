@@ -1,14 +1,12 @@
-#include <RcppArmadillo.h>
 #include <RcppEigen.h>
 #include "SVR.h"
 #include "Utils.h"
 #include "ErrorMeasure.h"
-// [[Rcpp::depends(RcppArmadillo)]]
+#include "progress.hpp"
+#include <cmath>
 // [[Rcpp::depends(RcppEigen)]]
 // [[Rcpp::depends(RcppProgress)]]
-#include <progress.hpp>
-#include <cmath>
-using namespace Rcpp;
+
 
 /***********************************************************************************************/
 /*********************************    HEADER FUNCTIONS  ****************************************/

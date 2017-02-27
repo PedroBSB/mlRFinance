@@ -1,9 +1,7 @@
-#include <RcppArmadillo.h>
 #include <RcppEigen.h>
-// [[Rcpp::depends(RcppArmadillo)]]
-// [[Rcpp::depends(RcppEigen)]]
 #include <cmath>
-using namespace Rcpp;
+// [[Rcpp::depends(RcppEigen)]]
+
 
 /********************************************************************************************************/
 /***********************************         KERNEL FUNCTIONS      **************************************/

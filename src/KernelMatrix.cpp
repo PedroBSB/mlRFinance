@@ -1,12 +1,9 @@
-#include <RcppArmadillo.h>
 #include <RcppEigen.h>
 #include "KernelComputation.h"
-// [[Rcpp::depends(RcppArmadillo)]]
-// [[Rcpp::depends(RcppEigen)]]
 #include <cmath>
 #include <functional>
+// [[Rcpp::depends(RcppEigen)]]
 
-using namespace Rcpp;
 
 // Create the Kernel matrix
 // @param datMat  Matrix with the data

@@ -1,12 +1,10 @@
-#include <RcppArmadillo.h>
 #include <RcppEigen.h>
 #include "eiquadprog.h"
 #include "KernelMatrix.h"
 #include "Utils.h"
-// [[Rcpp::depends(RcppArmadillo)]]
-// [[Rcpp::depends(RcppEigen)]]
 #include <cmath>
-using namespace Rcpp;
+// [[Rcpp::depends(RcppEigen)]]
+
 
 /***********************************************************************************************/
 /*********************************    HEADER FUNCTIONS  ****************************************/
@@ -181,22 +179,22 @@ Rcpp::List CSVRL1(Eigen::VectorXd y, Eigen::MatrixXd X, double C, double epsilon
 // [[Rcpp::export]]
 Eigen::VectorXd PredictedCSVRL1(Rcpp::List CSVRL1, Eigen::VectorXd y, Eigen::MatrixXd X, Eigen::MatrixXd Xprev){
   //Get the SV
-  Eigen::VectorXd SV = as<Eigen::VectorXd> (CSVRL1["SupportVectors"]);
+  Eigen::VectorXd SV = Rcpp::as<Eigen::VectorXd> (CSVRL1["SupportVectors"]);
 
   //Get the kernel
-  std::string kernel = as<std::string> (CSVRL1["Kernel"]);
+  std::string kernel = Rcpp::as<std::string> (CSVRL1["Kernel"]);
 
   //Get the parameters
-  Eigen::RowVectorXd parms = as<Eigen::RowVectorXd> (CSVRL1["Parameters"]);
+  Eigen::RowVectorXd parms = Rcpp::as<Eigen::RowVectorXd> (CSVRL1["Parameters"]);
 
   //Get the parameters
-  double C = as<double> (CSVRL1["C"]);
+  double C = Rcpp::as<double> (CSVRL1["C"]);
 
   //Get the parameters
-  double gamma = as<double> (CSVRL1["gamma"]);
+  double gamma = Rcpp::as<double> (CSVRL1["gamma"]);
 
   //Get the epsilon band
-  double epsilon = as<double> (CSVRL1["Epsilon"]);
+  double epsilon = Rcpp::as<double> (CSVRL1["Epsilon"]);
 
   //Total number of observations
   int size = Xprev.rows();
@@ -239,16 +237,16 @@ Eigen::VectorXd R2PredictedCSVRL1(Rcpp::List CSVRL1, Eigen::VectorXd y, Eigen::M
   //Results
   Eigen::VectorXd R2vec(X.cols());
   //Get the SV
-  Eigen::VectorXd SV = as<Eigen::VectorXd> (CSVRL1["SupportVectors"]);
+  Eigen::VectorXd SV = Rcpp::as<Eigen::VectorXd> (CSVRL1["SupportVectors"]);
 
   //Get the kernel
-  std::string kernel = as<std::string> (CSVRL1["Kernel"]);
+  std::string kernel = Rcpp::as<std::string> (CSVRL1["Kernel"]);
 
   //Get the parameters
-  Eigen::RowVectorXd parms = as<Eigen::RowVectorXd> (CSVRL1["Parameters"]);
+  Eigen::RowVectorXd parms = Rcpp::as<Eigen::RowVectorXd> (CSVRL1["Parameters"]);
 
   //Get the epsilon band
-  double epsilon = as<double> (CSVRL1["Parameters"]);
+  double epsilon = Rcpp::as<double> (CSVRL1["Parameters"]);
 
   //Prediction for the full model
   int size = X.rows();

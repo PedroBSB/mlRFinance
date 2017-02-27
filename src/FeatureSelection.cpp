@@ -1,12 +1,9 @@
-#include <RcppArmadillo.h>
 #include <RcppEigen.h>
 #include "eiquadprog.h"
 #include "KernelMatrix.h"
 #include "Utils.h"
-// [[Rcpp::depends(RcppArmadillo)]]
 // [[Rcpp::depends(RcppEigen)]]
 #include <cmath>
-using namespace Rcpp;
 
 /***********************************************************************************************/
 /*********************************    HEADER FUNCTIONS  ****************************************/

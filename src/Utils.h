@@ -6,12 +6,6 @@ bool IsPositiveDefinite(Eigen::MatrixXd mat);
 
 void PrintTime();
 
-void PrintObject(arma::mat mat);
-
-void PrintObjectLine(arma::uvec mat);
-
-void PrintObjectLine(arma::vec mat);
-
 void PrintObject(Eigen::MatrixXd mat);
 
 void PrintObject(Eigen::VectorXd mat);

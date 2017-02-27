@@ -1,12 +1,10 @@
-#include <RcppArmadillo.h>
 #include <RcppEigen.h>
 #include "eiquadprog.h"
 #include "KernelMatrix.h"
 #include "Utils.h"
-// [[Rcpp::depends(RcppArmadillo)]]
-// [[Rcpp::depends(RcppEigen)]]
 #include <cmath>
-using namespace Rcpp;
+// [[Rcpp::depends(RcppEigen)]]
+
 
 /***********************************************************************************************/
 /*********************************    HEADER FUNCTIONS  ****************************************/
@@ -41,9 +39,9 @@ void PrintObject(Eigen::VectorXd vec);
 
 
 // [[Rcpp::export]]
-NumericVector cpp_order(const NumericVector & x, bool desc = false) {
+Rcpp::NumericVector cpp_order(const Rcpp::NumericVector & x, bool desc = false) {
   auto n = x.size();
-  NumericVector idx = no_init(n);
+  Rcpp::NumericVector idx = Rcpp::no_init(n);
   auto begin = std::begin(idx), end = std::end(idx);
   std::iota(begin, end, static_cast<size_t>(0));
   auto comparator = [&](const size_t & a, const size_t & b){ return x[a] < x[b]; };
@@ -118,9 +116,9 @@ Rcpp::List CSVWQR(Eigen::VectorXd y, Eigen::MatrixXd X, double C, double tau, do
   Eigen::MatrixXd CI1 = Eigen::MatrixXd::Identity(2*y.size(),2*y.size());
 
   //Find the rank
-  Rcpp::NumericVector temp = as<Rcpp::NumericVector>(wrap(y));
-  NumericVector rankTemp = cpp_order(temp,true);
-  Eigen::VectorXd rank = as<Eigen::VectorXd>(wrap(rankTemp));
+  Rcpp::NumericVector temp = Rcpp::as<Rcpp::NumericVector>(Rcpp::wrap(y));
+  Rcpp::NumericVector rankTemp = cpp_order(temp,true);
+  Eigen::VectorXd rank = Rcpp::as<Eigen::VectorXd>(Rcpp::wrap(rankTemp));
 
   //Calculate the q according  Cao and Gu (2002)
   rank = gamma-2.0*rank.array()/rank.size();
@@ -194,13 +192,13 @@ Rcpp::List CSVWQR(Eigen::VectorXd y, Eigen::MatrixXd X, double C, double tau, do
 // [[Rcpp::export]]
 Eigen::VectorXd PredictedCSVWQR(Rcpp::List CSVWQR, Eigen::MatrixXd X, Eigen::MatrixXd Xprev){
   //Get the SV
-  Eigen::VectorXd SV = as<Eigen::VectorXd> (CSVWQR["SupportVectors"]);
+  Eigen::VectorXd SV = Rcpp::as<Eigen::VectorXd> (CSVWQR["SupportVectors"]);
 
   //Get the kernel
-  std::string kernel = as<std::string> (CSVWQR["Kernel"]);
+  std::string kernel = Rcpp::as<std::string> (CSVWQR["Kernel"]);
 
   //Get the parameters
-  Eigen::RowVectorXd parms = as<Eigen::RowVectorXd> (CSVWQR["Parameters"]);
+  Eigen::RowVectorXd parms = Rcpp::as<Eigen::RowVectorXd> (CSVWQR["Parameters"]);
 
   //Total number of observations
   int size = Xprev.rows();
@@ -244,13 +242,13 @@ Eigen::VectorXd R2PredictedCSVWQR(Rcpp::List CSVWQR, Eigen::MatrixXd X){
   //Results
   Eigen::VectorXd R2vec(X.cols());
   //Get the SV
-  Eigen::VectorXd SV = as<Eigen::VectorXd> (CSVWQR["SupportVectors"]);
+  Eigen::VectorXd SV = Rcpp::as<Eigen::VectorXd> (CSVWQR["SupportVectors"]);
 
   //Get the kernel
-  std::string kernel = as<std::string> (CSVWQR["Kernel"]);
+  std::string kernel = Rcpp::as<std::string> (CSVWQR["Kernel"]);
 
   //Get the parameters
-  Eigen::RowVectorXd parms = as<Eigen::RowVectorXd> (CSVWQR["Parameters"]);
+  Eigen::RowVectorXd parms = Rcpp::as<Eigen::RowVectorXd> (CSVWQR["Parameters"]);
 
   //Prediction for the full model
   //Total number of observations

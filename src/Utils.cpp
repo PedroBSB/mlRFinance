@@ -1,27 +1,11 @@
-#include <RcppArmadillo.h>
 #include <RcppEigen.h>
-// [[Rcpp::depends(RcppArmadillo)]]
 // [[Rcpp::depends(RcppEigen)]]
 #include <cmath>
 #include "conversion.h"
-using namespace Rcpp;
+
 /***************************************************************************************************************************/
 /*********************************                      UTILS          *****************************************************/
 /***************************************************************************************************************************/
-void PrintObjectLine(arma::vec mat){
-  int nelem=mat.n_elem;
-  for(int i=0;i<nelem;i++){
-    std::cout<<mat(i)<<" ";
-  }
-  std::cout<<std::endl;
-}
-
-void PrintObjectLine(arma::uvec mat){
-  for(int i=0;i<mat.n_elem;i++){
-    std::cout<<mat(i)<<" ";
-  }
-  std::cout<<std::endl;
-}
 
 
 void PrintObject(Eigen::VectorXd mat){
@@ -35,16 +19,6 @@ void PrintObject(Eigen::VectorXd mat){
 void PrintObject(Eigen::MatrixXd mat){
   for(int i=0;i<mat.cols();i++){
     for(int j=0;j<mat.rows();j++){
-      std::cout<<mat(i,j)<<"\t";
-    }
-    std::cout<<std::endl;
-  }
-}
-
-//Print Object at Console
-void PrintObject(arma::mat mat){
-  for(int i=0;i<mat.n_rows;i++){
-    for(int j=0;j<mat.n_cols;j++){
       std::cout<<mat(i,j)<<"\t";
     }
     std::cout<<std::endl;
@@ -182,7 +156,7 @@ Eigen::MatrixXd nearPDefiniteOld(Eigen::MatrixXd mat, int maxit=1e+6, double eig
     Eigen::VectorXd d = e.eigenvalues().real();
     double e1 = eigtol*d(0);
     //Test if the matrix seems be negative definite
-    if (!(d.array()>e1).any()) stop("Matrix seems negative semi-definite");
+    if (!(d.array()>e1).any()) Rcpp::stop("Matrix seems negative semi-definite");
     //Remove columns with d <= eig.tol * d[0]
     Eigen::MatrixXd Q0 = removeColumns(Q,d,e1);
     //Create repeated vector
@@ -264,9 +238,9 @@ return(X);
 Eigen::MatrixXd nearPDefinite(Eigen::MatrixXd X, int maxit=1e+6, double eigtol = 1e-06, double conv_tol = 1e-07, double posd_tol = 1e-08, bool keepDiagonal=false){
   Rcpp::Environment G = Rcpp::Environment::global_env();
   Rcpp::Environment Matrix("package:Matrix");
-  Function f = Matrix["nearPD"];
+  Rcpp::Function f = Matrix["nearPD"];
   Rcpp::List res = f(X, false, keepDiagonal, true, false, true, false, false,  eigtol, conv_tol, posd_tol, 100, "I", false);
-  Rcpp::NumericMatrix mat = internal::convert_using_rfunction(wrap(res[0]), "as.matrix");
+  Rcpp::NumericMatrix mat = Rcpp::internal::convert_using_rfunction(wrap(res[0]), "as.matrix");
   Eigen::MatrixXd Xpd=convertMatrix<Eigen::MatrixXd,Rcpp::NumericMatrix>(mat);
   return(Xpd);
 }

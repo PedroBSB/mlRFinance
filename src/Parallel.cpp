@@ -1,6 +1,6 @@
-// [[Rcpp::depends(RcppParallel)]]
 #include <RcppParallel.h>
 #include <Rcpp.h>
+// [[Rcpp::depends(RcppParallel)]]
 using namespace RcppParallel;
 
 

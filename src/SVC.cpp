@@ -1,14 +1,12 @@
-#include <RcppArmadillo.h>
 #include <RcppEigen.h>
 #include "eiquadprog.h"
 #include "KernelMatrix.h"
 #include "Utils.h"
-// [[Rcpp::depends(RcppArmadillo)]]
+#include "progress.hpp"
+#include <cmath>
 // [[Rcpp::depends(RcppEigen)]]
 // [[Rcpp::depends(RcppProgress)]]
-#include <progress.hpp>
-#include <cmath>
-using namespace Rcpp;
+
 
 /***********************************************************************************************/
 /*********************************    HEADER FUNCTIONS  ****************************************/
@@ -266,7 +264,7 @@ Rcpp::List CSVC(Eigen::MatrixXd X, double C, std::string kernel, Eigen::RowVecto
     for(int j=(i+1);j<X.rows();j++){
       Eigen::RowVectorXd y = X.row(i);
       //Number of segments
-      int iSegments=10;
+      int iSegments=20;
       double k = 1.0/(double) iSegments;
       //Boolean connected
       int conect = 0;
@@ -282,7 +280,8 @@ Rcpp::List CSVC(Eigen::MatrixXd X, double C, std::string kernel, Eigen::RowVecto
         }
       }
       if(conect==iSegments){
-        A(i,j)=A(j,i)=1;
+        A(i,j)=1;
+        A(j,i)=1;
       }
       //Increment the progress bar
       p.increment();

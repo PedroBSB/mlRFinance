@@ -4,8 +4,6 @@
 //https://github.com/cran/StepwiseTest/tree/master/src
 //A Generalized Stepwise Procedure with Improved Power for Multiple Inequalities Testing
 
-using namespace Rcpp;
-using namespace arma;
 
 
 arma::vec HF(arma::vec test_stat, double cv) {
@@ -17,7 +15,7 @@ arma::vec HF(arma::vec test_stat, double cv) {
 
 
 // [[Rcpp::export]]
-List FWERkControl(arma::vec test_stat,arma::mat boot_stat,int k, double alpha) {
+Rcpp::List FWERkControl(arma::vec test_stat,arma::mat boot_stat,int k, double alpha) {
   // test_stat: m x 1 column vector of test statistics
   // boot_stat: m x B matrix of bootstrap statistics
   // k: Number of false rejections
@@ -63,22 +61,22 @@ List FWERkControl(arma::vec test_stat,arma::mat boot_stat,int k, double alpha) {
 
 
 // [[Rcpp::export]]
-List FDPControl(arma::vec test_stat,arma::mat boot_stat, double gamma, double alpha) {
+Rcpp::List FDPControl(arma::vec test_stat,arma::mat boot_stat, double gamma, double alpha) {
   // test_stat: m x 1 column vector of test statistics
   // boot_stat: m x B matrix of bootstrap statistics
   // gamma: The false discovery proportion (FDP) parameter
   // alpha: The bound for the probability of FDP
   int k = 1;
-  List res = FWERkControl(test_stat,boot_stat,k,alpha);
-  NumericVector Rejected = res[0];
-  double Nk = sum(Rejected);
+  Rcpp::List res = FWERkControl(test_stat,boot_stat,k,alpha);
+  Rcpp::NumericVector Rejected = res[0];
+  double Nk = Rcpp::sum(Rejected);
   while( k/(Nk+1) <= gamma ) {
     k = k + 1;
     res = FWERkControl(test_stat,boot_stat,k,alpha);
     Rejected = res[0];
     Nk = sum(Rejected);
   }
-  NumericVector CV = res[1];
+  Rcpp::NumericVector CV = res[1];
   return Rcpp::List::create(
     Rcpp::Named("Reject") = Rejected,
     Rcpp::Named("k_stopped") = k,

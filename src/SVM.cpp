@@ -1,12 +1,10 @@
-#include <RcppArmadillo.h>
 #include <RcppEigen.h>
 #include "eiquadprog.h"
 #include "KernelMatrix.h"
 #include "Utils.h"
-// [[Rcpp::depends(RcppArmadillo)]]
-// [[Rcpp::depends(RcppEigen)]]
 #include <cmath>
-using namespace Rcpp;
+// [[Rcpp::depends(RcppEigen)]]
+
 
 /***********************************************************************************************/
 /*********************************    HEADER FUNCTIONS  ****************************************/
@@ -284,13 +282,13 @@ Rcpp::List CSVML1(Eigen::VectorXd y, Eigen::MatrixXd X, double C, std::string ke
 Eigen::VectorXd PredictedCSVML1(Rcpp::List CSVML1,Eigen::VectorXd y, Eigen::MatrixXd X, Eigen::MatrixXd Xprev, int typePredict, bool biasTerm){
 
   //Get the SV
-  Eigen::VectorXd SV = as<Eigen::VectorXd> (CSVML1["SupportVectors"]);
+  Eigen::VectorXd SV = Rcpp::as<Eigen::VectorXd> (CSVML1["SupportVectors"]);
 
   //Get the kernel
-  std::string kernel = as<std::string> (CSVML1["Kernel"]);
+  std::string kernel = Rcpp::as<std::string> (CSVML1["Kernel"]);
 
   //Get the parameters
-  Eigen::RowVectorXd parms = as<Eigen::RowVectorXd> (CSVML1["Parameters"]);
+  Eigen::RowVectorXd parms = Rcpp::as<Eigen::RowVectorXd> (CSVML1["Parameters"]);
 
   //Bias Term
   double gamma=0.0;
@@ -378,13 +376,13 @@ Eigen::VectorXd R2PredictedCSVML1(Rcpp::List CSVML1,Eigen::VectorXd y, Eigen::Ma
   Eigen::VectorXd R2vec(X.cols());
 
   //Get the SV
-  Eigen::VectorXd SV = as<Eigen::VectorXd> (CSVML1["SupportVectors"]);
+  Eigen::VectorXd SV = Rcpp::as<Eigen::VectorXd> (CSVML1["SupportVectors"]);
 
   //Get the kernel
-  std::string kernel = as<std::string> (CSVML1["Kernel"]);
+  std::string kernel = Rcpp::as<std::string> (CSVML1["Kernel"]);
 
   //Get the parameters
-  Eigen::RowVectorXd parms = as<Eigen::RowVectorXd> (CSVML1["Parameters"]);
+  Eigen::RowVectorXd parms = Rcpp::as<Eigen::RowVectorXd> (CSVML1["Parameters"]);
 
   //Bias Term
   double gamma=0.0;
