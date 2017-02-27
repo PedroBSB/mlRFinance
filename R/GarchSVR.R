@@ -79,6 +79,8 @@ GarchSVR <- function(train,valid,Cm,epsilonM,kernel,parmMat,Cg,epsilonG,kernelGa
 
   #Stop clusters
   stopCluster(cl)
+  #Create a S3 class
+  class(svrGarch)<-c("data.frame","mlr")
   return(svrGarch)
 }
 
