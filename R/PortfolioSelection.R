@@ -70,6 +70,8 @@ LearningSVML1 <- function(train.y,train.X, valid.y, valid.X, C, kernel, parmMat,
 
   #Stop clusters
   stopCluster(cl)
+  #Create a S3 class
+  class(svmPort)<-c("data.frame","mlr")
   return(svmPort)
 }
 
@@ -120,5 +122,7 @@ LearningSVRL1 <- function(train.y,train.X, valid.y, valid.X, C, epsilon, kernel,
 
   #Stop clusters
   stopCluster(cl)
+  #Create a S3 class
+  class(svrPort)<-c("data.frame","mlr")
   return(svrPort)
 }
