@@ -1,29 +1,34 @@
 #Habilita a biblioteca
 library(mlRFinance)
-#Carrega os dados
-data("sinc")
-#Fixa a semente
-set.seed(3838)
-#Plota os dados
-plot(sinc[,1],sinc[,2],type="l",
-     xlab="Variável independente", ylab="Variável dependente")
 
-#Separa os dados em dois grupos
-ids <-sample(1:nrow(sinc),30)
-train <- as.matrix(sinc[ids,])
-#Ordena os dados
-train <- train[order(train[,1]),]
-#Conjunto de validação
-valid <- as.matrix(sinc[-ids,])
-#Ordena os dados
-valid <- valid[order(valid[,1]),]
+#Habilita o pacote quantmod
+library(quantmod)
+
+#Cria um novo ambiente para armazenar os dados
+stockData <- new.env()
+
+#Especifica as datas de interesse
+startDate = as.Date("2011-01-01")
+endDate = as.Date("2011-12-31")
+
+#Obtêm os dados do ativo PETR4 e PETR3
+getSymbols("^BVSP", src="yahoo",from=startDate,to=endDate)
+
+#Calcula o log-retorno
+retorno<-na.omit(diff(log(Cl(BVSP))))
+
+train <- as.numeric(retorno[1:216])
+
+#Cria os objetos
+y<-train[2:length(train)]
+X<-matrix(train[1:(length(train)-1)],ncol=1)
 
 #Define quais são as variáveis dependentes
 train.y<- train[,2]
-valid.y<- valid[,2]
+
 #Define quais são as variáveis independentes
 train.X <- as.matrix(train[,1])
-valid.X <- as.matrix(valid[,1])
+
 #Lista de custos
 C <- seq(2^-15,2^15, length.out = 10)
 #Lista de epsilon's
