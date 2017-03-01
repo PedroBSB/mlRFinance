@@ -17,22 +17,9 @@ No Linux, instale o R development package, normalmente chamado de r-devel ou r-b
 
 2. No Rstudio execute o comando ```install.packages("devtools")``` em seguida ```devtools::install.packages("hadley/devtools")```
 
-3. Apos isso instale ou certifique-se que os seguintes pacotes estão instalados: ```Rcpp RcppArmadillo RcppParallel RcppEigen RcppProgress foreach doParallel```
+3. Apos isso instale ou certifique-se que os seguintes pacotes estão instalados: ```Rcpp RcppArmadillo RcppParallel RcppEigen RcppProgress foreach doParallel foreach parallel iterators Matrix boot```. Basta usar ```install.packages("Rcpp","RcppEigen","RcppArmadillo","RcppParallel","RcppProgress","foreach","doParallel","parallel","iterators","Matrix","boot",dependencies=TRUE)```
 
-4. Abra o pacote através da opção disponível no Rstudio, após o carregamento dos arquivos do pacote na janela a direta clique em Build e depois no botão 'Build & Reload'.
+4. Abra o pacote através da opção disponível no Rstudio, após o carregamento dos arquivos do pacote na janela a direta clique em Build e depois no botão 'Build & Reload' ou usando a tecla de atalho Ctrl+Shift+B.
 
 
 -----
-
-É preciso fazer a importação do LAPACK and BLAS:
-
-1. Rode a biblioteca library(RcppArmadillo)
-
-2. Execute RcppArmadillo.package.skeleton("Pacote")
-
-3. Copie os arquivos Makevars para a pasta src do seu pacote
-
-
-**Olhar aqui**: http://stackoverflow.com/questions/28754573/c-compiling-error-while-compiling-r-package-on-winbuild
-_____
-**Para o RcppParallel**: https://rcppcore.github.io/RcppParallel/#r_packages
