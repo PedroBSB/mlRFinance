@@ -11,8 +11,8 @@ Instalação
 3. Finalizado o processo execute ```devtools::install_github("PedroBSB/mlRFinance", auth_token=*chave*)```
 
 ######Manual:
-1. No Windows, baixe e instale Rtools.
-No Mac, instale o Xcode command line tools.
+1. No Windows, baixe e instale <a href="https://cran.r-project.org/bin/windows/Rtools/" target="_blank">Rtools</a>. 
+No Mac, instale o <a href="https://developer.apple.com/xcode/features/" target="_blank">Xcode command line tools</a>.
 No Linux, instale o R development package, normalmente chamado de r-devel ou r-base-dev dependendo da sua distribuição.
 
 2. No Rstudio execute o comando ```install.packages("devtools")``` em seguida ```devtools::install.packages("hadley/devtools")```
