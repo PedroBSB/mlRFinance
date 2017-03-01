@@ -126,3 +126,54 @@ LearningSVRL1 <- function(train.y,train.X, valid.y, valid.X, C, epsilon, kernel,
   class(svrPort)<-c("data.frame","mlr")
   return(svrPort)
 }
+
+LearningSVWQR1 <- function(train.y,train.X, valid.y, valid.X, C, tau, gamma, kernel, parmMat) {
+  if (!requireNamespace("foreach", quietly = TRUE)) {
+    stop("foreach needed for this function to work. Please install it.",
+         call. = FALSE)
+  }
+  if (!requireNamespace("doParallel", quietly = TRUE)) {
+    stop("doParallel needed for this function to work. Please install it.",
+         call. = FALSE)
+  }
+  if (!requireNamespace("parallel", quietly = TRUE)) {
+    stop("parallel needed for this function to work. Please install it.",
+         call. = FALSE)
+  }
+
+  #Combination with parms
+  matAll<-merge(C,gamma)
+  matAll<-merge(matAll, parmMat)
+
+  #Insert names
+  colnames(matAll)<-c("C","gamma", paste0("Parm",seq(0,ncol(parmMat)-1)))
+
+  #Get the total number of cores
+  ncl<- parallel::detectCores()
+
+  #Register the clusters
+  cl <- parallel::makeCluster(ncl)
+  doParallel::registerDoParallel(cl)
+
+  #Initialize the validation
+  svwqrPort <- foreach(i=1:nrow(matAll), .combine=rbind, .errorhandling='pass', .packages="mlRFinance") %dopar% {
+    #Cost
+    C0<-matAll$C[i]
+    #Epsilon
+    gamma0<-matAll$gamma0[i]
+    #Parms Mean
+    parmsM<-as.numeric(matAll[i,3:ncol(matAll)])
+    #Training the machine
+    svwqr<-PortfolioSelectionSVWQR1(train.y,train.X, valid.y, valid.X, C0, tau, gamma0, kernel, parmsM)
+    res<-data.frame(matAll[i,],"MSE"=svwqr$ErrorMeasureValidation$MSE,
+                    "MAPE"=svwqr$ErrorMeasureValidation$MAPE)
+
+    res
+  }
+
+  #Stop clusters
+  stopCluster(cl)
+  #Create a S3 class
+  class(svwqrPort)<-c("data.frame","mlr")
+  return(svwqrPort)
+}

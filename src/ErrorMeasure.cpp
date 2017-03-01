@@ -28,6 +28,19 @@ Rcpp::List ErrorMeasures(Eigen::VectorXd y, Eigen::VectorXd yPred){
   );
 }
 
+// [[Rcpp::export]]
+Rcpp::List ErrorMeasuresCSVWQR(Eigen::VectorXd y, Eigen::VectorXd yPred){
+  //Calculate Mean Square Error
+  double mse = MSEfunction(y, yPred);
+  //Calculate Mean Absolute Percentage Error
+  double mape = MAPEfunction(y, yPred);
+  //Return the results
+  return Rcpp::List::create(Rcpp::Named("MSE") = mse,
+                            Rcpp::Named("MAPE") = mape
+  );
+}
+
+
 
 // [[Rcpp::export]]
 Rcpp::List ErrorMeasuresBinary(Eigen::VectorXd y, Eigen::VectorXd yPred){

@@ -23,6 +23,10 @@ Eigen::VectorXd PredictedCSVML1(Rcpp::List CSVML1, Eigen::VectorXd y, Eigen::Mat
 Rcpp::List CSVRL1(Eigen::VectorXd y, Eigen::MatrixXd X, double C, double epsilon, std::string kernel, Eigen::RowVectorXd parms);
 Eigen::VectorXd PredictedCSVRL1(Rcpp::List CSVRL1, Eigen::VectorXd y, Eigen::MatrixXd X, Eigen::MatrixXd Xprev);
 
+//C-SVWQR L1
+Rcpp::List CSVWQR(Eigen::VectorXd y, Eigen::MatrixXd X, double C, double tau, double gamma, std::string kernel, Eigen::RowVectorXd parms);
+Eigen::VectorXd PredictedCSVWQR(Rcpp::List CSVWQR, Eigen::MatrixXd X, Eigen::MatrixXd Xprev);
+
 //Error Measure
 Rcpp::List ErrorMeasures(Eigen::VectorXd y, Eigen::VectorXd yPred);
 Rcpp::List ErrorMeasuresBinary(Eigen::VectorXd y, Eigen::VectorXd yPred);
@@ -129,7 +133,31 @@ Rcpp::List PortfolioSelectionCSVRL1(Eigen::VectorXd y_train, Eigen::MatrixXd X_t
 
 
 
+// [[Rcpp::export]]
+Rcpp::List PortfolioSelectionSVWQR1(Eigen::VectorXd y_train, Eigen::MatrixXd X_train,
+                                    Eigen::VectorXd y_valid, Eigen::MatrixXd X_valid,
+                                    double C, double tau, double gamma,
+                                    std::string kernel, Eigen::RowVectorXd parms){
 
+  //Step 1: Training and validating
+  Rcpp::List SVRport = CSVWQR(y_train, X_train, C, tau, gamma, kernel, parms);
+
+  //Forecasting the results
+  Eigen::VectorXd yPred = PredictedCSVWQR(SVRport, X_train, X_train);
+  Eigen::VectorXd yValidPred = PredictedCSVWQR(SVRport, X_train, X_valid);
+
+  //Calculate the error measure
+  Rcpp::List yPredError;
+  Rcpp::List yValidPredError;
+  yPredError = ErrorMeasuresCSVWQR(y_train,yPred);
+  yValidPredError = ErrorMeasuresCSVWQR(y_valid,yValidPred);
+
+  //Return the results
+  return Rcpp::List::create(Rcpp::Named("PredictedTraining") = yPred,
+                            Rcpp::Named("PredictedValidation") = yValidPred,
+                            Rcpp::Named("ErrorMeasureTraining") = yPredError,
+                            Rcpp::Named("ErrorMeasureValidation") = yValidPredError);
+}
 
 
 
