@@ -33,7 +33,6 @@ Rcpp::List ErrorMeasuresBinary(Eigen::VectorXd y, Eigen::VectorXd yPred);
 
 
 
-
 /***********************************************************************************************/
 /*********************************     PORTFOLIO SELECTION SVM FUNCTIONS  **********************/
 /***********************************************************************************************/
@@ -135,28 +134,20 @@ Rcpp::List PortfolioSelectionCSVRL1(Eigen::VectorXd y_train, Eigen::MatrixXd X_t
 
 // [[Rcpp::export]]
 Rcpp::List PortfolioSelectionSVWQR1(Eigen::VectorXd y_train, Eigen::MatrixXd X_train,
-                                    Eigen::VectorXd y_valid, Eigen::MatrixXd X_valid,
                                     double C, double tau, double gamma,
                                     std::string kernel, Eigen::RowVectorXd parms){
 
   //Step 1: Training and validating
-  Rcpp::List SVRport = CSVWQR(y_train, X_train, C, tau, gamma, kernel, parms);
+  Rcpp::List SVWQRport = CSVWQR(y_train, X_train, C, tau, gamma, kernel, parms);
 
   //Forecasting the results
-  Eigen::VectorXd yPred = PredictedCSVWQR(SVRport, X_train, X_train);
-  Eigen::VectorXd yValidPred = PredictedCSVWQR(SVRport, X_train, X_valid);
+  Eigen::VectorXd yPred = PredictedCSVWQR(SVWQRport, X_train, X_train);
 
-  //Calculate the error measure
-  Rcpp::List yPredError;
-  Rcpp::List yValidPredError;
-  yPredError = ErrorMeasuresCSVWQR(y_train,yPred);
-  yValidPredError = ErrorMeasuresCSVWQR(y_valid,yValidPred);
+  //Calculate the Lagrangian Function
+  double dblLagrangian = Rcpp::as<double> (SVWQRport["Lagrangian"]);
 
   //Return the results
-  return Rcpp::List::create(Rcpp::Named("PredictedTraining") = yPred,
-                            Rcpp::Named("PredictedValidation") = yValidPred,
-                            Rcpp::Named("ErrorMeasureTraining") = yPredError,
-                            Rcpp::Named("ErrorMeasureValidation") = yValidPredError);
+  return Rcpp::List::create(Rcpp::Named("Lagrangian") = dblLagrangian);
 }
 
 

@@ -127,7 +127,7 @@ LearningSVRL1 <- function(train.y,train.X, valid.y, valid.X, C, epsilon, kernel,
   return(svrPort)
 }
 
-LearningSVWQR1 <- function(train.y,train.X, valid.y, valid.X, C, tau, gamma, kernel, parmMat) {
+LearningSVWQR1 <- function(train.y,train.X, C, tau, gamma, kernel, parmMat) {
   if (!requireNamespace("foreach", quietly = TRUE)) {
     stop("foreach needed for this function to work. Please install it.",
          call. = FALSE)
@@ -160,14 +160,12 @@ LearningSVWQR1 <- function(train.y,train.X, valid.y, valid.X, C, tau, gamma, ker
     #Cost
     C0<-matAll$C[i]
     #Epsilon
-    gamma0<-matAll$gamma0[i]
+    gamma0<-matAll$gamma[i]
     #Parms Mean
     parmsM<-as.numeric(matAll[i,3:ncol(matAll)])
     #Training the machine
-    svwqr<-PortfolioSelectionSVWQR1(train.y,train.X, valid.y, valid.X, C0, tau, gamma0, kernel, parmsM)
-    res<-data.frame(matAll[i,],"MSE"=svwqr$ErrorMeasureValidation$MSE,
-                    "MAPE"=svwqr$ErrorMeasureValidation$MAPE)
-
+    svwqr<-PortfolioSelectionSVWQR1(train.y,train.X, C0, tau, gamma0, kernel, parmsM)
+    res<-data.frame(matAll[i,],"Lagrangian"=svwqr$Lagrangian)
     res
   }
 

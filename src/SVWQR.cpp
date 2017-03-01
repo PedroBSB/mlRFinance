@@ -161,10 +161,17 @@ Rcpp::List CSVWQR(Eigen::VectorXd y, Eigen::MatrixXd X, double C, double tau, do
   //Get the solution Support Vectors
   SV = rcppeigen_quadratic_solve(Q,g, CE.transpose(),ce0, CI.transpose(), ci0);
 
+  //Calculate the Objective Function
+  double lagran1 = SV.transpose()*Q*SV;
+  double lagran2 = SV.transpose()*g;
+  double lagran  =(-0.5)*lagran1+lagran2;
+
+
   //Return the results
   return Rcpp::List::create(Rcpp::Named("SupportVectors") = SV,
                             Rcpp::Named("Kernel") = kernel,
-                            Rcpp::Named("Parameters") = parms);
+                            Rcpp::Named("Parameters") = parms,
+                            Rcpp::Named("Lagrangian") = lagran);
 }
 
 
