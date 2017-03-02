@@ -21,5 +21,11 @@ No Linux, instale o R development package, normalmente chamado de r-devel ou r-b
 
 4. Abra o pacote através da opção disponível no Rstudio, após o carregamento dos arquivos do pacote na janela a direta clique em Build e depois no botão 'Build & Reload' ou usando a tecla de atalho Ctrl+Shift+B.
 
+To Do List:
+===
+- [ ] Converter a função em src\Utils.cpp\nearPDefinite totalmente em RcppEigen.
+- [ ] Escrever um Wiki page sobre as medidas de mensuração de erro em src\ErrorMeasure.cpp.
+- [ ]  Escrever um Wiki page com exemplos das funções (um bom começo é usar os scripts que estão na pasta test).
+- [ ] Escrever o manual das funções.
 
 -----
