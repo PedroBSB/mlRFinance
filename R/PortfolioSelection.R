@@ -115,7 +115,8 @@ LearningSVRL1 <- function(train.y,train.X, valid.y, valid.X, C, epsilon, kernel,
     #Training the machine
     svr<-PortfolioSelectionCSVRL1(train.y,train.X, valid.y, valid.X, C0, epsilon0, kernel, parmsM)
     res<-data.frame(matAll[i,],"MSE"=svr$ErrorMeasureValidation$MSE,
-                               "MAPE"=svr$ErrorMeasureValidation$MAPE)
+                    "MAPE"=svr$ErrorMeasureValidation$MAPE,
+                    "TheilU"=svr$ErrorMeasureValidation$TheilU)
 
     res
   }
