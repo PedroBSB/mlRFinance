@@ -20,15 +20,30 @@ double MAPEfunction(Eigen::VectorXd y, Eigen::VectorXd yPred){
   return(res.mean());
 }
 
+//Theil-U statistic.
+// [[Rcpp::export]]
+double TheilUfunction(Eigen::VectorXd y, Eigen::VectorXd yPred){
+  int n=y.size()-1;
+  //Numerator
+  double num = ((y.tail(n).array()-yPred.tail(n).array()).square()/y.tail(n).array()).sum();
+  //Denominator
+  double den = ((y.head(n).array()-y.tail(n).array()).square()/y.head(n).array()).sum();
+  double res = std::sqrt(num/den);
+  return(res);
+}
+
 // [[Rcpp::export]]
 Rcpp::List ErrorMeasures(Eigen::VectorXd y, Eigen::VectorXd yPred){
   //Calculate Mean Square Error
   double mse = MSEfunction(y, yPred);
   //Calculate Mean Absolute Percentage Error
   double mape = MAPEfunction(y, yPred);
+  //Calculate Theil-U statistic
+  double theilU = TheilUfunction(y, yPred);
   //Return the results
   return Rcpp::List::create(Rcpp::Named("MSE") = mse,
-                            Rcpp::Named("MAPE") = mape
+                            Rcpp::Named("MAPE") = mape,
+                            Rcpp::Named("TheilU") = theilU
   );
 }
 
