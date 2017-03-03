@@ -68,7 +68,9 @@ LearningSVML1 <- function(train.y,train.X, valid.y, valid.X, C, kernel, parmMat,
                                   "TheilU"=svm$ErrorMeasureValidation$TheilU,
                                   "ME"=svm$ErrorMeasureValidation$ME,
                                   "MAE"=svm$ErrorMeasureValidation$MAE,
-                                  "MPE"=svm$ErrorMeasureValidation$MPE)
+                                  "MPE"=svm$ErrorMeasureValidation$MPE,
+                                  "RWR2"=svm$ErrorMeasureValidation$RWR2
+                      )
     }
     res
   }
@@ -124,7 +126,8 @@ LearningSVRL1 <- function(train.y,train.X, valid.y, valid.X, C, epsilon, kernel,
                     "TheilU"=svr$ErrorMeasureValidation$TheilU,
                     "ME"=svr$ErrorMeasureValidation$ME,
                     "MAE"=svr$ErrorMeasureValidation$MAE,
-                    "MPE"=svr$ErrorMeasureValidation$MPE)
+                    "MPE"=svr$ErrorMeasureValidation$MPE,
+                    "RWR2"=svr$ErrorMeasureValidation$RWR2)
 
     res
   }

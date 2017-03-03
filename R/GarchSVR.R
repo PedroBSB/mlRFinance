@@ -79,12 +79,15 @@ GarchSVR <- function(train,valid,Cm,epsilonM,kernel,parmMat,Cg,epsilonG,kernelGa
                                 "MEm"=svr$ErrorMeasureValidation$ME,
                                 "MAEm"=svr$ErrorMeasureValidation$MAE,
                                 "MPEm"=svr$ErrorMeasureValidation$MPE,
-                               "MSEg"=svr$ErrorMeasureValidationGarch$MSE,
-                               "MAPEg"=svr$ErrorMeasureValidationGarch$MAPE,
-                               "TheilUg"=svr$ErrorMeasureValidationGarch$TheilU,
-                               "MEg"=svr$ErrorMeasureValidationGarch$ME,
-                               "MAEg"=svr$ErrorMeasureValidationGarch$MAE,
-                               "MPEg"=svr$ErrorMeasureValidationGarch$MPE)
+                                "RWR2m"=svr$ErrorMeasureValidation$RWR2,
+                                "MSEg"=svr$ErrorMeasureValidationGarch$MSE,
+                                "MAPEg"=svr$ErrorMeasureValidationGarch$MAPE,
+                                "TheilUg"=svr$ErrorMeasureValidationGarch$TheilU,
+                                "MEg"=svr$ErrorMeasureValidationGarch$ME,
+                                "MAEg"=svr$ErrorMeasureValidationGarch$MAE,
+                                "MPEg"=svr$ErrorMeasureValidationGarch$MPE,
+                                "RWR2g"=svr$ErrorMeasureValidationGarch$RWR2
+                    )
     res
   }
 

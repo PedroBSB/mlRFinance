@@ -51,6 +51,16 @@ double MPEfunction(Eigen::VectorXd y, Eigen::VectorXd yPred){
   return(res.mean());
 }
 
+//Harvey’s R2 statistic that uses the random walk model for comparison
+double RWR2(Eigen::VectorXd y, Eigen::VectorXd yPred){
+  int n=y.size()-1;
+  double mu = y.mean();
+  double rwVec = (y.tail(n).array()-y.head(n).array()-mu).square().sum();
+  double vec = (y.array()-yPred.array()).square().sum();
+  double res = 1.0 - (n/(n+1))*(vec/rwVec);
+  return(res);
+}
+
 // [[Rcpp::export]]
 Rcpp::List ErrorMeasures(Eigen::VectorXd y, Eigen::VectorXd yPred){
   //Calculate Mean Square Error
@@ -65,6 +75,8 @@ Rcpp::List ErrorMeasures(Eigen::VectorXd y, Eigen::VectorXd yPred){
   double mae = MAEfunction(y, yPred);
   //Calculate Theil-U statistic
   double mpe = MPEfunction(y, yPred);
+  //RWR2
+  double rwr2 = RWR2(y, yPred);
 
   //Return the results
   return Rcpp::List::create(Rcpp::Named("MSE") = mse,
@@ -72,7 +84,8 @@ Rcpp::List ErrorMeasures(Eigen::VectorXd y, Eigen::VectorXd yPred){
                             Rcpp::Named("TheilU") = theilU,
                             Rcpp::Named("ME") = me,
                             Rcpp::Named("MAE") = mae,
-                            Rcpp::Named("MPE") = mpe
+                            Rcpp::Named("MPE") = mpe,
+                            Rcpp::Named("RWR2") = rwr2
   );
 }
 
