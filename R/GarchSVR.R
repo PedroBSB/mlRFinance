@@ -73,7 +73,12 @@ GarchSVR <- function(train,valid,Cm,epsilonM,kernel,parmMat,Cg,epsilonG,kernelGa
                      kernel, parmsM,
                      kernelGarch, parmsG)
 
-    res<-data.frame(matAll[i,],"MSEm"=svr$ErrorMeasureValidation$MSE,"MSEg"=svr$ErrorMeasureValidationGarch$MSE)
+    res<-data.frame(matAll[i,],"MSEm"=svr$ErrorMeasureValidation$MSE,
+                               "MAPEm"=svr$ErrorMeasureValidation$MAPE,
+                               "TheilUm"=svr$ErrorMeasureValidation$TheilU,
+                               "MSEg"=svr$ErrorMeasureValidationGarch$MSE,
+                               "MAPEg"=svr$ErrorMeasureValidationGarch$MAPE,
+                               "TheilUg"=svr$ErrorMeasureValidationGarch$TheilU)
     res
   }
 
