@@ -77,7 +77,6 @@ Rcpp::List ErrorMeasures(Eigen::VectorXd y, Eigen::VectorXd yPred){
   double mpe = MPEfunction(y, yPred);
   //RWR2
   double rwr2 = RWR2(y, yPred);
-
   //Return the results
   return Rcpp::List::create(Rcpp::Named("MSE") = mse,
                             Rcpp::Named("MAPE") = mape,
