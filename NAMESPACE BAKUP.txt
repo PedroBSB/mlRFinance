@@ -1,8 +1,0 @@
-exportPattern("^[[:alpha:]]+")
-import(Rcpp)
-import(RcppArmadillo)
-importFrom(RcppParallel, RcppParallelLibs)
-export("DEoptim", "DEoptim.control")
-useDynLib(mlRFinance)
-
-

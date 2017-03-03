@@ -1,9 +1,0 @@
-    //Standardized The Data
-    Eigen::RowVectorXd mean = X.colwise().mean();
-    Eigen::RowVectorXd std = ((X.rowwise() - mean).array().square().colwise().sum() / (X.rows() - 1)).sqrt();
-    Eigen::MatrixXd result = (X.rowwise() - mean).array().rowwise() / std.array();
-    //Compute the covariance (correlation for the standardized matrix)
-    Eigen::MatrixXd centered = result.rowwise() - result.colwise().mean();
-    Q = (centered.adjoint() * centered) / double(result.rows() - 1);
-    //Keep all values positive
-    Q = Q.array().abs();
