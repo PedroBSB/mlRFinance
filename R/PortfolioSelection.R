@@ -63,7 +63,9 @@ LearningSVML1 <- function(train.y,train.X, valid.y, valid.X, C, kernel, parmMat,
 
     }
     else{
-      res<-data.frame(matAll[i,],"MSE"=svm$ErrorMeasureValidation$MSE)
+      res<-data.frame(matAll[i,],"MSE"=svm$ErrorMeasureValidation$MSE,
+                                 "MAPE"=svm$ErrorMeasureValidation$MAPE,
+                                 "TheilU"=svm$ErrorMeasureValidation$TheilU)
     }
     res
   }
