@@ -31,8 +31,9 @@ train.X <- X
 
 #Lista de custos
 C <- seq(2^-15,2^15, length.out = 10)
-#Lista de epsilon's
+#Valor do quantil de interesse (2.5%)
 tau <- 0.025
+#Parâmetro gamma do SVWQR
 gamma <- seq(2^-15,2^15, length.out = 10)
 
 #Tipo do kernel
