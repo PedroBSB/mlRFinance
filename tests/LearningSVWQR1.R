@@ -23,10 +23,10 @@ train <- as.numeric(retorno[1:216])
 y<-train[2:length(train)]
 X<-matrix(train[1:(length(train)-1)],ncol=1)
 
-#Define quais são as variáveis dependentes
+#Define quais são as variáveis dependentes (r_{t} retorno presente)
 train.y<- y
 
-#Define quais são as variáveis independentes
+#Define quais são as variáveis independentes (r_{t-1} retorno passado)
 train.X <- X
 
 #Lista de custos
