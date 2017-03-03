@@ -32,6 +32,25 @@ double TheilUfunction(Eigen::VectorXd y, Eigen::VectorXd yPred){
   return(res);
 }
 
+//Mean Error
+double MEfunction(Eigen::VectorXd y, Eigen::VectorXd yPred){
+  double res = (y-yPred).mean();
+  return(res);
+}
+
+//Mean Absolute Error (MAE)
+double MAEfunction(Eigen::VectorXd y, Eigen::VectorXd yPred){
+  double res = (y-yPred).cwiseAbs().mean();
+  return(res);
+}
+
+//Mean Percentage Error
+double MPEfunction(Eigen::VectorXd y, Eigen::VectorXd yPred){
+  Eigen::VectorXd res = (y-yPred);
+  res = res.array()/y.array();
+  return(res.mean());
+}
+
 // [[Rcpp::export]]
 Rcpp::List ErrorMeasures(Eigen::VectorXd y, Eigen::VectorXd yPred){
   //Calculate Mean Square Error
@@ -40,10 +59,20 @@ Rcpp::List ErrorMeasures(Eigen::VectorXd y, Eigen::VectorXd yPred){
   double mape = MAPEfunction(y, yPred);
   //Calculate Theil-U statistic
   double theilU = TheilUfunction(y, yPred);
+  //Calculate Theil-U statistic
+  double me = MEfunction(y, yPred);
+  //Calculate Theil-U statistic
+  double mae = MAEfunction(y, yPred);
+  //Calculate Theil-U statistic
+  double mpe = MPEfunction(y, yPred);
+
   //Return the results
   return Rcpp::List::create(Rcpp::Named("MSE") = mse,
                             Rcpp::Named("MAPE") = mape,
-                            Rcpp::Named("TheilU") = theilU
+                            Rcpp::Named("TheilU") = theilU,
+                            Rcpp::Named("ME") = me,
+                            Rcpp::Named("MAE") = mae,
+                            Rcpp::Named("MPE") = mpe
   );
 }
 

@@ -63,9 +63,12 @@ LearningSVML1 <- function(train.y,train.X, valid.y, valid.X, C, kernel, parmMat,
 
     }
     else{
-      res<-data.frame(matAll[i,],"MSE"=svm$ErrorMeasureValidation$MSE,
-                                 "MAPE"=svm$ErrorMeasureValidation$MAPE,
-                                 "TheilU"=svm$ErrorMeasureValidation$TheilU)
+      res<-data.frame(matAll[i,], "MSE"=svm$ErrorMeasureValidation$MSE,
+                                  "MAPE"=svm$ErrorMeasureValidation$MAPE,
+                                  "TheilU"=svm$ErrorMeasureValidation$TheilU,
+                                  "ME"=svm$ErrorMeasureValidation$ME,
+                                  "MAE"=svm$ErrorMeasureValidation$MAE,
+                                  "MPE"=svm$ErrorMeasureValidation$MPE)
     }
     res
   }
@@ -118,7 +121,10 @@ LearningSVRL1 <- function(train.y,train.X, valid.y, valid.X, C, epsilon, kernel,
     svr<-PortfolioSelectionCSVRL1(train.y,train.X, valid.y, valid.X, C0, epsilon0, kernel, parmsM)
     res<-data.frame(matAll[i,],"MSE"=svr$ErrorMeasureValidation$MSE,
                     "MAPE"=svr$ErrorMeasureValidation$MAPE,
-                    "TheilU"=svr$ErrorMeasureValidation$TheilU)
+                    "TheilU"=svr$ErrorMeasureValidation$TheilU,
+                    "ME"=svr$ErrorMeasureValidation$ME,
+                    "MAE"=svr$ErrorMeasureValidation$MAE,
+                    "MPE"=svr$ErrorMeasureValidation$MPE)
 
     res
   }
