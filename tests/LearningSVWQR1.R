@@ -30,16 +30,16 @@ train.y<- y
 train.X <- X
 
 #Lista de custos
-C <- seq(2^-15,2^15, length.out = 10)
+C <- seq(2^-15,2^15, length.out = 3)
 #Valor do quantil de interesse (2.5%)
 tau <- 0.025
 #Parâmetro gamma do SVWQR
-gamma <- seq(2^-15,2^15, length.out = 10)
+gamma <- seq(2^-15,2^15, length.out = 3)
 
 #Tipo do kernel
 kernel<-"Gaussian"
 #Matriz com os parâmetros do kernel
-parmMat<-matrix(seq(2^-15,2^15, length.out = 10),nrow=10,ncol=1)
+parmMat<-matrix(seq(2^-15,2^15, length.out = 3),nrow=3,ncol=1)
 #Ensina a máquina
 res<-LearningSVWQR1(train.y, train.X,
                    C, tau, gamma, kernel, parmMat)
