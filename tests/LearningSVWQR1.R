@@ -24,21 +24,21 @@ y<-train[2:length(train)]
 X<-matrix(train[1:(length(train)-1)],ncol=1)
 
 #Define quais são as variáveis dependentes
-train.y<- train[,2]
+train.y<- y
 
 #Define quais são as variáveis independentes
-train.X <- as.matrix(train[,1])
+train.X <- X
 
 #Lista de custos
 C <- seq(2^-15,2^15, length.out = 10)
 #Lista de epsilon's
 tau <- 0.025
-gamma <- c(1,2,10,100)
+gamma <- seq(2^-15,2^15, length.out = 10)
 
 #Tipo do kernel
 kernel<-"Gaussian"
 #Matriz com os parâmetros do kernel
-parmMat<-matrix(c(0.1,0.2,0.3),nrow=3,ncol=1)
+parmMat<-matrix(seq(2^-15,2^15, length.out = 10),nrow=10,ncol=1)
 #Ensina a máquina
 res<-LearningSVWQR1(train.y, train.X,
                    C, tau, gamma, kernel, parmMat)
