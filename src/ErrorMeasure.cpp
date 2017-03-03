@@ -69,11 +69,11 @@ Rcpp::List ErrorMeasures(Eigen::VectorXd y, Eigen::VectorXd yPred){
   double mape = MAPEfunction(y, yPred);
   //Calculate Theil-U statistic
   double theilU = TheilUfunction(y, yPred);
-  //Calculate Theil-U statistic
+  //Mean Error
   double me = MEfunction(y, yPred);
-  //Calculate Theil-U statistic
+  //Mean Absolute Error (MAE)
   double mae = MAEfunction(y, yPred);
-  //Calculate Theil-U statistic
+  //Mean Percentage Error
   double mpe = MPEfunction(y, yPred);
   //RWR2
   double rwr2 = RWR2(y, yPred);
