@@ -7,13 +7,13 @@
 /**********************************************        SVR      *****************************************************/
 /********************************************************************************************************************/
 
-//Mean Square Error
+//Mean Square Error (MSE)
 double MSEfunction(Eigen::VectorXd y, Eigen::VectorXd yPred){
   double res = (y-yPred).squaredNorm();
   return(res);
 }
 
-//Mean Absolute Percentage Error
+//Mean Absolute Percentage Error (MAPE)
 double MAPEfunction(Eigen::VectorXd y, Eigen::VectorXd yPred){
   Eigen::VectorXd res = (y-yPred).cwiseAbs();
   res = res.array()/y.array();
@@ -32,7 +32,7 @@ double TheilUfunction(Eigen::VectorXd y, Eigen::VectorXd yPred){
   return(res);
 }
 
-//Mean Error
+//Mean Error (ME)
 double MEfunction(Eigen::VectorXd y, Eigen::VectorXd yPred){
   double res = (y-yPred).mean();
   return(res);
@@ -44,7 +44,7 @@ double MAEfunction(Eigen::VectorXd y, Eigen::VectorXd yPred){
   return(res);
 }
 
-//Mean Percentage Error
+//Mean Percentage Error (MPE)
 double MPEfunction(Eigen::VectorXd y, Eigen::VectorXd yPred){
   Eigen::VectorXd res = (y-yPred);
   res = res.array()/y.array();
