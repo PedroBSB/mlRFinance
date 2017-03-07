@@ -34,8 +34,12 @@ kernelVolat <- "Polynomial"
 parmsVola <- c(3,1)
 
 
-CSVMplusL1(y, X, Z, C, gamma, kappa, kernel, parms, kernelStar, parmsStar, TRUE)
+res<-CSVMplusL1(y, X, Z, C, gamma, kappa, kernel, parms, kernelStar, parmsStar, TRUE)
 
+sum(res$SupportVectorsAlpha*y)
+sum(res$SupportVectorsDelta*y)
+
+which(res$SupportVectorsAlpha<0 | res$SupportVectorsAlpha>kappa*C)
 
 #Validation set
 prive <- as.numeric(retorno[181:216])

@@ -35,6 +35,7 @@ void PrintObject(Eigen::VectorXd vec);
 
 
 /************************************ C-SVM+ L1 *************************************************/
+//Proof and Implementation of Algorithmic Realization of Learning Using Privileged Information (LUPI) Paradigm: SVM+
 // [[Rcpp::export]]
 Rcpp::List CSVMplusL1(Eigen::VectorXd y, Eigen::MatrixXd X, Eigen::MatrixXd Z, double C, double gamma, double kappa, std::string kernel, Eigen::RowVectorXd parms,std::string kernelStar, Eigen::RowVectorXd parmsStar, bool biasTerm){
   //Support Vectors
@@ -59,7 +60,7 @@ Rcpp::List CSVMplusL1(Eigen::VectorXd y, Eigen::MatrixXd X, Eigen::MatrixXd Z, d
   Eigen::MatrixXd H12 = -gamma*KstarY;
   Eigen::MatrixXd H = Eigen::MatrixXd(H11.rows()+H12.cols(),H11.cols()+H12.cols());
   H << H11, H12,
-       H12.transpose(),-H12;
+       H12,-H12;
 
   //Nearest positive semidefinite matrix in terms of Frobenius norm
   //nearPositiveDefinite(Q,1e-10);
@@ -72,26 +73,38 @@ Rcpp::List CSVMplusL1(Eigen::VectorXd y, Eigen::MatrixXd X, Eigen::MatrixXd Z, d
   col2 << g2, y;
   Eigen::MatrixXd CE = Eigen::MatrixXd(2*y.size(),2);
   CE << col1, col2;
+
+  std::cout<<CE<<std::endl;
+
   //RHS equality
-  Eigen::VectorXd ce0 = Eigen::VectorXd::Zero(2);
+  Eigen::VectorXd ce0 = Eigen::VectorXd(2);
+  ce0.fill(-0.0);
 
   //Inequality Constraint
-  Eigen::VectorXd ci0 = Eigen::VectorXd::Zero(2*y.size());
-  Eigen::VectorXd ci11 = Eigen::VectorXd(y.size());
-  ci11.fill(-kappa*C);
-  Eigen::VectorXd ci12 = Eigen::VectorXd(y.size());
-  ci12.fill(-C);
-  ci0<<ci11,ci12;
+  Eigen::VectorXd ci0 = Eigen::VectorXd::Zero(4*y.size());
+  Eigen::VectorXd ci11 = Eigen::VectorXd(2*y.size());
+  ci11.fill(kappa*C);
+  Eigen::VectorXd ci12 = Eigen::VectorXd(2*y.size());
+  ci12.fill(C);
+  ci0<<ci11, ci12;
   //LHS: Inequality 1
-  Eigen::MatrixXd CI = Eigen::MatrixXd::Identity(4*y.size(),2*y.size());
+  Eigen::MatrixXd CI = Eigen::MatrixXd::Identity(2*y.size(),4*y.size());
   Eigen::MatrixXd CI1 = Eigen::MatrixXd::Identity(2*y.size(),2*y.size());
-  CI <<  CI1,
-        -CI1;
+  CI <<  CI1, -CI1;
 
   //Get the solution Support Vectors
-  SV = rcppeigen_quadratic_solve(H, g0, CE.transpose(), ce0, CI.transpose(), ci0);
+  SV = rcppeigen_quadratic_solve(H, g0, CE, ce0, CI, ci0);
+
+  //Support Vectors
+  Eigen::VectorXd Alpha(y.size());
+  Alpha = SV.head(y.size());
+  Eigen::VectorXd Delta(y.size());
+  Delta = SV.tail(y.size()).array();
+
+
   //Return the results
-  return Rcpp::List::create(Rcpp::Named("SupportVectors") = SV,
+  return Rcpp::List::create(Rcpp::Named("SupportVectorsAlpha") = Alpha,
+                            Rcpp::Named("SupportVectorsDelta") = Delta,
                             Rcpp::Named("Kernel") = kernel,
                             Rcpp::Named("Parameters") = parms);
 }
