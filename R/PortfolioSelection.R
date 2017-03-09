@@ -10,7 +10,7 @@
 #' @examples
 #' add(1, 1)
 #' add(10, 1)
-LearningSVML1 <- function(train.y,train.X, valid.y, valid.X, C, kernel, parmMat, typePredict) {
+LearningSVML1 <- function(train.y,train.X, valid.y, valid.X, C, kernel, parmMat, typePredict, freeCluster=0) {
   if (!requireNamespace("foreach", quietly = TRUE)) {
     stop("foreach needed for this function to work. Please install it.",
          call. = FALSE)
@@ -31,7 +31,12 @@ LearningSVML1 <- function(train.y,train.X, valid.y, valid.X, C, kernel, parmMat,
   colnames(matAll)<-c("C", paste0("Parm",seq(0,ncol(parmMat)-1)))
 
   #Get the total number of cores
-  ncl<- parallel::detectCores()
+  if(freeCluster==0){
+    ncl<- parallel::detectCores()
+  }
+  else{
+    ncl<- parallel::detectCores()-freeCluster
+  }
 
   #Register the clusters
   cl <- parallel::makeCluster(ncl)
@@ -88,7 +93,7 @@ LearningSVML1 <- function(train.y,train.X, valid.y, valid.X, C, kernel, parmMat,
 }
 
 
-LearningSVRL1 <- function(train.y,train.X, valid.y, valid.X, C, epsilon, kernel, parmMat) {
+LearningSVRL1 <- function(train.y,train.X, valid.y, valid.X, C, epsilon, kernel, parmMat, freeCluster=0) {
   if (!requireNamespace("foreach", quietly = TRUE)) {
     stop("foreach needed for this function to work. Please install it.",
          call. = FALSE)
@@ -110,7 +115,12 @@ LearningSVRL1 <- function(train.y,train.X, valid.y, valid.X, C, epsilon, kernel,
   colnames(matAll)<-c("C","epsilon", paste0("Parm",seq(0,ncol(parmMat)-1)))
 
   #Get the total number of cores
-  ncl<- parallel::detectCores()
+  if(freeCluster==0){
+    ncl<- parallel::detectCores()
+  }
+  else{
+    ncl<- parallel::detectCores()-freeCluster
+  }
 
   #Register the clusters
   cl <- parallel::makeCluster(ncl)
@@ -149,7 +159,7 @@ LearningSVRL1 <- function(train.y,train.X, valid.y, valid.X, C, epsilon, kernel,
   return(svrPort)
 }
 
-LearningSVWQR1 <- function(train.y,train.X, C, tau, gamma, kernel, parmMat) {
+LearningSVWQR1 <- function(train.y,train.X, C, tau, gamma, kernel, parmMat, freeCluster=0) {
   if (!requireNamespace("foreach", quietly = TRUE)) {
     stop("foreach needed for this function to work. Please install it.",
          call. = FALSE)
@@ -171,7 +181,12 @@ LearningSVWQR1 <- function(train.y,train.X, C, tau, gamma, kernel, parmMat) {
   colnames(matAll)<-c("C","gamma", paste0("Parm",seq(0,ncol(parmMat)-1)))
 
   #Get the total number of cores
-  ncl<- parallel::detectCores()
+  if(freeCluster==0){
+    ncl<- parallel::detectCores()
+  }
+  else{
+    ncl<- parallel::detectCores()-freeCluster
+  }
 
   #Register the clusters
   cl <- parallel::makeCluster(ncl)
