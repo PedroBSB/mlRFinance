@@ -25,7 +25,9 @@ To Do List:
 ===
 - [ ] Converter a função em src\Utils.cpp\nearPDefinite totalmente em RcppEigen.
 - [ ] Escrever um Wiki page sobre as medidas de mensuração de erro em src\ErrorMeasure.cpp.
-- [ ]  Escrever um Wiki page com exemplos das funções (um bom começo é usar os scripts que estão na pasta test).
+- [ ] Escrever um Wiki page com exemplos das funções (um bom começo é usar os scripts que estão na pasta test).
 - [ ] Escrever o manual das funções.
+- [ ] Adicionar mais Similarity Matrices na função QPFS.
+
 
 -----
