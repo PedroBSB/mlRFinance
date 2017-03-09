@@ -1,6 +1,6 @@
 mlRFinance
 ---
-Um pacote em R para geração de portifólios baseado em aprendizado de máquinas. 
+Um pacote em R para geração de portfólios baseado em aprendizado de máquinas. 
 
 
 Instalação
