@@ -35,10 +35,14 @@ LearningSVML1 <- function(train.y,train.X, valid.y, valid.X, C, kernel, parmMat,
 
   #Register the clusters
   cl <- parallel::makeCluster(ncl)
-  doParallel::registerDoParallel(cl)
+  doSNOW::registerDoSNOW(cl)
 
+  #Progress Bar
+  pb <- txtProgressBar(max = nrow(matAll), style = 3)
+  progress <- function(n) setTxtProgressBar(pb, n)
+  opts <- list(progress = progress)
   #Initialize the validation
-  svmPort <- foreach(i=1:nrow(matAll), .combine=rbind, .errorhandling='pass', .packages="mlRFinance") %dopar% {
+  svmPort <- foreach(i=1:nrow(matAll), .combine=rbind, .errorhandling='pass', .packages="mlRFinance", .options.snow = opts) %dopar% {
     #Cost
     C0<-matAll$C[i]
     #Parms Mean
@@ -64,17 +68,18 @@ LearningSVML1 <- function(train.y,train.X, valid.y, valid.X, C, kernel, parmMat,
     }
     else{
       res<-data.frame(matAll[i,], "MSE"=svm$ErrorMeasureValidation$MSE,
-                                  "MAPE"=svm$ErrorMeasureValidation$MAPE,
-                                  "TheilU"=svm$ErrorMeasureValidation$TheilU,
-                                  "ME"=svm$ErrorMeasureValidation$ME,
-                                  "MAE"=svm$ErrorMeasureValidation$MAE,
-                                  "MPE"=svm$ErrorMeasureValidation$MPE,
-                                  "RWR2"=svm$ErrorMeasureValidation$RWR2
-                      )
+                      "MAPE"=svm$ErrorMeasureValidation$MAPE,
+                      "TheilU"=svm$ErrorMeasureValidation$TheilU,
+                      "ME"=svm$ErrorMeasureValidation$ME,
+                      "MAE"=svm$ErrorMeasureValidation$MAE,
+                      "MPE"=svm$ErrorMeasureValidation$MPE,
+                      "RWR2"=svm$ErrorMeasureValidation$RWR2
+      )
     }
     res
   }
-
+  #Close Progress Bar
+  close(pb)
   #Stop clusters
   stopCluster(cl)
   #Create a S3 class
@@ -109,10 +114,14 @@ LearningSVRL1 <- function(train.y,train.X, valid.y, valid.X, C, epsilon, kernel,
 
   #Register the clusters
   cl <- parallel::makeCluster(ncl)
-  doParallel::registerDoParallel(cl)
+  doSNOW::registerDoSNOW(cl)
 
+  #Progress Bar
+  pb <- txtProgressBar(max = nrow(matAll), style = 3)
+  progress <- function(n) setTxtProgressBar(pb, n)
+  opts <- list(progress = progress)
   #Initialize the validation
-  svrPort <- foreach(i=1:nrow(matAll), .combine=rbind, .errorhandling='pass', .packages="mlRFinance") %dopar% {
+  svrPort <- foreach(i=1:nrow(matAll), .combine=rbind, .errorhandling='pass', .packages="mlRFinance",  .options.snow = opts) %dopar% {
     #Cost
     C0<-matAll$C[i]
     #Epsilon
@@ -131,7 +140,8 @@ LearningSVRL1 <- function(train.y,train.X, valid.y, valid.X, C, epsilon, kernel,
 
     res
   }
-
+  #Close Progress Bar
+  close(pb)
   #Stop clusters
   stopCluster(cl)
   #Create a S3 class
@@ -165,10 +175,15 @@ LearningSVWQR1 <- function(train.y,train.X, C, tau, gamma, kernel, parmMat) {
 
   #Register the clusters
   cl <- parallel::makeCluster(ncl)
-  doParallel::registerDoParallel(cl)
+  doSNOW::registerDoSNOW(cl)
+
+  #Progress Bar
+  pb <- txtProgressBar(max = nrow(matAll), style = 3)
+  progress <- function(n) setTxtProgressBar(pb, n)
+  opts <- list(progress = progress)
 
   #Initialize the validation
-  svwqrPort <- foreach(i=1:nrow(matAll), .combine=rbind, .errorhandling='pass', .packages="mlRFinance") %dopar% {
+  svwqrPort <- foreach(i=1:nrow(matAll), .combine=rbind, .errorhandling='pass', .packages="mlRFinance",  .options.snow = opts) %dopar% {
     #Cost
     C0<-matAll$C[i]
     #Epsilon
@@ -180,7 +195,8 @@ LearningSVWQR1 <- function(train.y,train.X, C, tau, gamma, kernel, parmMat) {
     res<-data.frame(matAll[i,],"Lagrangian"=svwqr$Lagrangian)
     res
   }
-
+  #Close Progress Bar
+  close(pb)
   #Stop clusters
   stopCluster(cl)
   #Create a S3 class
