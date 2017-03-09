@@ -28,6 +28,6 @@ To Do List:
 - [ ] Escrever um Wiki page com exemplos das funções (um bom começo é usar os scripts que estão na pasta test).
 - [ ] Escrever o manual das funções.
 - [ ] Adicionar mais Similarity Matrices na função QPFS.
-
+- [ ] Criar a função QPFS para modelos de Regressão.
 
 -----
