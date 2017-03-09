@@ -17,7 +17,7 @@ No Linux, instale o R development package, normalmente chamado de r-devel ou r-b
 
 2. No Rstudio execute o comando ```install.packages("devtools")``` em seguida ```devtools::install.packages("hadley/devtools")```
 
-3. Apos isso instale ou certifique-se que os seguintes pacotes estão instalados: ```Rcpp RcppArmadillo RcppParallel RcppEigen RcppProgress foreach doParallel foreach parallel iterators Matrix boot```. Basta usar ```install.packages("Rcpp","RcppEigen","RcppArmadillo","RcppParallel","RcppProgress","foreach","doParallel","parallel","iterators","Matrix","boot",dependencies=TRUE)```
+3. Apos isso instale ou certifique-se que os seguintes pacotes estão instalados: ```Rcpp RcppArmadillo RcppParallel RcppEigen RcppProgress foreach doParallel foreach parallel iterators Matrix boot doSNOW```. Basta usar ```install.packages(c("Rcpp","RcppEigen","RcppArmadillo","RcppParallel","RcppProgress","foreach","doParallel","parallel","iterators","Matrix","boot","doSNOW"),dependencies=TRUE)```
 
 4. Abra o pacote através da opção disponível no Rstudio, após o carregamento dos arquivos do pacote na janela a direta clique em Build e depois no botão 'Build & Reload' ou usando a tecla de atalho Ctrl+Shift+B.
 
