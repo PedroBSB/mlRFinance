@@ -29,5 +29,6 @@ To Do List:
 - [ ] Escrever o manual das funções.
 - [ ] Adicionar mais Similarity Matrices na função QPFS.
 - [ ] Criar a função QPFS para modelos de Regressão.
+- [ ] Implementar o Matérn kernel - Classes of Kernels for Machine Learning: A Statistics Perspective
 
 -----
