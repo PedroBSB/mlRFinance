@@ -24,5 +24,6 @@ Imports:
     iterators,
     Matrix,
     boot
+Suggests: testthat
 SystemRequirements: GNU make
 RoxygenNote: 5.0.1
