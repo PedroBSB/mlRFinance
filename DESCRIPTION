@@ -10,6 +10,16 @@ Depends:
     Matrix
 License: What license is it under?
 LazyData: TRUE
+Depends:
+    Rcpp,
+    RcppArmadillo,
+    RcppParallel,
+    RcppEigen,
+    RcppProgress,
+    foreach,
+    doParallel,
+    parallel,
+    boot
 LinkingTo: Rcpp, RcppArmadillo, RcppParallel, RcppEigen, RcppProgress
 Imports:
     Rcpp,
