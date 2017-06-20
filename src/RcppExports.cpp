@@ -7,6 +7,18 @@
 
 using namespace Rcpp;
 
+// TheilUfunction
+double TheilUfunction(Eigen::VectorXd y, Eigen::VectorXd yPred);
+RcppExport SEXP mlRFinance_TheilUfunction(SEXP ySEXP, SEXP yPredSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Eigen::VectorXd >::type y(ySEXP);
+    Rcpp::traits::input_parameter< Eigen::VectorXd >::type yPred(yPredSEXP);
+    rcpp_result_gen = Rcpp::wrap(TheilUfunction(y, yPred));
+    return rcpp_result_gen;
+END_RCPP
+}
 // ErrorMeasures
 Rcpp::List ErrorMeasures(Eigen::VectorXd y, Eigen::VectorXd yPred);
 RcppExport SEXP mlRFinance_ErrorMeasures(SEXP ySEXP, SEXP yPredSEXP) {
@@ -31,8 +43,21 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// QPFS
+Eigen::VectorXd QPFS(Eigen::MatrixXd Q, Eigen::VectorXd f, double alpha);
+RcppExport SEXP mlRFinance_QPFS(SEXP QSEXP, SEXP fSEXP, SEXP alphaSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Eigen::MatrixXd >::type Q(QSEXP);
+    Rcpp::traits::input_parameter< Eigen::VectorXd >::type f(fSEXP);
+    Rcpp::traits::input_parameter< double >::type alpha(alphaSEXP);
+    rcpp_result_gen = Rcpp::wrap(QPFS(Q, f, alpha));
+    return rcpp_result_gen;
+END_RCPP
+}
 // GARCHCSVRL1
-Rcpp::List GARCHCSVRL1(Eigen::VectorXd train, Eigen::VectorXd valid, double Cmean, double epsilonMean, double Cvola, double epsilonVola, std::string kernelMean, arma::vec parmsMean, std::string kernelVolat, arma::vec parmsVola);
+Rcpp::List GARCHCSVRL1(Eigen::VectorXd train, Eigen::VectorXd valid, double Cmean, double epsilonMean, double Cvola, double epsilonVola, std::string kernelMean, Eigen::RowVectorXd parmsMean, std::string kernelVolat, Eigen::RowVectorXd parmsVola);
 RcppExport SEXP mlRFinance_GARCHCSVRL1(SEXP trainSEXP, SEXP validSEXP, SEXP CmeanSEXP, SEXP epsilonMeanSEXP, SEXP CvolaSEXP, SEXP epsilonVolaSEXP, SEXP kernelMeanSEXP, SEXP parmsMeanSEXP, SEXP kernelVolatSEXP, SEXP parmsVolaSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
@@ -44,28 +69,28 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< double >::type Cvola(CvolaSEXP);
     Rcpp::traits::input_parameter< double >::type epsilonVola(epsilonVolaSEXP);
     Rcpp::traits::input_parameter< std::string >::type kernelMean(kernelMeanSEXP);
-    Rcpp::traits::input_parameter< arma::vec >::type parmsMean(parmsMeanSEXP);
+    Rcpp::traits::input_parameter< Eigen::RowVectorXd >::type parmsMean(parmsMeanSEXP);
     Rcpp::traits::input_parameter< std::string >::type kernelVolat(kernelVolatSEXP);
-    Rcpp::traits::input_parameter< arma::vec >::type parmsVola(parmsVolaSEXP);
+    Rcpp::traits::input_parameter< Eigen::RowVectorXd >::type parmsVola(parmsVolaSEXP);
     rcpp_result_gen = Rcpp::wrap(GARCHCSVRL1(train, valid, Cmean, epsilonMean, Cvola, epsilonVola, kernelMean, parmsMean, kernelVolat, parmsVola));
     return rcpp_result_gen;
 END_RCPP
 }
 // KernelMatrixComputation
-Eigen::MatrixXd KernelMatrixComputation(Eigen::MatrixXd datMat, std::string stringValue, arma::vec parms);
+Eigen::MatrixXd KernelMatrixComputation(Eigen::MatrixXd datMat, std::string stringValue, Eigen::RowVectorXd parms);
 RcppExport SEXP mlRFinance_KernelMatrixComputation(SEXP datMatSEXP, SEXP stringValueSEXP, SEXP parmsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< Eigen::MatrixXd >::type datMat(datMatSEXP);
     Rcpp::traits::input_parameter< std::string >::type stringValue(stringValueSEXP);
-    Rcpp::traits::input_parameter< arma::vec >::type parms(parmsSEXP);
+    Rcpp::traits::input_parameter< Eigen::RowVectorXd >::type parms(parmsSEXP);
     rcpp_result_gen = Rcpp::wrap(KernelMatrixComputation(datMat, stringValue, parms));
     return rcpp_result_gen;
 END_RCPP
 }
 // KernelMatrixComputationPred
-Eigen::MatrixXd KernelMatrixComputationPred(Eigen::MatrixXd datMat, Eigen::RowVectorXd predMat, std::string stringValue, arma::vec parms);
+Eigen::MatrixXd KernelMatrixComputationPred(Eigen::MatrixXd datMat, Eigen::RowVectorXd predMat, std::string stringValue, Eigen::RowVectorXd parms);
 RcppExport SEXP mlRFinance_KernelMatrixComputationPred(SEXP datMatSEXP, SEXP predMatSEXP, SEXP stringValueSEXP, SEXP parmsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
@@ -73,37 +98,35 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< Eigen::MatrixXd >::type datMat(datMatSEXP);
     Rcpp::traits::input_parameter< Eigen::RowVectorXd >::type predMat(predMatSEXP);
     Rcpp::traits::input_parameter< std::string >::type stringValue(stringValueSEXP);
-    Rcpp::traits::input_parameter< arma::vec >::type parms(parmsSEXP);
+    Rcpp::traits::input_parameter< Eigen::RowVectorXd >::type parms(parmsSEXP);
     rcpp_result_gen = Rcpp::wrap(KernelMatrixComputationPred(datMat, predMat, stringValue, parms));
     return rcpp_result_gen;
 END_RCPP
 }
-// quadprogEquality
-arma::vec quadprogEquality(arma::mat G, arma::vec c, arma::mat A, arma::vec b);
-RcppExport SEXP mlRFinance_quadprogEquality(SEXP GSEXP, SEXP cSEXP, SEXP ASEXP, SEXP bSEXP) {
+// KernelMatrixComputationValue
+double KernelMatrixComputationValue(Eigen::RowVectorXd datMat, Eigen::RowVectorXd predMat, std::string stringValue, Eigen::RowVectorXd parms);
+RcppExport SEXP mlRFinance_KernelMatrixComputationValue(SEXP datMatSEXP, SEXP predMatSEXP, SEXP stringValueSEXP, SEXP parmsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::mat >::type G(GSEXP);
-    Rcpp::traits::input_parameter< arma::vec >::type c(cSEXP);
-    Rcpp::traits::input_parameter< arma::mat >::type A(ASEXP);
-    Rcpp::traits::input_parameter< arma::vec >::type b(bSEXP);
-    rcpp_result_gen = Rcpp::wrap(quadprogEquality(G, c, A, b));
+    Rcpp::traits::input_parameter< Eigen::RowVectorXd >::type datMat(datMatSEXP);
+    Rcpp::traits::input_parameter< Eigen::RowVectorXd >::type predMat(predMatSEXP);
+    Rcpp::traits::input_parameter< std::string >::type stringValue(stringValueSEXP);
+    Rcpp::traits::input_parameter< Eigen::RowVectorXd >::type parms(parmsSEXP);
+    rcpp_result_gen = Rcpp::wrap(KernelMatrixComputationValue(datMat, predMat, stringValue, parms));
     return rcpp_result_gen;
 END_RCPP
 }
-// quadprogInequality
-arma::vec quadprogInequality(arma::vec sol, arma::mat G, arma::vec c, arma::mat A, arma::vec b);
-RcppExport SEXP mlRFinance_quadprogInequality(SEXP solSEXP, SEXP GSEXP, SEXP cSEXP, SEXP ASEXP, SEXP bSEXP) {
+// KPCAMatrix
+Eigen::MatrixXd KPCAMatrix(Eigen::MatrixXd X, std::string kernel, Eigen::RowVectorXd parms);
+RcppExport SEXP mlRFinance_KPCAMatrix(SEXP XSEXP, SEXP kernelSEXP, SEXP parmsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::vec >::type sol(solSEXP);
-    Rcpp::traits::input_parameter< arma::mat >::type G(GSEXP);
-    Rcpp::traits::input_parameter< arma::vec >::type c(cSEXP);
-    Rcpp::traits::input_parameter< arma::mat >::type A(ASEXP);
-    Rcpp::traits::input_parameter< arma::vec >::type b(bSEXP);
-    rcpp_result_gen = Rcpp::wrap(quadprogInequality(sol, G, c, A, b));
+    Rcpp::traits::input_parameter< Eigen::MatrixXd >::type X(XSEXP);
+    Rcpp::traits::input_parameter< std::string >::type kernel(kernelSEXP);
+    Rcpp::traits::input_parameter< Eigen::RowVectorXd >::type parms(parmsSEXP);
+    rcpp_result_gen = Rcpp::wrap(KPCAMatrix(X, kernel, parms));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -130,7 +153,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // PortfolioSelectionCSVML1
-Rcpp::List PortfolioSelectionCSVML1(Eigen::VectorXd y_train, Eigen::MatrixXd X_train, Eigen::VectorXd y_valid, Eigen::MatrixXd X_valid, double C, std::string kernel, arma::vec parms, int typePredict);
+Rcpp::List PortfolioSelectionCSVML1(Eigen::VectorXd y_train, Eigen::MatrixXd X_train, Eigen::VectorXd y_valid, Eigen::MatrixXd X_valid, double C, std::string kernel, Eigen::RowVectorXd parms, int typePredict);
 RcppExport SEXP mlRFinance_PortfolioSelectionCSVML1(SEXP y_trainSEXP, SEXP X_trainSEXP, SEXP y_validSEXP, SEXP X_validSEXP, SEXP CSEXP, SEXP kernelSEXP, SEXP parmsSEXP, SEXP typePredictSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
@@ -141,9 +164,44 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< Eigen::MatrixXd >::type X_valid(X_validSEXP);
     Rcpp::traits::input_parameter< double >::type C(CSEXP);
     Rcpp::traits::input_parameter< std::string >::type kernel(kernelSEXP);
-    Rcpp::traits::input_parameter< arma::vec >::type parms(parmsSEXP);
+    Rcpp::traits::input_parameter< Eigen::RowVectorXd >::type parms(parmsSEXP);
     Rcpp::traits::input_parameter< int >::type typePredict(typePredictSEXP);
     rcpp_result_gen = Rcpp::wrap(PortfolioSelectionCSVML1(y_train, X_train, y_valid, X_valid, C, kernel, parms, typePredict));
+    return rcpp_result_gen;
+END_RCPP
+}
+// PortfolioSelectionCSVRL1
+Rcpp::List PortfolioSelectionCSVRL1(Eigen::VectorXd y_train, Eigen::MatrixXd X_train, Eigen::VectorXd y_valid, Eigen::MatrixXd X_valid, double C, double epsilon, std::string kernel, Eigen::RowVectorXd parms);
+RcppExport SEXP mlRFinance_PortfolioSelectionCSVRL1(SEXP y_trainSEXP, SEXP X_trainSEXP, SEXP y_validSEXP, SEXP X_validSEXP, SEXP CSEXP, SEXP epsilonSEXP, SEXP kernelSEXP, SEXP parmsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Eigen::VectorXd >::type y_train(y_trainSEXP);
+    Rcpp::traits::input_parameter< Eigen::MatrixXd >::type X_train(X_trainSEXP);
+    Rcpp::traits::input_parameter< Eigen::VectorXd >::type y_valid(y_validSEXP);
+    Rcpp::traits::input_parameter< Eigen::MatrixXd >::type X_valid(X_validSEXP);
+    Rcpp::traits::input_parameter< double >::type C(CSEXP);
+    Rcpp::traits::input_parameter< double >::type epsilon(epsilonSEXP);
+    Rcpp::traits::input_parameter< std::string >::type kernel(kernelSEXP);
+    Rcpp::traits::input_parameter< Eigen::RowVectorXd >::type parms(parmsSEXP);
+    rcpp_result_gen = Rcpp::wrap(PortfolioSelectionCSVRL1(y_train, X_train, y_valid, X_valid, C, epsilon, kernel, parms));
+    return rcpp_result_gen;
+END_RCPP
+}
+// PortfolioSelectionSVWQR1
+Rcpp::List PortfolioSelectionSVWQR1(Eigen::VectorXd y_train, Eigen::MatrixXd X_train, double C, double tau, double gamma, std::string kernel, Eigen::RowVectorXd parms);
+RcppExport SEXP mlRFinance_PortfolioSelectionSVWQR1(SEXP y_trainSEXP, SEXP X_trainSEXP, SEXP CSEXP, SEXP tauSEXP, SEXP gammaSEXP, SEXP kernelSEXP, SEXP parmsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Eigen::VectorXd >::type y_train(y_trainSEXP);
+    Rcpp::traits::input_parameter< Eigen::MatrixXd >::type X_train(X_trainSEXP);
+    Rcpp::traits::input_parameter< double >::type C(CSEXP);
+    Rcpp::traits::input_parameter< double >::type tau(tauSEXP);
+    Rcpp::traits::input_parameter< double >::type gamma(gammaSEXP);
+    Rcpp::traits::input_parameter< std::string >::type kernel(kernelSEXP);
+    Rcpp::traits::input_parameter< Eigen::RowVectorXd >::type parms(parmsSEXP);
+    rcpp_result_gen = Rcpp::wrap(PortfolioSelectionSVWQR1(y_train, X_train, C, tau, gamma, kernel, parms));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -164,7 +222,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // FWERkControl
-List FWERkControl(arma::vec test_stat, arma::mat boot_stat, int k, double alpha);
+Rcpp::List FWERkControl(arma::vec test_stat, arma::mat boot_stat, int k, double alpha);
 RcppExport SEXP mlRFinance_FWERkControl(SEXP test_statSEXP, SEXP boot_statSEXP, SEXP kSEXP, SEXP alphaSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
@@ -178,7 +236,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // FDPControl
-List FDPControl(arma::vec test_stat, arma::mat boot_stat, double gamma, double alpha);
+Rcpp::List FDPControl(arma::vec test_stat, arma::mat boot_stat, double gamma, double alpha);
 RcppExport SEXP mlRFinance_FDPControl(SEXP test_statSEXP, SEXP boot_statSEXP, SEXP gammaSEXP, SEXP alphaSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
@@ -192,7 +250,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // WOCSCM
-Rcpp::List WOCSCM(Eigen::MatrixXd X, double C, int k, double sigma, int inter, std::string kernel, arma::vec parms);
+Rcpp::List WOCSCM(Eigen::MatrixXd X, double C, int k, double sigma, int inter, std::string kernel, Eigen::RowVectorXd parms);
 RcppExport SEXP mlRFinance_WOCSCM(SEXP XSEXP, SEXP CSEXP, SEXP kSEXP, SEXP sigmaSEXP, SEXP interSEXP, SEXP kernelSEXP, SEXP parmsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
@@ -203,14 +261,47 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< double >::type sigma(sigmaSEXP);
     Rcpp::traits::input_parameter< int >::type inter(interSEXP);
     Rcpp::traits::input_parameter< std::string >::type kernel(kernelSEXP);
-    Rcpp::traits::input_parameter< arma::vec >::type parms(parmsSEXP);
+    Rcpp::traits::input_parameter< Eigen::RowVectorXd >::type parms(parmsSEXP);
     rcpp_result_gen = Rcpp::wrap(WOCSCM(X, C, k, sigma, inter, kernel, parms));
     return rcpp_result_gen;
 END_RCPP
 }
+// CSVC
+Rcpp::List CSVC(Eigen::MatrixXd X, double C, std::string kernel, Eigen::RowVectorXd parms);
+RcppExport SEXP mlRFinance_CSVC(SEXP XSEXP, SEXP CSEXP, SEXP kernelSEXP, SEXP parmsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Eigen::MatrixXd >::type X(XSEXP);
+    Rcpp::traits::input_parameter< double >::type C(CSEXP);
+    Rcpp::traits::input_parameter< std::string >::type kernel(kernelSEXP);
+    Rcpp::traits::input_parameter< Eigen::RowVectorXd >::type parms(parmsSEXP);
+    rcpp_result_gen = Rcpp::wrap(CSVC(X, C, kernel, parms));
+    return rcpp_result_gen;
+END_RCPP
+}
+// SpatialWOCSCM
+Rcpp::List SpatialWOCSCM(Eigen::MatrixXd X, Eigen::MatrixXd wMat, double C, int k, double gamma1, double gamma2, int inter, std::string kernel, Eigen::RowVectorXd parms);
+RcppExport SEXP mlRFinance_SpatialWOCSCM(SEXP XSEXP, SEXP wMatSEXP, SEXP CSEXP, SEXP kSEXP, SEXP gamma1SEXP, SEXP gamma2SEXP, SEXP interSEXP, SEXP kernelSEXP, SEXP parmsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Eigen::MatrixXd >::type X(XSEXP);
+    Rcpp::traits::input_parameter< Eigen::MatrixXd >::type wMat(wMatSEXP);
+    Rcpp::traits::input_parameter< double >::type C(CSEXP);
+    Rcpp::traits::input_parameter< int >::type k(kSEXP);
+    Rcpp::traits::input_parameter< double >::type gamma1(gamma1SEXP);
+    Rcpp::traits::input_parameter< double >::type gamma2(gamma2SEXP);
+    Rcpp::traits::input_parameter< int >::type inter(interSEXP);
+    Rcpp::traits::input_parameter< std::string >::type kernel(kernelSEXP);
+    Rcpp::traits::input_parameter< Eigen::RowVectorXd >::type parms(parmsSEXP);
+    rcpp_result_gen = Rcpp::wrap(SpatialWOCSCM(X, wMat, C, k, gamma1, gamma2, inter, kernel, parms));
+    return rcpp_result_gen;
+END_RCPP
+}
 // CSVML1
-Rcpp::List CSVML1(Eigen::VectorXd y, Eigen::MatrixXd X, double C, std::string kernel, arma::vec parms);
-RcppExport SEXP mlRFinance_CSVML1(SEXP ySEXP, SEXP XSEXP, SEXP CSEXP, SEXP kernelSEXP, SEXP parmsSEXP) {
+Rcpp::List CSVML1(Eigen::VectorXd y, Eigen::MatrixXd X, double C, std::string kernel, Eigen::RowVectorXd parms, bool biasTerm);
+RcppExport SEXP mlRFinance_CSVML1(SEXP ySEXP, SEXP XSEXP, SEXP CSEXP, SEXP kernelSEXP, SEXP parmsSEXP, SEXP biasTermSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -218,14 +309,15 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< Eigen::MatrixXd >::type X(XSEXP);
     Rcpp::traits::input_parameter< double >::type C(CSEXP);
     Rcpp::traits::input_parameter< std::string >::type kernel(kernelSEXP);
-    Rcpp::traits::input_parameter< arma::vec >::type parms(parmsSEXP);
-    rcpp_result_gen = Rcpp::wrap(CSVML1(y, X, C, kernel, parms));
+    Rcpp::traits::input_parameter< Eigen::RowVectorXd >::type parms(parmsSEXP);
+    Rcpp::traits::input_parameter< bool >::type biasTerm(biasTermSEXP);
+    rcpp_result_gen = Rcpp::wrap(CSVML1(y, X, C, kernel, parms, biasTerm));
     return rcpp_result_gen;
 END_RCPP
 }
 // PredictedCSVML1
-Eigen::VectorXd PredictedCSVML1(Rcpp::List CSVML1, Eigen::VectorXd y, Eigen::MatrixXd X, Eigen::MatrixXd Xprev, std::string kernel, arma::vec parms, int typePredict);
-RcppExport SEXP mlRFinance_PredictedCSVML1(SEXP CSVML1SEXP, SEXP ySEXP, SEXP XSEXP, SEXP XprevSEXP, SEXP kernelSEXP, SEXP parmsSEXP, SEXP typePredictSEXP) {
+Eigen::VectorXd PredictedCSVML1(Rcpp::List CSVML1, Eigen::VectorXd y, Eigen::MatrixXd X, Eigen::MatrixXd Xprev, int typePredict, bool biasTerm);
+RcppExport SEXP mlRFinance_PredictedCSVML1(SEXP CSVML1SEXP, SEXP ySEXP, SEXP XSEXP, SEXP XprevSEXP, SEXP typePredictSEXP, SEXP biasTermSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -233,16 +325,30 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< Eigen::VectorXd >::type y(ySEXP);
     Rcpp::traits::input_parameter< Eigen::MatrixXd >::type X(XSEXP);
     Rcpp::traits::input_parameter< Eigen::MatrixXd >::type Xprev(XprevSEXP);
-    Rcpp::traits::input_parameter< std::string >::type kernel(kernelSEXP);
-    Rcpp::traits::input_parameter< arma::vec >::type parms(parmsSEXP);
     Rcpp::traits::input_parameter< int >::type typePredict(typePredictSEXP);
-    rcpp_result_gen = Rcpp::wrap(PredictedCSVML1(CSVML1, y, X, Xprev, kernel, parms, typePredict));
+    Rcpp::traits::input_parameter< bool >::type biasTerm(biasTermSEXP);
+    rcpp_result_gen = Rcpp::wrap(PredictedCSVML1(CSVML1, y, X, Xprev, typePredict, biasTerm));
+    return rcpp_result_gen;
+END_RCPP
+}
+// R2PredictedCSVML1
+Eigen::VectorXd R2PredictedCSVML1(Rcpp::List CSVML1, Eigen::VectorXd y, Eigen::MatrixXd X, int typePredict, bool biasTerm);
+RcppExport SEXP mlRFinance_R2PredictedCSVML1(SEXP CSVML1SEXP, SEXP ySEXP, SEXP XSEXP, SEXP typePredictSEXP, SEXP biasTermSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::List >::type CSVML1(CSVML1SEXP);
+    Rcpp::traits::input_parameter< Eigen::VectorXd >::type y(ySEXP);
+    Rcpp::traits::input_parameter< Eigen::MatrixXd >::type X(XSEXP);
+    Rcpp::traits::input_parameter< int >::type typePredict(typePredictSEXP);
+    Rcpp::traits::input_parameter< bool >::type biasTerm(biasTermSEXP);
+    rcpp_result_gen = Rcpp::wrap(R2PredictedCSVML1(CSVML1, y, X, typePredict, biasTerm));
     return rcpp_result_gen;
 END_RCPP
 }
 // CSVML2
-Rcpp::List CSVML2(Eigen::VectorXd y, Eigen::MatrixXd X, double C, std::string kernel, arma::vec parms);
-RcppExport SEXP mlRFinance_CSVML2(SEXP ySEXP, SEXP XSEXP, SEXP CSEXP, SEXP kernelSEXP, SEXP parmsSEXP) {
+Rcpp::List CSVML2(Eigen::VectorXd y, Eigen::MatrixXd X, double C, std::string kernel, Eigen::RowVectorXd parms, bool biasTerm);
+RcppExport SEXP mlRFinance_CSVML2(SEXP ySEXP, SEXP XSEXP, SEXP CSEXP, SEXP kernelSEXP, SEXP parmsSEXP, SEXP biasTermSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -250,13 +356,14 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< Eigen::MatrixXd >::type X(XSEXP);
     Rcpp::traits::input_parameter< double >::type C(CSEXP);
     Rcpp::traits::input_parameter< std::string >::type kernel(kernelSEXP);
-    Rcpp::traits::input_parameter< arma::vec >::type parms(parmsSEXP);
-    rcpp_result_gen = Rcpp::wrap(CSVML2(y, X, C, kernel, parms));
+    Rcpp::traits::input_parameter< Eigen::RowVectorXd >::type parms(parmsSEXP);
+    Rcpp::traits::input_parameter< bool >::type biasTerm(biasTermSEXP);
+    rcpp_result_gen = Rcpp::wrap(CSVML2(y, X, C, kernel, parms, biasTerm));
     return rcpp_result_gen;
 END_RCPP
 }
 // nuSVM
-Rcpp::List nuSVM(Eigen::VectorXd y, Eigen::MatrixXd X, double nu, std::string kernel, arma::vec parms);
+Rcpp::List nuSVM(Eigen::VectorXd y, Eigen::MatrixXd X, double nu, std::string kernel, Eigen::RowVectorXd parms);
 RcppExport SEXP mlRFinance_nuSVM(SEXP ySEXP, SEXP XSEXP, SEXP nuSEXP, SEXP kernelSEXP, SEXP parmsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
@@ -265,7 +372,7 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< Eigen::MatrixXd >::type X(XSEXP);
     Rcpp::traits::input_parameter< double >::type nu(nuSEXP);
     Rcpp::traits::input_parameter< std::string >::type kernel(kernelSEXP);
-    Rcpp::traits::input_parameter< arma::vec >::type parms(parmsSEXP);
+    Rcpp::traits::input_parameter< Eigen::RowVectorXd >::type parms(parmsSEXP);
     rcpp_result_gen = Rcpp::wrap(nuSVM(y, X, nu, kernel, parms));
     return rcpp_result_gen;
 END_RCPP
@@ -300,8 +407,29 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// CSVMplusL1
+Rcpp::List CSVMplusL1(Eigen::VectorXd y, Eigen::MatrixXd X, Eigen::MatrixXd Z, double C, double gamma, double kappa, std::string kernel, Eigen::RowVectorXd parms, std::string kernelStar, Eigen::RowVectorXd parmsStar, bool biasTerm);
+RcppExport SEXP mlRFinance_CSVMplusL1(SEXP ySEXP, SEXP XSEXP, SEXP ZSEXP, SEXP CSEXP, SEXP gammaSEXP, SEXP kappaSEXP, SEXP kernelSEXP, SEXP parmsSEXP, SEXP kernelStarSEXP, SEXP parmsStarSEXP, SEXP biasTermSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Eigen::VectorXd >::type y(ySEXP);
+    Rcpp::traits::input_parameter< Eigen::MatrixXd >::type X(XSEXP);
+    Rcpp::traits::input_parameter< Eigen::MatrixXd >::type Z(ZSEXP);
+    Rcpp::traits::input_parameter< double >::type C(CSEXP);
+    Rcpp::traits::input_parameter< double >::type gamma(gammaSEXP);
+    Rcpp::traits::input_parameter< double >::type kappa(kappaSEXP);
+    Rcpp::traits::input_parameter< std::string >::type kernel(kernelSEXP);
+    Rcpp::traits::input_parameter< Eigen::RowVectorXd >::type parms(parmsSEXP);
+    Rcpp::traits::input_parameter< std::string >::type kernelStar(kernelStarSEXP);
+    Rcpp::traits::input_parameter< Eigen::RowVectorXd >::type parmsStar(parmsStarSEXP);
+    Rcpp::traits::input_parameter< bool >::type biasTerm(biasTermSEXP);
+    rcpp_result_gen = Rcpp::wrap(CSVMplusL1(y, X, Z, C, gamma, kappa, kernel, parms, kernelStar, parmsStar, biasTerm));
+    return rcpp_result_gen;
+END_RCPP
+}
 // CSVRL1
-Rcpp::List CSVRL1(Eigen::VectorXd y, Eigen::MatrixXd X, double C, double epsilon, std::string kernel, arma::vec parms);
+Rcpp::List CSVRL1(Eigen::VectorXd y, Eigen::MatrixXd X, double C, double epsilon, std::string kernel, Eigen::RowVectorXd parms);
 RcppExport SEXP mlRFinance_CSVRL1(SEXP ySEXP, SEXP XSEXP, SEXP CSEXP, SEXP epsilonSEXP, SEXP kernelSEXP, SEXP parmsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
@@ -311,28 +439,40 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< double >::type C(CSEXP);
     Rcpp::traits::input_parameter< double >::type epsilon(epsilonSEXP);
     Rcpp::traits::input_parameter< std::string >::type kernel(kernelSEXP);
-    Rcpp::traits::input_parameter< arma::vec >::type parms(parmsSEXP);
+    Rcpp::traits::input_parameter< Eigen::RowVectorXd >::type parms(parmsSEXP);
     rcpp_result_gen = Rcpp::wrap(CSVRL1(y, X, C, epsilon, kernel, parms));
     return rcpp_result_gen;
 END_RCPP
 }
 // PredictedCSVRL1
-Eigen::VectorXd PredictedCSVRL1(Rcpp::List CSVRL1, Eigen::MatrixXd X, Eigen::MatrixXd Xprev, std::string kernel, arma::vec parms);
-RcppExport SEXP mlRFinance_PredictedCSVRL1(SEXP CSVRL1SEXP, SEXP XSEXP, SEXP XprevSEXP, SEXP kernelSEXP, SEXP parmsSEXP) {
+Eigen::VectorXd PredictedCSVRL1(Rcpp::List CSVRL1, Eigen::VectorXd y, Eigen::MatrixXd X, Eigen::MatrixXd Xprev);
+RcppExport SEXP mlRFinance_PredictedCSVRL1(SEXP CSVRL1SEXP, SEXP ySEXP, SEXP XSEXP, SEXP XprevSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< Rcpp::List >::type CSVRL1(CSVRL1SEXP);
+    Rcpp::traits::input_parameter< Eigen::VectorXd >::type y(ySEXP);
     Rcpp::traits::input_parameter< Eigen::MatrixXd >::type X(XSEXP);
     Rcpp::traits::input_parameter< Eigen::MatrixXd >::type Xprev(XprevSEXP);
-    Rcpp::traits::input_parameter< std::string >::type kernel(kernelSEXP);
-    Rcpp::traits::input_parameter< arma::vec >::type parms(parmsSEXP);
-    rcpp_result_gen = Rcpp::wrap(PredictedCSVRL1(CSVRL1, X, Xprev, kernel, parms));
+    rcpp_result_gen = Rcpp::wrap(PredictedCSVRL1(CSVRL1, y, X, Xprev));
+    return rcpp_result_gen;
+END_RCPP
+}
+// R2PredictedCSVRL1
+Eigen::VectorXd R2PredictedCSVRL1(Rcpp::List CSVRL1, Eigen::VectorXd y, Eigen::MatrixXd X);
+RcppExport SEXP mlRFinance_R2PredictedCSVRL1(SEXP CSVRL1SEXP, SEXP ySEXP, SEXP XSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::List >::type CSVRL1(CSVRL1SEXP);
+    Rcpp::traits::input_parameter< Eigen::VectorXd >::type y(ySEXP);
+    Rcpp::traits::input_parameter< Eigen::MatrixXd >::type X(XSEXP);
+    rcpp_result_gen = Rcpp::wrap(R2PredictedCSVRL1(CSVRL1, y, X));
     return rcpp_result_gen;
 END_RCPP
 }
 // minimumCSVRL1
-Eigen::MatrixXd minimumCSVRL1(Eigen::VectorXd y, Eigen::MatrixXd X, double epsilon, std::string kernel, arma::vec parms);
+Eigen::MatrixXd minimumCSVRL1(Eigen::VectorXd y, Eigen::MatrixXd X, double epsilon, std::string kernel, Eigen::RowVectorXd parms);
 RcppExport SEXP mlRFinance_minimumCSVRL1(SEXP ySEXP, SEXP XSEXP, SEXP epsilonSEXP, SEXP kernelSEXP, SEXP parmsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
@@ -341,14 +481,68 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< Eigen::MatrixXd >::type X(XSEXP);
     Rcpp::traits::input_parameter< double >::type epsilon(epsilonSEXP);
     Rcpp::traits::input_parameter< std::string >::type kernel(kernelSEXP);
-    Rcpp::traits::input_parameter< arma::vec >::type parms(parmsSEXP);
+    Rcpp::traits::input_parameter< Eigen::RowVectorXd >::type parms(parmsSEXP);
     rcpp_result_gen = Rcpp::wrap(minimumCSVRL1(y, X, epsilon, kernel, parms));
     return rcpp_result_gen;
 END_RCPP
 }
-// nearPDefinite
-Eigen::MatrixXd nearPDefinite(Eigen::MatrixXd mat, int maxit, double eigtol, double conv_tol, double posd_tol, bool keepDiagonal);
-RcppExport SEXP mlRFinance_nearPDefinite(SEXP matSEXP, SEXP maxitSEXP, SEXP eigtolSEXP, SEXP conv_tolSEXP, SEXP posd_tolSEXP, SEXP keepDiagonalSEXP) {
+// cpp_order
+Rcpp::NumericVector cpp_order(const Rcpp::NumericVector& x, bool desc);
+RcppExport SEXP mlRFinance_cpp_order(SEXP xSEXP, SEXP descSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const Rcpp::NumericVector& >::type x(xSEXP);
+    Rcpp::traits::input_parameter< bool >::type desc(descSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_order(x, desc));
+    return rcpp_result_gen;
+END_RCPP
+}
+// CSVWQR
+Rcpp::List CSVWQR(Eigen::VectorXd y, Eigen::MatrixXd X, double C, double tau, double gamma, std::string kernel, Eigen::RowVectorXd parms);
+RcppExport SEXP mlRFinance_CSVWQR(SEXP ySEXP, SEXP XSEXP, SEXP CSEXP, SEXP tauSEXP, SEXP gammaSEXP, SEXP kernelSEXP, SEXP parmsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Eigen::VectorXd >::type y(ySEXP);
+    Rcpp::traits::input_parameter< Eigen::MatrixXd >::type X(XSEXP);
+    Rcpp::traits::input_parameter< double >::type C(CSEXP);
+    Rcpp::traits::input_parameter< double >::type tau(tauSEXP);
+    Rcpp::traits::input_parameter< double >::type gamma(gammaSEXP);
+    Rcpp::traits::input_parameter< std::string >::type kernel(kernelSEXP);
+    Rcpp::traits::input_parameter< Eigen::RowVectorXd >::type parms(parmsSEXP);
+    rcpp_result_gen = Rcpp::wrap(CSVWQR(y, X, C, tau, gamma, kernel, parms));
+    return rcpp_result_gen;
+END_RCPP
+}
+// PredictedCSVWQR
+Eigen::VectorXd PredictedCSVWQR(Rcpp::List CSVWQR, Eigen::MatrixXd X, Eigen::MatrixXd Xprev);
+RcppExport SEXP mlRFinance_PredictedCSVWQR(SEXP CSVWQRSEXP, SEXP XSEXP, SEXP XprevSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::List >::type CSVWQR(CSVWQRSEXP);
+    Rcpp::traits::input_parameter< Eigen::MatrixXd >::type X(XSEXP);
+    Rcpp::traits::input_parameter< Eigen::MatrixXd >::type Xprev(XprevSEXP);
+    rcpp_result_gen = Rcpp::wrap(PredictedCSVWQR(CSVWQR, X, Xprev));
+    return rcpp_result_gen;
+END_RCPP
+}
+// R2PredictedCSVWQR
+Eigen::VectorXd R2PredictedCSVWQR(Rcpp::List CSVWQR, Eigen::MatrixXd X);
+RcppExport SEXP mlRFinance_R2PredictedCSVWQR(SEXP CSVWQRSEXP, SEXP XSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::List >::type CSVWQR(CSVWQRSEXP);
+    Rcpp::traits::input_parameter< Eigen::MatrixXd >::type X(XSEXP);
+    rcpp_result_gen = Rcpp::wrap(R2PredictedCSVWQR(CSVWQR, X));
+    return rcpp_result_gen;
+END_RCPP
+}
+// nearPDefiniteOld
+Eigen::MatrixXd nearPDefiniteOld(Eigen::MatrixXd mat, int maxit, double eigtol, double conv_tol, double posd_tol, bool keepDiagonal);
+RcppExport SEXP mlRFinance_nearPDefiniteOld(SEXP matSEXP, SEXP maxitSEXP, SEXP eigtolSEXP, SEXP conv_tolSEXP, SEXP posd_tolSEXP, SEXP keepDiagonalSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -358,7 +552,23 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< double >::type conv_tol(conv_tolSEXP);
     Rcpp::traits::input_parameter< double >::type posd_tol(posd_tolSEXP);
     Rcpp::traits::input_parameter< bool >::type keepDiagonal(keepDiagonalSEXP);
-    rcpp_result_gen = Rcpp::wrap(nearPDefinite(mat, maxit, eigtol, conv_tol, posd_tol, keepDiagonal));
+    rcpp_result_gen = Rcpp::wrap(nearPDefiniteOld(mat, maxit, eigtol, conv_tol, posd_tol, keepDiagonal));
+    return rcpp_result_gen;
+END_RCPP
+}
+// nearPDefinite
+Eigen::MatrixXd nearPDefinite(Eigen::MatrixXd X, int maxit, double eigtol, double conv_tol, double posd_tol, bool keepDiagonal);
+RcppExport SEXP mlRFinance_nearPDefinite(SEXP XSEXP, SEXP maxitSEXP, SEXP eigtolSEXP, SEXP conv_tolSEXP, SEXP posd_tolSEXP, SEXP keepDiagonalSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Eigen::MatrixXd >::type X(XSEXP);
+    Rcpp::traits::input_parameter< int >::type maxit(maxitSEXP);
+    Rcpp::traits::input_parameter< double >::type eigtol(eigtolSEXP);
+    Rcpp::traits::input_parameter< double >::type conv_tol(conv_tolSEXP);
+    Rcpp::traits::input_parameter< double >::type posd_tol(posd_tolSEXP);
+    Rcpp::traits::input_parameter< bool >::type keepDiagonal(keepDiagonalSEXP);
+    rcpp_result_gen = Rcpp::wrap(nearPDefinite(X, maxit, eigtol, conv_tol, posd_tol, keepDiagonal));
     return rcpp_result_gen;
 END_RCPP
 }

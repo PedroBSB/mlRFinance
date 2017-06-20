@@ -402,6 +402,10 @@ solveTest2 <- function(Dmat, dvec, Amat, bvec) {
     .Call('mlRFinance_solveTest2', PACKAGE = 'mlRFinance', Dmat, dvec, Amat, bvec)
 }
 
+CSVMplusL1 <- function(y, X, Z, C, gamma, kappa, kernel, parms, kernelStar, parmsStar, biasTerm) {
+    .Call('mlRFinance_CSVMplusL1', PACKAGE = 'mlRFinance', y, X, Z, C, gamma, kappa, kernel, parms, kernelStar, parmsStar, biasTerm)
+}
+
 #' @name CSVRL1
 #' @title C-SVR L1 - Support Vector Regression with C cost and L1 regularization.
 #' @description Optimize the Lagrange multiplier for the C-SVR L1:
