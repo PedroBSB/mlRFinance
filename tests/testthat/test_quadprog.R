@@ -20,7 +20,20 @@ test_that("quadprogInequality test2", {
     bvec <- c(0,0,5)
     sol<-c(0,0)
     sol1<-quadprogInequality(sol, Dmat, dvec, Amat, bvec)
-    expect_equal(sol1, matrix(c(3, 2,-2.1395349),2,1), tolerance=1e-07)
+    expect_equal(sol1, matrix(c(3, 2),2,1), tolerance=1e-07)
 })
+
+test_that("quadprogInequality test3",{
+    sol<-c(0, 0)
+    Dmat       <- matrix(0,2,2)
+    Dmat[1,1]<-2
+    Dmat[2,2]<-8
+    dvec       <- c(-8,-16)
+    Amat       <- matrix(c(1, 1,1, 0,-1, 0,0,-1),4,2,byrow=T)
+    bvec       <- c(5,3,0,0)
+    sol3<-quadprogInequality(sol, Dmat, dvec, Amat, bvec)
+    expect_equal(sol3, matrix(c(3, 2),2,1), tolerance=1e-07)
+})
+
 
 print("[SUCESS] All tests passed for 'quadprog'!")
