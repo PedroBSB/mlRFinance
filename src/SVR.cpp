@@ -101,7 +101,7 @@ Rcpp::List CSVRL1(Eigen::VectorXd y, Eigen::MatrixXd X, double C, double epsilon
   Eigen::VectorXd ci2(2*y.size());
   ci2.fill(C);
   //Append RHS
-  Eigen::VectorXd ci0(4.0*y.size());
+  Eigen::VectorXd ci0(4*y.size());
   ci0 << -ci1, ci2;
   //Append LHS
   Eigen::MatrixXd CI(2*CI1.rows(), CI1.cols());
