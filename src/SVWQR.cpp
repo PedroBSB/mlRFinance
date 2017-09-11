@@ -138,7 +138,7 @@ Rcpp::List CSVWQR(Eigen::VectorXd y, Eigen::MatrixXd X, double C, double tau, do
   ci2 << ci21, ci22;
 
   //Append RHS
-  Eigen::VectorXd ci0(4.0*y.size());
+  Eigen::VectorXd ci0(4*y.size());
   ci0 << ci1, ci2;
   //Append LHS
   Eigen::MatrixXd CI(CI1.rows()+CI1.rows(), CI1.cols());

@@ -44,7 +44,7 @@ Rcpp::List CSVMplusL1(Eigen::VectorXd y, Eigen::MatrixXd X, Eigen::MatrixXd Z, d
   Eigen::VectorXd g1 = Eigen::VectorXd::Ones(y.size());
   g1=(-1.0)*g1;
   Eigen::VectorXd g2 = Eigen::VectorXd::Zero(y.size());
-  Eigen::VectorXd g0(2.0*y.size());
+  Eigen::VectorXd g0(2*y.size());
   g0 << g1, g2;
 
   //Diagonal matrix

@@ -125,7 +125,7 @@ Rcpp::List WOCSCM(Eigen::MatrixXd X, double C, int k,double sigma,int inter, std
       //Weighted Cost parameter
       ci2=ci2.array()*zMat.col(c).array();
       //Append RHS
-      Eigen::VectorXd ci0(2.0*X.rows());
+      Eigen::VectorXd ci0(2*X.rows());
       ci0 << ci1, ci2;
       //Append LHS
       Eigen::MatrixXd CI(CI1.rows()+CI1.rows(), CI1.cols());
@@ -223,7 +223,7 @@ Rcpp::List CSVC(Eigen::MatrixXd X, double C, std::string kernel, Eigen::RowVecto
   Eigen::VectorXd ci2(X.rows());
   ci2.fill(C);
   //Append RHS
-  Eigen::VectorXd ci0(2.0*X.rows());
+  Eigen::VectorXd ci0(2*X.rows());
   ci0 << ci1, ci2;
   //Append LHS
   Eigen::MatrixXd CI(CI1.rows()+CI1.rows(), CI1.cols());
@@ -385,7 +385,7 @@ Rcpp::List SpatialWOCSCM(Eigen::MatrixXd X,Eigen::MatrixXd wMat, double C, int k
       //Weighted Cost parameter
       ci2=ci2.array()*zMat.col(c).array();
       //Append RHS
-      Eigen::VectorXd ci0(2.0*X.rows());
+      Eigen::VectorXd ci0(2*X.rows());
       ci0 << ci1, ci2;
       //Append LHS
       Eigen::MatrixXd CI(CI1.rows()+CI1.rows(), CI1.cols());

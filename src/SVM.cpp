@@ -226,7 +226,7 @@ Rcpp::List CSVML1(Eigen::VectorXd y, Eigen::MatrixXd X, double C, std::string ke
   Eigen::VectorXd ci2(y.size());
   ci2.fill(C);
   //Append RHS
-  Eigen::VectorXd ci0(2.0*y.size());
+  Eigen::VectorXd ci0(2*y.size());
   ci0 << ci1, ci2;
   //Append LHS
   Eigen::MatrixXd CI(CI1.rows()+CI1.rows(), CI1.cols());
@@ -645,7 +645,7 @@ Rcpp::List nuSVM(Eigen::VectorXd y, Eigen::MatrixXd X, double nu, std::string ke
   Eigen::VectorXd ci2(y.size());
   ci2.fill(1.0/y.size());
   //Append RHS
-  Eigen::VectorXd ci0(2.0*y.size()+1);
+  Eigen::VectorXd ci0(2*y.size()+1);
   ci0 << ci1, ci2, -nu;
   //Append LHS
   Eigen::MatrixXd CI3(1,y.size());
